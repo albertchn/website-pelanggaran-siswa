@@ -49,7 +49,6 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lapor | SMKN 12 JAKARTA</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <!-- <script src="./../js/lapor.js"></script> -->
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -156,7 +155,7 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="mb-3" id="plgr2" hidden>
                             <label for="pelanggaran2" class="form-label">Pelanggaran 2</label>
                             <select name="pelanggaran2" id="pelanggaran2" class="form-select form-select-sm slt_width">
                                 <option value="">Pilih pelanggaran</option>
@@ -178,27 +177,37 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
                             </select>
                         </div>
 
-                        <div class="mb-3">
+                        <div class="my-2 text-center">
+                            <?php $no="2" ?>
+                            <button type="button" class="btn btn-outline-primary rounded" onclick="tambahPelanggaran2()" id="btn_plgr2">+</button>
+                        </div>
+
+                        <div class="mb-3" id="plgr3" hidden>
                             <label for="pelanggaran3" class="form-label">Pelanggaran 3</label>
                             <select name="pelanggaran3" id="pelanggaran3" class="form-select form-select-sm slt_width">
                                 <option value="">Pilih pelanggaran</option>
                                 <optgroup label="Kedisiplinan">
                                     <?php foreach($ket_pelanggaran_kedisiplinan as $kedisiplinan) : ?>
-                                    <option value="<?= $kedisiplinan["id_pelanggaran"]; ?>"><?= $kedisiplinan["det_pelanggaran"]; ?></option>
+                                    <option value="<?= $kedisiplinan['id_pelanggaran']; ?>"><?= $kedisiplinan['det_pelanggaran']; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                                 <optgroup label="Kerapian">
                                     <?php foreach($ket_pelanggaran_kerapian as $kerapian) : ?>
-                                    <option value="<?= $kerapian["id_pelanggaran"]; ?>"><?= $kerapian["det_pelanggaran"]; ?></option>
+                                    <option value="<?= $kerapian['id_pelanggaran']; ?>"><?= $kerapian['det_pelanggaran']; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                                 <optgroup label="Kelengkapan">
                                     <?php foreach($ket_pelanggaran_kelengkapan as $kelengkapan) : ?>
-                                    <option value="<?= $kelengkapan["id_pelanggaran"]; ?>"><?= $kelengkapan["det_pelanggaran"]; ?></option>
+                                    <option value="<?= $kelengkapan['id_pelanggaran']; ?>"><?= $kelengkapan['det_pelanggaran']; ?></option>
                                     <?php endforeach; ?>
                                 </optgroup>
                             </select>
                         </div>
+
+                        <div class="my-2 text-center">
+                            <button type="button" class="btn btn-outline-primary rounded d-none" onclick="tambahPelanggaran3()" id="btn_plgr3">+</button>
+                        </div>
+
                     </div>
                 </div>
                 
@@ -244,14 +253,34 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
 <script src='//cdn.jsdelivr.net/npm/sweetalert2@11'></script>
+<script src="../js/lapor.js"></script>
 <script src="../js/action.js"></script>
 <script>
     <?php
     if(isset($_POST['submit'])) {
-        if(lapor($_POST) > 0 ) echo "berhasil()";
-        else echo "gagal()";
+        $id_pelanggaran1= $_POST["pelanggaran1"];
+        $id_pelanggaran2= $_POST["pelanggaran2"];
+        $id_pelanggaran3= $_POST["pelanggaran3"];
+            
+        $poin_pelanggaran1 = query("SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran=$id_pelanggaran1")[0]["poin_pelanggaran"];
+
+        if(!empty($_POST["pelanggaran2"])) {
+            $poin_pelanggaran2 = query("SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran=$id_pelanggaran2")[0]["poin_pelanggaran"];
+        } else {$poin_pelanggaran2=0;}
+        
+        if(!empty($_POST["pelanggaran3"])) {
+            $poin_pelanggaran3 = query("SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran=$id_pelanggaran3")[0]["poin_pelanggaran"];
+        } else {$poin_pelanggaran3=0;}
+
+        $poin1 = intval($poin_pelanggaran1);
+        $poin2 = intval($poin_pelanggaran2);
+        $poin3 = intval($poin_pelanggaran3);
+
+        $poin = $poin1+$poin2+$poin3;
+        if(lapor($_POST, $poin) > 0 ) echo "berhasil()";
+        // else echo "gagal()";
+        else echo mysqli_error($conn);
     } 
     ?>
 </script>
