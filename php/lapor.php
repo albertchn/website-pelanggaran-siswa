@@ -279,8 +279,8 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
 
         $poin = $poin1+$poin2+$poin3;
         if(lapor($_POST, $poin) > 0 ) echo "berhasil()";
-        // else echo "gagal()";
-        else echo mysqli_error($conn);
+        else echo "gagal()";
+        // else echo mysqli_error($conn);
     } 
     ?>
 </script>

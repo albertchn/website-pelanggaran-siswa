@@ -1,20 +1,34 @@
 <?php
 require '../php/functions.php';
 
-$keyword = $_GET["keyword"];
+if(isset($_GET["keyword"])){
+    $keyword = $_GET["keyword"];
+    $keyword = explode(" ", $keyword);
+    if(count($keyword) == 2) {
+        $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
+              siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
+              INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
+              INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
+              nama_kelas LIKE '$keyword[0]%' AND kode_jurusan LIKE '%$keyword[1]%' LIMIT 72
+              ";
+        
+    } else {
+        $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
+              siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
+              INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
+              INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
+              id_siswa LIKE '%$keyword[0]%' OR
+              nis LIKE '%$keyword[0]%' OR
+              nama_siswa LIKE '%$keyword[0]%' OR
+              nama_kelas LIKE '$keyword[0]%' OR
+              kode_jurusan LIKE '$keyword[0]%' LIMIT 72
+              ";
+    }
 
-$query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
-          siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
-          INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
-          INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-          id_siswa LIKE '%$keyword%' OR
-          nis LIKE '%$keyword%' OR
-          nama_siswa LIKE '%$keyword%' OR
-          nama_kelas LIKE '$keyword%' OR
-          kode_jurusan LIKE '$keyword%'
-          ";
-$siswa_sekolah = query($query);
+    $siswa_sekolah = query($query);
+} else {
 
+}
 ?>
 
 <html lang="en">
