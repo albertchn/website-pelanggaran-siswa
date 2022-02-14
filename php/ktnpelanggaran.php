@@ -20,7 +20,7 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
 <body>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom">
         <div class="container-lg">
-            <a href="index.php" class="navbar-brand align-items-center ">
+            <a href="./../index.php" class="navbar-brand align-items-center ">
                 <img src="./../img/logosmk12.png" style="width:50px;height:50px">
                 <h5 class=" ms-1 d-inline">OSIS SMKN 12 JAKARTA</h5>
             </a>    
