@@ -34,3 +34,18 @@ function lapor($data,$poin) {
 
     return mysqli_affected_rows($conn);
 }
+
+function tambah_guru($data) {
+    global $conn;
+    
+    $nip = htmlspecialchars($data["nip"]);
+    $nama = htmlspecialchars($data["nama"]);
+    $email = htmlspecialchars($data["email"]);
+
+    $query = "INSERT INTO guru_pembina (`nip`, `nama_guru`, `email`, `role`, `password`) VALUES ('$nip', '$nama', '$email', 'guru', '$nip')";
+
+    mysqli_query($conn, $query);
+
+    return mysqli_affected_rows($conn);
+
+}

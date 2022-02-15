@@ -6,7 +6,7 @@ $keyword = $_GET["keyword"];
 $query = "SELECT id_guru, nip, nama_guru, email FROM guru_pembina WHERE
           nip LIKE '$keyword%' OR
           nama_guru LIKE '%$keyword%'
-          LIMIT 5
+          LIMIT 10
           ";
 
 $guru_sekolah = query($query);

@@ -19,8 +19,23 @@ if(isset($_SESSION["siswa"])) {
 }
 
 require 'functions.php';
-$guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina");
+$guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina LIMIT 10");
 
+if(isset($_POST["tambah"])) {
+    if(tambah_guru($_POST) > 0) {
+        echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = './guru.php';
+              </script>";
+    }
+    else {
+        echo mysqli_error($conn);
+        echo "<script>
+             alert('Data gagal ditambahkan!');
+             document.location.href = './guru.php';
+             </script>";
+    }
+}
 ?>
 
 <html lang="en">
@@ -29,7 +44,7 @@ $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina")
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guru | SMKN 12 JAKARTA</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></>
     <script src="../js/guru.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -77,9 +92,9 @@ $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina")
                 </ul>
             </div>
         </div>
-    </nav>>
+    </nav>
     
-    <section class="">
+    <section class="mt-4">
         <div class="container-lg">
             <div class="row mb-4">
                 <div class="col-12">
@@ -87,16 +102,47 @@ $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina")
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 col-md-6">
-                    <a href="tambah.php" class="pasien text-decoration-underline">Tambah Guru Baru</a>
+                <div class="col-8 col-md-6">
+                    <button type="button" class="btn btn-primary fw-bold mb-2" data-bs-toggle="modal" data-bs-target="#tambah_guru">Tambah Guru Baru</button>
 
                     <form action="" method="post" class="form-cari mt-2">
                         <input type="text" name="keyword" placeholder="Cari ...." autofocus autocomplete="off" class="keyword form-control mt-2">
                     </form>
                 </div>
             </div>
+            <!-- Modal -->
+            <div class="modal fade" id="tambah_guru" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahGuru" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="tambahGuru">Tambah Guru</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" method="post" id="formTambahGuru">
+                        <div>
+                            <label for="nip" class="form-label">NIP</label>
+                            <input type="number" class="form-control" id="nip" placeholder="18 digit" name="nip" required autocomplete="off" autofocus>
+                        </div>
+                        <div class="mt-2">
+                            <label for="nama" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
+                        </div>
+                        <div class="mt-2">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
+                        </div>
+                        <div class="modal-footer mt-1">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            </div>
         </div>
     </section>
+
 
     <section>
         <div class="container-lg mt-3" id="container_guru">
