@@ -1,10 +1,22 @@
 <?php
 session_start();
 
-// if ( !isset($_SESSION["login"]) ) {
-//     header('Location: login.php');
-//     exit;
-// }
+if ( !isset($_SESSION["login"]) ) {
+    header ('Location: ./php/login.php');
+    exit;
+}
+
+if(isset($_SESSION["guru"])) {
+    header("Location: ./../index.php");
+}
+
+if(isset($_SESSION["osis"])) {
+    header("Location: './../index.php");
+}
+
+if(isset($_SESSION["siswa"])) {
+    header("Location: ./data_siswa.php?id=" . $_SESSION["id_siswa"]);
+}
 
 require 'functions.php';
 $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina");
@@ -56,8 +68,8 @@ $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina")
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <?php if ( isset($login) ) : ?>
-                                    <a href="php/logout.php" class="dropdown-item">Keluar</a>
+                                <?php if ( isset($_SESSION["login"]) ) : ?>
+                                    <a href="./logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
                         </ul>

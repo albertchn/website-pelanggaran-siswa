@@ -1,10 +1,26 @@
 <?php
 session_start();
 
-// if ( !isset($_SESSION["login"]) ) {
-//     header('Location: login.php');
-//     exit;
-// }
+if ( !isset($_SESSION["login"]) ) {
+    header ('Location: ./php/login.php');
+    exit;
+}
+
+if(isset($_SESSION["guru"])) {
+    $guru = "hidden";
+} else {
+    $guru = "";
+}
+
+if(isset($_SESSION["osis"])) {
+    $osis = "hidden";
+} else {
+    $osis = "";
+}
+
+if(isset($_SESSION["siswa"])) {
+    header("Location: ./data_siswa.php?id=" . $_SESSION["id_siswa"]);
+}
 
 require 'functions.php';
 
@@ -46,7 +62,7 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
                         <a href="./siswa.php" class="nav-link active">Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./guru.php" class="nav-link">Guru</a>
+                        <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $osis; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
@@ -57,8 +73,8 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <?php if ( isset($login) ) : ?>
-                                    <a href="php/logout.php" class="dropdown-item">Keluar</a>
+                                <?php if ( isset($_SESSION["login"]) ) : ?>
+                                    <a href="./logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
@@ -77,7 +93,7 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
             </div>
             <div class="row">
                 <div class="col-6 col-md-6">
-                    <a href="tambah_siswa.php" class="text-decoration-underline">Tambah Siswa Baru</a>
+                    <a href="tambah_siswa.php" class="text-decoration-underline" <?= $osis; ?>>Tambah Siswa Baru</a>
 
                     <form action="" method="post" class="form-cari mt-3">
                         <input type="text" name="keyword" placeholder="Cari ...." autofocus autocomplete="off" class="keyword form-control mt-2">
@@ -103,7 +119,7 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
                     <tbody>
                         <th><?= $i; ?></th>
                         <td><?= $siswa["nis"]; ?></td>
-                        <td class="text-start ps-3"><a href="data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
+                        <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

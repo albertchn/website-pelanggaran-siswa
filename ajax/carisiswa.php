@@ -58,7 +58,7 @@ if(isset($_GET["keyword"])){
                     <tbody>
                         <th><?= $i; ?></th>
                         <td><?= $siswa["nis"]; ?></td>
-                        <td class="text-start ps-3"><a href="data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
+                        <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

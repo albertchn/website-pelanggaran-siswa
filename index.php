@@ -1,12 +1,27 @@
 <?php
 session_start();
 
-if ( isset($_SESSION["login"]) ) {
-    $login = true;
-} else {
-    // header ('Location: ./php/login.php');
-    // exit;
+if ( !isset($_SESSION["login"]) ) {
+    header ('Location: ./php/login.php');
+    exit;
 }
+
+if(isset($_SESSION["guru"])) {
+    $guru = "hidden";
+} else {
+    $guru = "";
+}  
+
+if(isset($_SESSION["osis"])) {
+    $osis = "hidden";
+} else {
+    $osis = "";
+}
+
+if(isset($_SESSION["siswa"])) {
+    header("Location: ./php/data_siswa.php?id=" . $_SESSION["id_siswa"]);
+}
+
 ?>
 
 <html lang="en">
@@ -41,7 +56,7 @@ if ( isset($_SESSION["login"]) ) {
                         <a href="./php/siswa.php" class="nav-link">Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./php/guru.php" class="nav-link">Guru</a>
+                        <a href="./php/guru.php" class="nav-link" <?= $guru; ?><?= $osis; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./php/ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
@@ -50,13 +65,13 @@ if ( isset($_SESSION["login"]) ) {
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="d-md-none">Menu</span><i class="bi bi-three-dots-vertical"></i>
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <?php if ( isset($login) ) : ?>
-                                    <a href="php/logout.php" class="dropdown-item">Keluar</a>
+                                <?php if ( isset($_SESSION["login"]) ) : ?>
+                                    <a href="./php/logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
-                            <li><a class="dropdown-item" href="#">Impor Data</a></li>
+                            <li><a class="dropdown-item" href="#" <?= $guru; ?><?= $osis; ?>>Impor Data</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -70,8 +85,8 @@ if ( isset($_SESSION["login"]) ) {
                 <div class="col-md-6">
                     <h1 class="display-5 fw-bold mt-5">Hai, Selamat datang</h1>
                     <p class="text-muted me-4 lh my-4">Betapa indahnya sekolah yang tertib dan disiplin, mari wujudkan kedisiplinan dan ketertiban di <strong>SMKN 12 JAKARTA</strong></p>
-                    <a href="./php/lapor.php" class="btn btn-warning">Laporkan</a>
-                    <a href="./php/laporan.php" class="btn btn-outline-success ms-2">Report</a>
+                    <a href="./php/lapor.php" class="btn btn-warning">Lapor</a>
+                    <a href="./php/laporan.php" class="btn btn-outline-success ms-2">Laporan</a>
                 </div>
                 <div class="col-md-6">
                     <img src="./img/welcome.png" class="d-none d-md-block mx-auto" width="400px">
@@ -112,6 +127,7 @@ if ( isset($_SESSION["login"]) ) {
             <p style="text-align:center; font-size:15px">&copy; Copyright 2022, OSIS SMK NEGERI 12 JAKARTA</p>
         </div>
     </footer>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>

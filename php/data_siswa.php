@@ -10,12 +10,10 @@ if(isset($_SESSION["guru"])) {
     $guru = "hidden";
 } else {
     $guru = "";
-}  
+}
 
 if(isset($_SESSION["osis"])) {
-    $osis = "hidden";
-} else {
-    $osis = "";
+    header("Location: ./../index.php");
 }
 
 if(isset($_SESSION["siswa"])) {
@@ -27,9 +25,6 @@ if(isset($_SESSION["siswa"])) {
 }
 
 include('./functions.php');
-
-$ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
-
 ?>
 
 <html lang="en">
@@ -37,10 +32,10 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ketentuan Pelanggaran</title>
+    <title>Data Siswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../css/ktnpelanggaran.css">
+    <link rel="stylesheet" href="../css/siswa.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom">
@@ -64,7 +59,7 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
                         <a href="./siswa.php" class="nav-link" <?= $siswa; ?>>Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $osis; ?><?= $siswa; ?>>Guru</a>
+                        <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $siswa; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link active">Ketentuan Pelanggaran</a>
@@ -86,32 +81,6 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
         </div>
     </nav>
 
-    <section>
-        <div class="container-lg">
-            <div class="my-4">
-                <h1 class="text-center">Ketentuan Pelanggaran</h1>
-            </div>
-            <div class="table-responsive-sm">
-                <table class="table table-sm table-bordered text-center table-align-center">
-                    <thead class="table-light">
-                        <th>No.</th>
-                        <th>Jenis Pelanggaran</th>
-                        <th>Pelanggaran</th>
-                        <th>Poin</th>
-                    </thead>
-                    <?php $no=1; ?>
-                    <?php foreach ( $ktnpelanggaran as $plgr ) : ?>
-                    <tbody>
-                        <th><?= $no++; ?></th>
-                        <td><?= ucwords($plgr["jenis_pelanggaran"]); ?></td>
-                        <td class="text-start ps-2"><?= ucfirst($plgr["det_pelanggaran"]); ?></td>
-                        <td><?= $plgr["poin_pelanggaran"]; ?></td>
-                    </tbody>    
-                    <?php endforeach; ?>                                                            
-                </table>
-            </div>
-        </div>
-    </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
