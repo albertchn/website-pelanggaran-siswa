@@ -79,6 +79,19 @@ function tambah_siswa($data) {
     return mysqli_affected_rows($conn);
 }
 
+function tambah_pelanggaran($data) {
+    global $conn;
+
+    $jenis_plgr = htmlspecialchars(strtolower($data["jenis_plgr"]));
+    $det_plgr = htmlspecialchars(ucfirst($data["det_plgr"]));
+    $poin_plgr = htmlspecialchars($data["poin"]);
+
+    mysqli_query($conn, "INSERT INTO ket_pelanggaran (`jenis_pelanggaran`, `det_pelanggaran`, `poin_pelanggaran`) VALUES ('$jenis_plgr', '$det_plgr', '$poin_plgr')");
+
+    return mysqli_affected_rows($conn);
+}
+
+
 function upload() {
     
     $namaFile = $_FILES["foto"]["name"];

@@ -30,6 +30,22 @@ include('./functions.php');
 
 $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
 
+if(isset($_POST["tambah"])) {
+    if(tambah_pelanggaran($_POST) > 0) {
+        echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = './ktnpelanggaran.php';
+              </script>";
+    }
+    else {
+        echo mysqli_error($conn);
+        // echo "<script>
+        //      alert('Data gagal ditambahkan!');
+        //      document.location.href = './ktnpelanggaran.php';
+        //      </script>";
+    }
+}
+
 ?>
 
 <html lang="en">
@@ -91,6 +107,9 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
             <div class="my-4">
                 <h1 class="text-center">Ketentuan Pelanggaran</h1>
             </div>
+            <div>
+                <button class="btn btn-primary fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#tambah_ket" <?= $guru; ?><?= $osis; ?><?= $siswa; ?>>Tambah Ketentuan Baru</button>
+            </div>
             <div class="table-responsive-sm">
                 <table class="table table-sm table-bordered text-center table-align-center">
                     <thead class="table-light">
@@ -109,6 +128,37 @@ $ktnpelanggaran = query("SELECT * FROM ket_pelanggaran");
                     </tbody>    
                     <?php endforeach; ?>                                                            
                 </table>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="tambah_ket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="taambahKetBaru" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="taambahKetBaru">Tambah Ketentuan Pelanggaran</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            <div>
+                                <label for="jenis_plgr" class="form-label">Jenis Pelanggaran</label>
+                                <input type="text" class="form-control" id="jenis_plgr" placeholder="kedisiplinan, kerapian ..." name="jenis_plgr" required autocomplete="off" autofocus>
+                            </div>
+                            <div class="mt-2">
+                                <label for="det_plgr" class="form-label">Detail Pelanggaran</label>
+                                <input type="text" class="form-control" id="det_plgr" name="det_plgr" required placeholder="datang terlambat ..." autocomplete="off">
+                            </div>
+                            <div class="mt-2">
+                                <label for="poin" class="form-label">Poin Pelanggaran</label>
+                                <input type="number" class="form-control" id="poin" name="poin" required placeholder="1 / 2 / ..." autocomplete="off">
+                            </div>
+                            <div class="modal-footer mt-1">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </section>

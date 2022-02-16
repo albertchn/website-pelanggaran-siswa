@@ -9,7 +9,7 @@ if(isset($_GET["keyword"])){
               siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-              nama_kelas LIKE '$keyword[0]%' AND kode_jurusan LIKE '%$keyword[1]%' LIMIT 72
+              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' LIMIT 72
               ";
         
     } else {

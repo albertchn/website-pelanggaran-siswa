@@ -29,7 +29,6 @@ if(isset($_POST["tambah"])) {
               </script>";
     }
     else {
-        echo mysqli_error($conn);
         echo "<script>
              alert('Data gagal ditambahkan!');
              document.location.href = './guru.php';
