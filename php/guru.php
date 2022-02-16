@@ -112,33 +112,33 @@ if(isset($_POST["tambah"])) {
             </div>
             <!-- Modal -->
             <div class="modal fade" id="tambah_guru" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahGuru" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="tambahGuru">Tambah Guru</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tambahGuru">Tambah Guru</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post">
+                            <div>
+                                <label for="nip" class="form-label">NIP</label>
+                                <input type="number" class="form-control" id="nip" placeholder="18 digit" name="nip" required autocomplete="off" autofocus>
+                            </div>
+                            <div class="mt-2">
+                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
+                            </div>
+                            <div class="mt-2">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
+                            </div>
+                            <div class="modal-footer mt-1">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="modal-body">
-                    <form action="" method="post" id="formTambahGuru">
-                        <div>
-                            <label for="nip" class="form-label">NIP</label>
-                            <input type="number" class="form-control" id="nip" placeholder="18 digit" name="nip" required autocomplete="off" autofocus>
-                        </div>
-                        <div class="mt-2">
-                            <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
-                        </div>
-                        <div class="mt-2">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
-                        </div>
-                        <div class="modal-footer mt-1">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                            <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
             </div>
         </div>
     </section>

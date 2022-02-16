@@ -283,7 +283,7 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
         $.ajax({
             type: "POST",
             dataType: "html",
-            url: "../php/data_lapor.php",
+            url: "./data_lapor.php",
             data: "kelas="+id_kelas,
             success: function(data){
                  $("#jurusan").html(data);
@@ -303,7 +303,7 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
         $.ajax({
             type: "POST",
             dataType: "html",
-            url: "../php/data_lapor.php",
+            url: "./data_lapor.php",
             data: "jurusan="+id_jurusan,
             success: function(data){
                  $("#nama").html(data);

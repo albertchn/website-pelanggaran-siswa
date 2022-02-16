@@ -25,6 +25,29 @@ if(isset($_SESSION["siswa"])) {
 require 'functions.php';
 
 $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, siswa.nama_siswa, kelas.nama_kelas FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas LIMIT 72");
+$kelas_sekolah = query("SELECT * FROM kelas");
+
+if(isset($_POST["tambah"])) {
+
+    if(($_FILES["foto"]["error"] === 4)){
+        echo "<script>
+              alert('File foto wajib ada!');
+              document.location.href = './siswa.php';
+              </script>";
+    }
+
+    if(tambah_siswa($_POST) > 0) {
+        echo "<script>
+              alert('Data berhasil ditambahkan!');
+              document.location.href = './siswa.php';
+              </script>";
+    } else {
+        echo "<script>
+              document.location.href = './siswa.php';
+              </script>";
+    }
+
+}
 
 ?>
 
@@ -92,12 +115,64 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 col-md-6">
-                    <a href="tambah_siswa.php" class="text-decoration-underline" <?= $osis; ?>>Tambah Siswa Baru</a>
+                <div class="col-8 col-md-6">
+                    
+                    <botton class="btn btn-primary fw-bold mb-2" data-bs-toggle="modal" data-bs-target="#tambah_siswa" <?= $osis; ?>>Tambah Siswa Baru</botton>
 
                     <form action="" method="post" class="form-cari mt-3">
                         <input type="text" name="keyword" placeholder="Cari ...." autofocus autocomplete="off" class="keyword form-control mt-2">
                     </form>
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="tambah_siswa" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahSiswa" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="tambahSiswa">Tambah Siswa</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="">
+                                <label for="kelas" class="form-label">Kelas</label>
+                                <select name="kelas" id="kelas" class="form-select form-select-sm slt_width" required>
+                                    <option>Pilih kelas</option>
+                                    <?php foreach($kelas_sekolah as $kelas) : ?>
+                                    <option value="<?= $kelas["id_kelas"]; ?>"><?= $kelas["nama_kelas"]; ?></option>
+
+                                    <?php endforeach; ?>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label for="jurusan" class="form-label">Jurusan</label>
+                                <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" disabled required>
+                                    <option>Pilih jurusan</option>
+                                </select>
+                            </div>
+                            <div class="mt-2">
+                                <label for="nis" class="form-label">NIS</label>
+                                <input type="number" class="form-control" id="nis" placeholder="5 digit" name="nis" required autocomplete="off" autofocus>
+                            </div>
+                            <div class="mt-2">
+                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
+                            </div>
+                            <div class="mt-2">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
+                            </div>
+                            <div class="mt-2">
+                                <label for="foto" class="form-label">Foto</label>
+                                <input type="file" class="form-control" id="foto" name="foto" required>
+                            </div>
+                            <div class="modal-footer mt-1">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -163,5 +238,27 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
     </footer>
     
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+<script>
+    $("#kelas").change(function(){
+         // value kelas
+         const id_kelas = $("#kelas").val();
+
+        // hapus attribute disable
+        $("#jurusan").removeAttr("disabled")
+
+        // mengirim value dan menerima data
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            url: "./data_lapor.php",
+            data: "kelas="+id_kelas,
+            success: function(data){
+                 $("#jurusan").html(data);
+            }
+        });
+    });
+</script>
+
 </body>
 </html>
