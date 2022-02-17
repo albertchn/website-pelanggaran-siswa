@@ -39,7 +39,7 @@ if ( isset($_POST["login"]) ) {
     $username = $_POST["username"];
     $password = $_POST["password"];
     
-    if(strlen($username) === 18) {
+    if(strlen($username) === 16 || strlen($username) === 18) {
         $query = mysqli_query($conn, "SELECT `id_guru`, `nip`, `nama_guru`, `role` FROM guru_pembina WHERE nip = '$username' AND password = '$password'");
 
         if(mysqli_num_rows($query) === 1) {
@@ -47,6 +47,7 @@ if ( isset($_POST["login"]) ) {
 
             $_SESSION["login"] = true;
             $_SESSION["guru"] = true;
+            $_SESSION["id"] = $result["id_guru"];
 
             
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -81,6 +82,7 @@ if ( isset($_POST["login"]) ) {
 
             if($role === "osis") {
                 $_SESSION["osis"] = true;
+                $_SESSION["id"] = $id_siswa;
             }
             
             if($role === "siswa") {

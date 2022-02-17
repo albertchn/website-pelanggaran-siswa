@@ -13,11 +13,10 @@ function query($query) {
     return $rows;
 }
 
-function lapor($data,$poin) {
+function lapor($data,$poin, $pelapor) {
     global $conn;
     
     $id_pelanggar = $data["nama"];
-    $id_pelapor = $data["nama"];
     $id_pelanggaran1 = $data["pelanggaran1"];
     $id_pelanggaran2 = $data["pelanggaran2"];
     $id_pelanggaran3 = $data["pelanggaran3"];
@@ -25,7 +24,7 @@ function lapor($data,$poin) {
     
     $jmlh_poin = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];;
 
-    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$id_pelapor', '$id_pelanggaran1', '$id_pelanggaran2', '$id_pelanggaran3', '$waktu_pelanggaran')";
+    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$id_pelanggaran1', '$id_pelanggaran2', '$id_pelanggaran3', '$waktu_pelanggaran')";
 
     $poin_akhir = $jmlh_poin-$poin;
     
@@ -74,7 +73,7 @@ function tambah_siswa($data) {
         return false;
     }
 
-    mysqli_query($conn, "INSERT INTO siswa (`id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`) VALUES ('$kelas', '$jurusan', '$nis', '$nama', '$email', '50', 'siswa', '$foto', '$nis')");
+    mysqli_query($conn, "INSERT INTO siswa (`id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`) VALUES ('$kelas', '$jurusan', '$nis', '$nama', '$email', '100', 'siswa', '$foto', '$nis')");
 
     return mysqli_affected_rows($conn);
 }
@@ -91,6 +90,102 @@ function tambah_pelanggaran($data) {
     return mysqli_affected_rows($conn);
 }
 
+function hapus_plgr($id) {
+    global $conn;
+
+    mysqli_query($conn, "DELETE FROM ket_pelanggaran WHERE id_pelanggaran = $id");
+
+    return mysqli_affected_rows($conn);
+}
+
+function hapus_guru($id) {
+    global $conn;
+
+    mysqli_query($conn, "DELETE FROM guru_pembina WHERE id_guru = $id");
+
+    return mysqli_affected_rows($conn);
+}
+
+function hapus_siswa($id) {
+    global $conn;
+    
+    mysqli_query($conn, "DELETE FROM pelanggaran_siswa WHERE id_pelanggar = $id");
+    mysqli_query($conn, "DELETE FROM siswa WHERE id_siswa = $id");
+
+    return mysqli_affected_rows($conn);
+}
+
+function ubah_plgr($data) {
+    global $conn;
+
+    $id = $data["id"];
+    $jenis_plgr = htmlspecialchars(ucwords($data["jenis_plgr"]));
+    $det_plgr = htmlspecialchars($data["det_plgr"]);
+    $poin = htmlspecialchars($data["poin"]);
+
+    mysqli_query($conn, "UPDATE ket_pelanggaran SET 
+                 jenis_pelanggaran = '$jenis_plgr',
+                 det_pelanggaran = '$det_plgr', 
+                 poin_pelanggaran = '$poin'
+                 WHERE id_pelanggaran = $id
+                 ");
+    
+    return mysqli_affected_rows($conn);
+}
+
+function ubah_guru($data) {
+    global $conn;
+
+    $id = $_POST["id"];
+    $nip = htmlspecialchars($data["nip"]);
+    $nama = htmlspecialchars($data["nama"]);
+    $email = htmlspecialchars($data["email"]);
+
+
+    mysqli_query($conn, "UPDATE guru_pembina SET 
+                 nip = '$nip',
+                 nama_guru = '$nama', 
+                 email = '$email'
+                 WHERE id_guru = $id
+                 ");
+    
+    return mysqli_affected_rows($conn);
+}
+
+function ubah_siswa($data) {
+    global $conn;
+
+    $id = $data["id"];
+    $kelas = $data["kelas"];
+    $jurusan = $data["jurusan"];
+    $nis = htmlspecialchars($data["nis"]);
+    $nama = htmlspecialchars(ucwords($data["nama"]));
+    $email = htmlspecialchars($data["email"]);
+    $fotoLama = $data["fotoLama"];
+
+    if($_FILES["foto"]["error"] === 4) {
+        $foto = $fotoLama;
+    } else {
+        $foto = upload();
+    }
+
+    if ( !$foto ) {
+        return false;
+    }
+
+    mysqli_query($conn, "UPDATE siswa SET
+                 id_kelas = '$kelas',
+                 id_jurusan = '$jurusan',
+                 nis = '$nis',
+                 nama_siswa = '$nama',
+                 email = '$email',
+                 foto = '$foto'
+                 WHERE id_siswa = $id
+                 ");
+
+    return mysqli_affected_rows($conn);
+
+}
 
 function upload() {
     
@@ -129,13 +224,13 @@ function upload() {
     // file lolos pengecekan, gambar siap diupload
     // generate nama gambar baru agar tidak ada yg sama
     // menggunakan function uniqid() yang mengembalikan string random
-    $namaFileBaru = uniqid();
-    $namaFileBaru .= '.';
-    $namaFileBaru .= $ekstensiFoto;
+    // $namaFileBaru = uniqid();
+    // $namaFileBaru .= '.';
+    // $namaFileBaru .= $ekstensiFoto;
 
     // destinasinya relatif terhadap file functions ini
-    move_uploaded_file($tmpName, './../foto_siswa/' . $namaFileBaru);
+    move_uploaded_file($tmpName, './../foto_siswa/' . $namaFile);
 
     // mengembalikan nama filenya untuk ditamngkap $gambar di function tambah() agar namanya disimpan di database
-    return $namaFileBaru;
+    return $namaFile;
 }

@@ -1,4 +1,12 @@
 <?php
+session_start();
+
+if(isset($_SESSION["osis"])) {
+    $osis = 'hidden';
+} else {
+    $osis = "";
+}
+
 require '../php/functions.php';
 
 if(isset($_GET["keyword"])){
@@ -6,28 +14,26 @@ if(isset($_GET["keyword"])){
     $keyword = explode(" ", $keyword);
     if(count($keyword) == 2) {
         $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
-              siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
+              siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' LIMIT 72
+              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' ORDER BY jmlh_poin, nama_kelas LIMIT 72
               ";
         
     } else {
         $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
-              siswa.nama_siswa, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
+              siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
               id_siswa LIKE '%$keyword[0]%' OR
               nis LIKE '%$keyword[0]%' OR
               nama_siswa LIKE '%$keyword[0]%' OR
               nama_kelas LIKE '$keyword[0]%' OR
-              kode_jurusan LIKE '$keyword[0]%' LIMIT 72
+              kode_jurusan LIKE '$keyword[0]%' ORDER BY jmlh_poin, nama_kelas LIMIT 72
               ";
     }
 
     $siswa_sekolah = query($query);
-} else {
-
 }
 ?>
 
@@ -48,8 +54,9 @@ if(isset($_GET["keyword"])){
                 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
                     <thead class="table-light">
                         <th>No.</th>
-                        <th>NIS</th>
+                        <th <?= $osis; ?>>NIS</th>
                         <th>Nama</th>
+                        <th>Poin</th>
                         <th>Kelas</th>
                     </thead>
                     <?php $i = 1; ?>
@@ -57,8 +64,9 @@ if(isset($_GET["keyword"])){
                     <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ?>
                     <tbody>
                         <th><?= $i; ?></th>
-                        <td><?= $siswa["nis"]; ?></td>
+                        <td <?= $osis; ?>><?= $siswa["nis"]; ?></td>
                         <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
+                        <td><?= $siswa["jmlh_poin"]; ?></td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

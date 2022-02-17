@@ -2,7 +2,7 @@
 session_start();
 
 if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ./php/login.php');
+    header ('Location: ./login.php');
     exit;
 }
 
@@ -265,7 +265,8 @@ $ket_pelanggaran_kelengkapan = query("SELECT * FROM ket_pelanggaran WHERE jenis_
         $poin3 = intval($poin_pelanggaran3);
 
         $poin = $poin1+$poin2+$poin3;
-        if(lapor($_POST, $poin) > 0 ) echo "berhasil()";
+        $pelapor = $_SESSION["id"];
+        if(lapor($_POST, $poin, $pelapor) > 0 ) echo "berhasil()";
         else echo "gagal()";
         // else echo mysqli_error($conn);
     } 

@@ -2,7 +2,7 @@
 session_start();
 
 if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ./php/login.php');
+    header ('Location: ./login.php');
     exit;
 }
 
@@ -120,8 +120,8 @@ if(isset($_POST["tambah"])) {
                     <div class="modal-body">
                         <form action="" method="post">
                             <div>
-                                <label for="nip" class="form-label">NIP</label>
-                                <input type="number" class="form-control" id="nip" placeholder="18 digit" name="nip" required autocomplete="off" autofocus>
+                                <label for="nip" class="form-label">NIP / NUPTK</label>
+                                <input type="number" class="form-control" id="nip" placeholder="18 digit / 16 digit" name="nip" required autocomplete="off" autofocus>
                             </div>
                             <div class="mt-2">
                                 <label for="nama" class="form-label">Nama Lengkap</label>
@@ -150,7 +150,8 @@ if(isset($_POST["tambah"])) {
                     <thead class="table-light">
                         <th>No.</th>
                         <th>Nama</th>
-                        <th>NIP</th>
+                        <th>NIP / NUPTK</th>
+                        <th></th>
                     </thead>
                     <?php $i = 1; ?>
                     <?php foreach( $guru_sekolah as $guru) : ?>
@@ -158,6 +159,17 @@ if(isset($_POST["tambah"])) {
                         <th><?= $i; ?></th>
                         <td class=""><a href="data_guru.php?id=<?= $guru["id_guru"]; ?>"><?= $guru["nama_guru"]; ?></a></td>
                         <td><?= $guru["nip"]; ?></td>
+                        <td style="width:3rem;">
+                            <div class="dropdown">
+                                <button class="btn" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionMenu">
+                                    <li><a class="dropdown-item" href="./hapus/hapus_guru.php?id=<?= $guru["id_guru"]; ?>" onclick="return confirm('Hapus data?')">Hapus</a></li>
+                                    <li><a class="dropdown-item" href="./ubah/ubah_guru.php?id=<?= $guru["id_guru"]; ?>">Ubah</a></li>
+                                </ul>
+                            </div>
+                        </td>
                     </tbody>
                     <?php $i++ ?>
                     <?php endforeach; ?>

@@ -2,7 +2,7 @@
 session_start();
 
 if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ./php/login.php');
+    header ('Location: ./login.php');
     exit;
 }
 
@@ -24,7 +24,7 @@ if(isset($_SESSION["siswa"])) {
 
 require 'functions.php';
 
-$siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, siswa.nama_siswa, kelas.nama_kelas FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas LIMIT 72");
+$siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas FROM siswa INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas ORDER BY jmlh_poin , nama_kelas  LIMIT 72");
 $kelas_sekolah = query("SELECT * FROM kelas");
 
 if(isset($_POST["tambah"])) {
@@ -184,8 +184,9 @@ if(isset($_POST["tambah"])) {
                 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
                     <thead class="table-light">
                         <th>No.</th>
-                        <th>NIS</th>
+                        <th <?= $osis; ?>>NIS</th>
                         <th>Nama</th>
+                        <th>Poin</th>
                         <th>Kelas</th>
                     </thead>
                     <?php $i = 1; ?>
@@ -193,8 +194,9 @@ if(isset($_POST["tambah"])) {
                     <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ?>
                     <tbody>
                         <th><?= $i; ?></th>
-                        <td><?= $siswa["nis"]; ?></td>
+                        <td <?= $osis; ?>><?= $siswa["nis"]; ?><?= $osis; ?></td>
                         <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
+                        <td><?= $siswa["jmlh_poin"]; ?></td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

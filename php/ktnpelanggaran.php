@@ -2,7 +2,7 @@
 session_start();
 
 if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ./php/login.php');
+    header ('Location: ./login.php');
     exit;
 }
 
@@ -38,11 +38,10 @@ if(isset($_POST["tambah"])) {
               </script>";
     }
     else {
-        echo mysqli_error($conn);
-        // echo "<script>
-        //      alert('Data gagal ditambahkan!');
-        //      document.location.href = './ktnpelanggaran.php';
-        //      </script>";
+        echo "<script>
+             alert('Data gagal ditambahkan!');
+             document.location.href = './ktnpelanggaran.php';
+             </script>";
     }
 }
 
@@ -56,7 +55,7 @@ if(isset($_POST["tambah"])) {
     <title>Ketentuan Pelanggaran</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../css/ktnpelanggaran.css">
+    <link rel="stylesheet" href="../css/siswa.css">
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom">
@@ -108,7 +107,7 @@ if(isset($_POST["tambah"])) {
                 <h1 class="text-center">Ketentuan Pelanggaran</h1>
             </div>
             <div>
-                <button class="btn btn-primary fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#tambah_ket" <?= $guru; ?><?= $osis; ?><?= $siswa; ?>>Tambah Ketentuan Baru</button>
+                <button class="btn btn-primary fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#tambah_ket" <?= $osis; ?><?= $siswa; ?>>Tambah Ketentuan Baru</button>
             </div>
             <div class="table-responsive-sm">
                 <table class="table table-sm table-bordered text-center table-align-center">
@@ -117,6 +116,7 @@ if(isset($_POST["tambah"])) {
                         <th>Jenis Pelanggaran</th>
                         <th>Pelanggaran</th>
                         <th>Poin</th>
+                        <th <?= $osis; ?><?= $siswa; ?>></th>
                     </thead>
                     <?php $no=1; ?>
                     <?php foreach ( $ktnpelanggaran as $plgr ) : ?>
@@ -125,12 +125,23 @@ if(isset($_POST["tambah"])) {
                         <td><?= ucwords($plgr["jenis_pelanggaran"]); ?></td>
                         <td class="text-start ps-2"><?= ucfirst($plgr["det_pelanggaran"]); ?></td>
                         <td><?= $plgr["poin_pelanggaran"]; ?></td>
+                        <td style="width:3rem;" <?= $osis; ?><?= $siswa; ?>>
+                            <div class="dropdown">
+                                <button class="btn" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="bi bi-three-dots-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionMenu">
+                                    <li><a class="dropdown-item" href="./hapus/hapus_plgr.php?id=<?= $plgr["id_pelanggaran"]; ?>" onclick="return confirm('Hapus data?')">Hapus</a></li>
+                                    <li><a class="dropdown-item" href="./ubah/ubah_plgr.php?id=<?= $plgr["id_pelanggaran"]; ?>">Ubah</a></li>
+                                </ul>
+                            </div>
+                        </td>
                     </tbody>    
                     <?php endforeach; ?>                                                            
                 </table>
             </div>
 
-            <!-- Modal -->
+            <!-- tambah Modal -->
             <div class="modal fade" id="tambah_ket" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="taambahKetBaru" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -163,6 +174,39 @@ if(isset($_POST["tambah"])) {
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <footer class="pt-4 border-top bg-light" style="margin:100px 0 0 0;">
+        <div class="container-xl">
+            <div class="row justify-content-center">
+                <div class="col-auto pb-2">
+                    <img src="../img/logosmk12.png" style="width:50px;height:50px">
+                    <h5 class="d-inline">OSIS SMK NEGERI 12 JAKARTA</h5>
+                </div>
+            </div>
+            <div class="row" style="margin: 30px 30px 50px 30px">
+                <div class="col-5 col-md-3">
+                    <a href="#" class="text-decoration-none d-block">
+                        <i class="bi bi-meta text-primary"></i>
+                        <span class="meta">Meta</span>
+                    </a>
+                    <a href="#" class="text-decoration-none text-bla d-block">
+                        <i class="bi bi-instagram"></i>
+                        <span class="insta">Instagram</span>
+                    </a>
+                    <a href="#" class="text-decoration-none text-danger">
+                        <i class="bi bi-youtube"></i>
+                        <span class="yt">Youtube</span>
+                    </a>
+                </div>
+                <div class="col-5 col-md-3">
+                    <a href="#" class="d-block">Tentang Kami</a>
+                    <a href="#" class="">FAQs</a>
+                </div>
+            </div>
+            <hr>
+            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, OSIS SMK NEGERI 12 JAKARTA</p>
+        </div>
+    </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
 </html>
