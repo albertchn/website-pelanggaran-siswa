@@ -1,6 +1,6 @@
 <?php
 // koneksi ke database
-$conn = mysqli_connect("localhost", "root", "", "pelanggaran_siswa");
+$conn = mysqli_connect("172.17.1.77", "mariadb", "password", "osis_website_pelanggaran_siswa");
 
 function query($query) {
     global $conn;
