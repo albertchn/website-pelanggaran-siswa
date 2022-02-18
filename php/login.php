@@ -110,6 +110,7 @@ if ( isset($_POST["login"]) ) {
 
     elseif($username === "smkn12" && $password === "Smkn12jkt") {
         $_SESSION["login"] = true;
+        $_SESSION["admin"] = true;
         header("Location: ./../index.php");
     }
 

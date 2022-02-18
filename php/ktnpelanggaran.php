@@ -20,10 +20,17 @@ if(isset($_SESSION["osis"])) {
 
 if(isset($_SESSION["siswa"])) {
     $siswa = "hidden";
-    $link = "";
+    $link = "./data_siswa.php?id=". $_SESSION["id_siswa"];
 } else {
     $siswa = "";
     $link = "./../index.php";
+}
+
+if(isset($_SESSION["admin"])) {
+    $admin = "hidden";
+}
+else {
+    $admin = "";
 }
 
 include('./functions.php');

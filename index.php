@@ -8,12 +8,14 @@ if ( !isset($_SESSION["login"]) ) {
 
 if(isset($_SESSION["guru"])) {
     $guru = "hidden";
+    $id = $_SESSION["id"];
 } else {
     $guru = "";
 }  
 
 if(isset($_SESSION["osis"])) {
     $osis = "hidden";
+    $id = $_SESSION["id"];
 } else {
     $osis = "";
 }
@@ -22,6 +24,12 @@ if(isset($_SESSION["siswa"])) {
     header("Location: ./php/data_siswa.php?id=" . $_SESSION["id_siswa"]);
 }
 
+if(isset($_SESSION["admin"])) {
+    $admin = "hidden";
+}
+else {
+    $admin = "";
+}
 ?>
 
 <html lang="en">
@@ -69,11 +77,41 @@ if(isset($_SESSION["siswa"])) {
                             <li>
                                 <?php if ( isset($_SESSION["login"]) ) : ?>
                                     <a href="./php/logout.php" class="dropdown-item">Keluar</a>
+                                    <a href="#" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#ganti_pw" <?= $admin; ?>>Ganti Password</a>
                                 <?php endif; ?>
                             </li>
-                            <li><a class="dropdown-item" href="#" <?= $guru; ?><?= $osis; ?>>Impor Data</a></li>
                         </ul>
                     </li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="ganti_pw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantoPw" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="gantoPw">Ganti Password</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="./php/ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                                    <div class="mb-2">
+                                        <label for="pw_lama" class="form-label">Password Lama</label>
+                                        <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="pw_baru" class="form-label">Password Baru</label>
+                                        <input type="password" class="form-control" id="pw_baru" name="pw_baru" required placeholder="rahasia banget!" autocomplete="off">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="con_pw_baru" class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" class="form-control" id="con_pw_baru" name="con_pw_baru" required placeholder="jangan kasih tau orang!" autocomplete="off">
+                                    </div>
+                                    <div class="modal-footer mt-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary" name="ganti">Ganti</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </div>

@@ -187,6 +187,36 @@ function ubah_siswa($data) {
 
 }
 
+function ubah_password($data, $id) {
+    global $conn;
+
+    $pw_lama = htmlspecialchars($data["pw_lama"]);
+    $pw_baru = htmlspecialchars($data["pw_baru"]);
+    $con_pw_baru = htmlspecialchars($data["con_pw_baru"]);
+
+    $passwordLama = mysqli_query($conn, "SELECT `password` FROM siswa WHERE id_siswa = $id")->fetch_assoc();
+
+    if($pw_lama === $passwordLama["password"]){
+        if($pw_baru === $con_pw_baru) {
+            mysqli_query($conn, "UPDATE siswa SET `password` = $pw_baru WHERE id_siswa = $id");
+        }
+        else {
+            echo "<script>
+              alert('Konfirmasi password baru berbeda!');
+              </script>";
+        return false;
+        }
+    } 
+    else {
+        echo "<script>
+              alert('Password lama salah!');
+              </script>";
+        return false;
+    }
+
+    return mysqli_affected_rows($conn);
+}
+
 function upload() {
     
     $namaFile = $_FILES["foto"]["name"];

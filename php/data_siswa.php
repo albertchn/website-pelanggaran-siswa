@@ -17,11 +17,18 @@ if(isset($_SESSION["osis"])) {
 }
 
 if(isset($_SESSION["siswa"])) {
-    $siswa = "hidden";
-    $link = "";
+    $hide_siswa = "hidden";
+    $link = "./data_siswa.php?id=". $_SESSION["id_siswa"];
 } else {
+    $hide_siswa = "";
     $link = "./../index.php";
-    $siswa = "";
+}
+
+if(isset($_SESSION["admin"])) {
+    $admin = "hidden";
+}
+else {
+    $admin = "";
 }
 
 include('./functions.php');
@@ -93,13 +100,13 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
                 <ul class="navbar-nav">
                     <li class="navbar-item">
-                        <a href="./../index.php" class="nav-link">Beranda</a>
+                        <a href="./../index.php" class="nav-link" <?= $hide_siswa; ?>>Beranda</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./siswa.php" class="nav-link">Siswa</a>
+                        <a href="./siswa.php" class="nav-link" <?= $hide_siswa; ?>>Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./guru.php" class="nav-link" <?= $guru; ?>>Guru</a>
+                        <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $hide_siswa; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link active">Ketentuan Pelanggaran</a>
@@ -112,10 +119,41 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
                             <li>
                                 <?php if ( isset($_SESSION["login"]) ) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
+                                    <a href="#" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#ganti_pw"<?= $guru; ?><?= $admin; ?>>Ganti Password</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
                     </li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="ganti_pw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantoPw" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="gantoPw">Ganti Password</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="./ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                                    <div class="mb-2">
+                                        <label for="pw_lama" class="form-label">Password Lama</label>
+                                        <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="pw_baru" class="form-label">Password Baru</label>
+                                        <input type="password" class="form-control" id="pw_baru" name="pw_baru" required placeholder="rahasia banget!" autocomplete="off">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="con_pw_baru" class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" class="form-control" id="con_pw_baru" name="con_pw_baru" required placeholder="jangan kasih tau orang!" autocomplete="off">
+                                    </div>
+                                    <div class="modal-footer mt-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary" name="ganti">Ganti</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </div>
@@ -127,8 +165,8 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
         </div>
         <div class="container-lg">
             <div class="mb-2 ms-2">
-                <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm">Ubah data</a>
-                <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm ms-2">Hapus Data</a>
+                <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm" <?= $hide_siswa; ?>>Ubah data</a>
+                <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm ms-2" <?= $hide_siswa ?>>Hapus Data</a>
             </div>
             <div class="row">
                 <div class="col-md-8">
