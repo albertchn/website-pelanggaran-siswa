@@ -19,6 +19,7 @@ if(isset($_SESSION["osis"])) {
 if(isset($_SESSION["siswa"])) {
     $hide_siswa = "hidden";
     $link = "./data_siswa.php?id=". $_SESSION["id_siswa"];
+    $username = $_SESSION["nis"];
 } else {
     $hide_siswa = "";
     $link = "./../index.php";
@@ -134,6 +135,7 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
                             </div>
                             <div class="modal-body">
                                 <form action="./ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                                    <input type="hidden" name="username" value="<?= $username; ?>">
                                     <div class="mb-2">
                                         <label for="pw_lama" class="form-label">Password Lama</label>
                                         <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>

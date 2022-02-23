@@ -48,6 +48,7 @@ if ( isset($_POST["login"]) ) {
             $_SESSION["login"] = true;
             $_SESSION["guru"] = true;
             $_SESSION["id"] = $result["id_guru"];
+            $_SESSION["nip"] = $result["nip"];
 
             
             $ip = $_SERVER['REMOTE_ADDR'];
@@ -73,6 +74,7 @@ if ( isset($_POST["login"]) ) {
             $result = mysqli_fetch_assoc($query);
             
             $_SESSION["login"] = true;
+            $_SESSION["nis"] = $result["nis"];
 
             $id_siswa = $result["id_siswa"];
             $ip = $_SERVER['REMOTE_ADDR'];

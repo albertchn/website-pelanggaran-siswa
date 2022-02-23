@@ -9,13 +9,12 @@ require '../functions.php';
 
 if(isset($_POST["ganti"])) {
     if ( ubah_password($_POST, $id) > 0 ) {
-        echo "
-            <script>
+        echo "<script>
                 alert('Password berhasil diubah!')
                 // redirect versi javascript
-                document.location.href = '../../index.php';
-                </script>
-                ";
+                document.location.href = '../data_siswa.php?id=$id';
+            </script>
+            ";
             } else {
                 echo "
                 <script>

@@ -123,7 +123,7 @@ if(isset($_POST["tambah"])) {
                         <th>Jenis Pelanggaran</th>
                         <th>Pelanggaran</th>
                         <th>Poin</th>
-                        <th <?= $osis; ?><?= $siswa; ?>></th>
+                        <th <?= $osis; ?><?= $siswa; ?>><i class="bi bi-caret-down-fill"></i></th>
                     </thead>
                     <?php $no=1; ?>
                     <?php foreach ( $ktnpelanggaran as $plgr ) : ?>

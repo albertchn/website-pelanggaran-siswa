@@ -13,22 +13,24 @@ function query($query) {
     return $rows;
 }
 
-function lapor($data,$poin, $pelapor) {
+function lapor($data, $pelapor) {
     global $conn;
     
+    for($i = 0; $i < count($data["pelanggaran"]); $i++) {
+        $plgr[] = $data["pelanggaran"][$i];
+        $poin[] = intval(mysqli_query($conn, "SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran =" . $data["pelanggaran"][$i])->fetch_assoc()["poin_pelanggaran"]);
+    }
+
+    $jmlh_poin_plgr = array_sum($poin);
     $id_pelanggar = $data["nama"];
-    $id_pelanggaran1 = $data["pelanggaran1"];
-    $id_pelanggaran2 = $data["pelanggaran2"];
-    $id_pelanggaran3 = $data["pelanggaran3"];
     $waktu_pelanggaran = date("Y-m-d");
+    $pelanggaran = implode(",", $plgr);
+    $jmlh_poin_siswa = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];;
+    $poin_akhir = $jmlh_poin_siswa-$jmlh_poin_plgr;
     
-    $jmlh_poin = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];;
-
-    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$id_pelanggaran1', '$id_pelanggaran2', '$id_pelanggaran3', '$waktu_pelanggaran')";
-
-    $poin_akhir = $jmlh_poin-$poin;
-    
+    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$pelanggaran', '$jmlh_poin_plgr','$waktu_pelanggaran')";
     mysqli_query($conn, $query);
+
     mysqli_query($conn, "UPDATE siswa SET jmlh_poin=$poin_akhir WHERE id_siswa=$id_pelanggar");
 
     return mysqli_affected_rows($conn);
@@ -190,28 +192,49 @@ function ubah_siswa($data) {
 function ubah_password($data, $id) {
     global $conn;
 
+    $username = $data["username"];
     $pw_lama = htmlspecialchars($data["pw_lama"]);
     $pw_baru = htmlspecialchars($data["pw_baru"]);
     $con_pw_baru = htmlspecialchars($data["con_pw_baru"]);
 
-    $passwordLama = mysqli_query($conn, "SELECT `password` FROM siswa WHERE id_siswa = $id")->fetch_assoc();
-
-    if($pw_lama === $passwordLama["password"]){
-        if($pw_baru === $con_pw_baru) {
-            mysqli_query($conn, "UPDATE siswa SET `password` = $pw_baru WHERE id_siswa = $id");
-        }
+    if(strlen($username) === 16 || strlen($username) === 18) {
+        $passwordLama = mysqli_query($conn, "SELECT `password` FROM guru_pembina WHERE id_guru = $id")->fetch_assoc();
+        if($pw_lama === $passwordLama["password"]){
+            if($pw_baru === $con_pw_baru) {
+                mysqli_query($conn, "UPDATE guru_pembina SET `password` = $pw_baru WHERE id_guru = $id");
+            }
+            else {
+                echo "<script>
+                  alert('Konfirmasi password baru berbeda!');
+                  </script>";
+            return false;
+            }
+        } 
         else {
             echo "<script>
-              alert('Konfirmasi password baru berbeda!');
-              </script>";
-        return false;
+                  alert('Password lama salah!');
+                  </script>";
+            return false;
         }
-    } 
-    else {
-        echo "<script>
-              alert('Password lama salah!');
-              </script>";
-        return false;
+    } else {
+        $passwordLama = mysqli_query($conn, "SELECT `password` FROM siswa WHERE id_siswa = $id")->fetch_assoc();
+        if($pw_lama === $passwordLama["password"]){
+            if($pw_baru === $con_pw_baru) {
+                mysqli_query($conn, "UPDATE siswa SET `password` = $pw_baru WHERE id_siswa = $id");
+            }
+            else {
+                echo "<script>
+                  alert('Konfirmasi password baru berbeda!');
+                  </script>";
+            return false;
+            }
+        } 
+        else {
+            echo "<script>
+                  alert('Password lama salah!');
+                  </script>";
+            return false;
+        }
     }
 
     return mysqli_affected_rows($conn);

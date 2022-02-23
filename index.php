@@ -8,6 +8,7 @@ if ( !isset($_SESSION["login"]) ) {
 
 if(isset($_SESSION["guru"])) {
     $guru = "hidden";
+    $username = $_SESSION["nip"];
     $id = $_SESSION["id"];
 } else {
     $guru = "";
@@ -15,6 +16,7 @@ if(isset($_SESSION["guru"])) {
 
 if(isset($_SESSION["osis"])) {
     $osis = "hidden";
+    $username = $_SESSION["nis"];
     $id = $_SESSION["id"];
 } else {
     $osis = "";
@@ -92,6 +94,7 @@ else {
                             </div>
                             <div class="modal-body">
                                 <form action="./php/ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                                    <input type="hidden" name="username" value="<?= $username; ?>">
                                     <div class="mb-2">
                                         <label for="pw_lama" class="form-label">Password Lama</label>
                                         <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
