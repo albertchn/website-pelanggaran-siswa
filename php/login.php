@@ -109,44 +109,14 @@ if ( isset($_POST["login"]) ) {
             $error = true;
         }
     }
-
+    
     elseif($username === "smkn12" && $password === "Smkn12jkt") {
         $_SESSION["login"] = true;
         $_SESSION["admin"] = true;
         header("Location: ./../index.php");
     }
-
-    else {
-        $invalid = true;
-        // header("Location: ./login.php");
-    }
-
-
     
-
-    
-
-    
-    
-
-    // $result = mysqli_query($conn, "SELECT * FROM user WHERE username = '$username'");
-
-    // if ( mysqli_num_rows($result) === 1 ) {
-    //     $row = mysqli_fetch_assoc($result);
-
-    //     if ( password_verify($password, $row["password"]) ) {
-    //         $_SESSION["login"] = true;
-
-        // if ( isset($_POST["remember"]) ) {
-        //     setcookie('id', $row["id"], time() + 60 * 10);
-        //     setcookie('ku', hash('gost', $row["username"]), time() + 60 * 10);
-        // }
-
-    //         header('Location: ../index.php');
-    //         exit;
-    //     }
-    // }
-    
+    $invalid = true;
 }
 
 ?>
@@ -198,7 +168,6 @@ if ( isset($_POST["login"]) ) {
                             <label for="remember" class="form-check-label">Remember</label>
                         </div>  
                         <button type="submit" name="login" class="btn btn-outline-secondary mb-3">Masuk</button>
-                        <p class="mb-5">Belum punya akun?<a href="registrasi.php"> Daftar</a></p>
                     </form>
                 </div>
 

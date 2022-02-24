@@ -35,41 +35,9 @@ else {
 include('./functions.php');
 $id = $_GET["id"];
 
-$siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `foto` FROM siswa WHERE id_siswa = $id")[0];
+$siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`,`foto` FROM siswa WHERE id_siswa = $id")[0];
 $kelas = query("SELECT nama_kelas FROM kelas WHERE id_kelas =" .$siswa["id_kelas"])[0];
 $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa["id_jurusan"])[0];
-// $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar = $id");
-// if(!$pelanggaran_siswa) {
-//     $anak_baik = true;
-// }
-// else {
-//     $pelanggaran1 = query("SELECT * FROM ket_pelanggaran WHERE id_pelanggaran = " .$pelanggaran_siswa[0]["id_pelanggaran1"])[0];
-//     $pelanggaran2 = mysqli_query($conn, "SELECT * FROM ket_pelanggaran WHERE id_pelanggaran = " .$pelanggaran_siswa[0]["id_pelanggaran2"]);
-//     if(mysqli_num_rows($pelanggaran2) > 0) {
-//         $pelanggaran2 = mysqli_fetch_assoc($pelanggaran2);
-//         $show_plgr2 = true;
-//         $poin2 = $pelanggaran2["poin_pelanggaran"];
-//     } else {
-//         $pelanggaran2 = '';
-//         $poin2 = 0;
-        
-//     }
-//     var_dump($pelanggaran1);
-//     var_dump($pelanggaran2);
-//     exit;
-//     $pelanggaran3 = mysqli_query($conn, "SELECT * FROM ket_pelanggaran WHERE id_pelanggaran = " .$pelanggaran_siswa[0]["id_pelanggaran3"]);
-//     if(mysqli_num_rows($pelanggaran3) > 0) {
-//         $pelanggaran3 = mysqli_fetch_assoc($pelanggaran3);
-//         $show_plgr3 = true;
-//         $poin3 = $pelanggaran3["poin_pelanggaran"];
-//     } else {
-//         $pelanggaran3 = '';
-//         $poin3 = 0;
-//     }
-//     $poin1 = $pelanggaran1["poin_pelanggaran"];
-//     $min_poin = $poin1+$poin2+$poin3;   
-// }
-
 
 
 
@@ -104,13 +72,13 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
                         <a href="./../index.php" class="nav-link" <?= $hide_siswa; ?>>Beranda</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./siswa.php" class="nav-link" <?= $hide_siswa; ?>>Siswa</a>
+                        <a href="./siswa.php" class="nav-link active" <?= $hide_siswa; ?>>Siswa</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $hide_siswa; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./ktnpelanggaran.php" class="nav-link active">Ketentuan Pelanggaran</a>
+                        <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
                     </li>
                     <li class="nav-item dropdown mt-1">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -169,6 +137,13 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
             <div class="mb-2 ms-2">
                 <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm" <?= $hide_siswa; ?>>Ubah data</a>
                 <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm ms-2" <?= $hide_siswa ?>>Hapus Data</a>
+                
+                <?php if($siswa["role"] === "siswa") : ?>
+                    <a href="./ubah/ubah_role.php?role=siswa&sk=<?= $id; ?>" onclick="return confirm('Jadikan osis?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan OSIS</a>
+                <?php else : ?>
+                        <a href="./ubah/ubah_role.php?role=osis&sk=<?= $id; ?>" onclick="return confirm('Jadikan siswa?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan Siswa</a>
+                <?php endif; ?>
+                
             </div>
             <div class="row">
                 <div class="col-md-8">
@@ -215,39 +190,7 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
             <h1 class="text-center fs-2">Pelanggaran</h1>
         </div>
 
-        <!-- <div class="container-lg">
-            <?php if(isset($anak_baik)) : ?>
-                <p class="fs-5"><?= ucwords($siswa["nama_siswa"]); ?> anak baik-baik!</p>
-            <?php endif; ?>
-            <ol>
-            <?php foreach($pelanggaran_siswa as $plgr) :?>
-                <li style="line-height: 5px;">
-                    <p>Tanggal : <b class="ms-1"><?= $plgr["waktu_pelanggaran"]; ?></b></p>
-                    <p>Pelanggaran :</p>
-                    <div class="row">
-                        <div class="col">
-                            <ul style="line-height: 17px;">
-                                <li>
-                                    <p><?= $pelanggaran1["jenis_pelanggaran"]; ?> : <?= $pelanggaran1["det_pelanggaran"]; ?></p>
-                                </li>
-                                <?php if(isset($show_plgr2)) :?>
-                                <li>
-                                    <p><?= $pelanggaran2["jenis_pelanggaran"]; ?> : <?= $pelanggaran2["det_pelanggaran"]; ?></p>
-                                </li>
-                                <?php endif; ?>
-                                <?php if(isset($show_plgr3)) :?>
-                                <li>
-                                    <p><?= $pelanggaran3["jenis_pelanggaran"]; ?> : <?= $pelanggaran3["det_pelanggaran"]; ?></p>    
-                                </li>
-                                <?php endif; ?>
-                            </ul>
-                        </div>
-                    </div>
-                    <p class="mb-4">Poin berkurang : -<?= $min_poin; ?></p>
-                </li>
-            <?php endforeach; ?>
-            </ol>
-        </div> -->
+        
     </section>
 
     <footer class="pt-4 border-top bg-light" style="margin:100px 0 0 0;">
