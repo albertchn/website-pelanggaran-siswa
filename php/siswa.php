@@ -90,7 +90,7 @@ if(isset($_POST["tambah"])) {
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
                     </li>
-                    <li class="nav-item dropdown mt-1">
+                    <li class="nav-item dropdown mt-1" id="navdd">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="d-md-none">Menu</span><i class="bi bi-three-dots-vertical"></i>
                         </a>

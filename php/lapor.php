@@ -44,18 +44,25 @@ $ket_pelanggaran_narkoba = query("SELECT * FROM ket_pelanggaran WHERE jenis_pela
 $ket_pelanggaran_kepribadian = query("SELECT * FROM ket_pelanggaran WHERE jenis_pelanggaran='kepribadian'");
 
 if(isset($_POST["submit"])) {
-    if(!empty($_POST["kelas"]) && !empty($_POST["jurusan"]) && !empty($_POST["nama"]) && !empty($_POST["pelanggaran"][0])) {
-        if(lapor($_POST, $pelapor) > 0 ) {
+    if(!empty($_POST["kelas"]) && !empty($_POST["jurusan"]) && !empty($_POST["pelanggaran"][0])) {
+        if($_POST["nama"] !== "Pilih nama siswa") {
+            if(lapor($_POST, $pelapor) > 0 ) {
+                echo "<script>
+                        alert('Berhasil membuat laporan!');
+                        document.location.href = '../index.php';
+                      </script>";
+            }
+            else {
+                echo "<script>
+                        alert('Gagal membuat laporan!');
+                        document.location.href = '../index.php';
+                      </script>";
+            }
+        } else {
             echo "<script>
-                    alert('Berhasil membuat laporan!');
-                    document.location.href = '../index.php';
-                  </script>";
-        }
-        else {
-            echo "<script>
-                    alert('Gagal membuat laporan!');
-                    document.location.href = '../index.php';
-                  </script>";
+            alert('Semua input wajib diisi!');
+            document.location.href = './lapor.php';
+            </script>";
         }
     } else {
         echo "<script>
@@ -126,13 +133,13 @@ if(isset($_POST["submit"])) {
         <div class="container-lg">
             <h2 class="text-center mb-4">Laporkan Pelanggaran</h2>
 
-            <form action="" method="post">
+            <form method="POST">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="kelas" class="form-label">Kelas</label>
                             <select name="kelas" id="kelas" class="form-select form-select-sm slt_width" required>
-                                <option>Pilih kelas</option>
+                                <option value="">Pilih kelas</option>
                                 <?php foreach($kelas_sekolah as $kelas) : ?>
                                 <option value="<?= $kelas["id_kelas"]; ?>"><?= $kelas["nama_kelas"]; ?></option>
 
@@ -143,14 +150,14 @@ if(isset($_POST["submit"])) {
                         <div class="mb-3">
                             <label for="jurusan" class="form-label">Jurusan</label>
                             <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" disabled required>
-                                <option>Pilih jurusan</option>
+                                <option value="">Pilih jurusan</option>
                             </select>
                         </div>
                         
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Siswa</label>
                             <select name="nama" id="nama" class="form-select form-select-sm slt_width" required disabled>
-                                <option>Pilih nama siswa</option>
+                                <option value="">Pilih nama siswa</option>
                             </select>
                         </div>
                     </div>

@@ -43,7 +43,7 @@ if(isset($_POST["tambah"])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guru | SMKN 12 JAKARTA</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="../js/guru.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -76,7 +76,7 @@ if(isset($_POST["tambah"])) {
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
                     </li>
-                    <li class="nav-item dropdown mt-1">
+                    <li class="nav-item dropdown mt-1" id="navdd">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="d-md-none">Menu</span><i class="bi bi-three-dots-vertical"></i>
                         </a>
@@ -104,7 +104,7 @@ if(isset($_POST["tambah"])) {
                 <div class="col-8 col-md-6">
                     <button type="button" class="btn btn-primary fw-bold mb-2" data-bs-toggle="modal" data-bs-target="#tambah_guru">Tambah Guru Baru</button>
 
-                    <form action="" method="post" class="form-cari mt-2">
+                    <form action="" method="POST" class="form-cari mt-2">
                         <input type="text" name="keyword" placeholder="Cari ...." autofocus autocomplete="off" class="keyword form-control mt-2">
                     </form>
                 </div>
