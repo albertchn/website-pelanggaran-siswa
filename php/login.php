@@ -7,13 +7,17 @@ if ( isset($_COOKIE["gk"]) && isset($_COOKIE["gu"]) && isset($_COOKIE["gr"]) ) {
     $gu = $_COOKIE["gu"];
     $gr = $_COOKIE["gr"];
 
-    $query = mysqli_query($conn, "SELECT nip FROM guru_pembina WHERE id_guru = $gk");
+    $query = mysqli_query($conn, "SELECT * FROM guru_pembina WHERE id_guru = $gk");
     $result = mysqli_fetch_assoc($query);
 
     if ( $gu === hash('gost', $result["nip"]) ) {
         $_SESSION["login"] = true;
         $_SESSION["$gr"] = true;
+        $_SESSION["id"] = $result["id_guru"];
+        $_SESSION["nip"] = $result["nip"];
     }
+
+    header("Location: ./login.php");
 }
 
 if ( isset($_COOKIE["sk"]) && isset($_COOKIE["su"]) && isset($_COOKIE["sr"])) {
@@ -21,13 +25,17 @@ if ( isset($_COOKIE["sk"]) && isset($_COOKIE["su"]) && isset($_COOKIE["sr"])) {
     $su = $_COOKIE["su"];
     $sr = $_COOKIE["sr"];
 
-    $query = mysqli_query($conn, "SELECT nis FROM siswa WHERE id_siswa = $sk");
+    $query = mysqli_query($conn, "SELECT * FROM siswa WHERE id_siswa = $sk");
     $result = mysqli_fetch_assoc($query);
 
     if ( $su === hash('gost', $result["nis"]) ) {
         $_SESSION["login"] = true;
         $_SESSION["$sr"] = true;
+        $_SESSION["id_siswa"] = $result["id_siswa"];
+        $_SESSION["nis"] = $result["nis"];
+        $_SESSION["id"] = $id_siswa;
     }
+    header("Location: ./login.php");
 }
 
 if ( isset($_SESSION["login"]) ) {
@@ -84,7 +92,7 @@ if ( isset($_POST["login"]) ) {
 
             if($role === "osis") {
                 $_SESSION["osis"] = true;
-                $_SESSION["id"] = $id_siswa;
+                $_SESSION["id_siswa"] = $id_siswa;
             }
             
             if($role === "siswa") {
@@ -115,8 +123,6 @@ if ( isset($_POST["login"]) ) {
         $_SESSION["admin"] = true;
         header("Location: ./../index.php");
     }
-    
-    $invalid = true;
 }
 
 ?>

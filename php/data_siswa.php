@@ -38,7 +38,7 @@ $id = $_GET["id"];
 $siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`,`foto` FROM siswa WHERE id_siswa = $id")[0];
 $kelas = query("SELECT nama_kelas FROM kelas WHERE id_kelas =" .$siswa["id_kelas"])[0];
 $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa["id_jurusan"])[0];
-
+$pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar = $id");
 
 
 ?>
@@ -134,17 +134,6 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
             <h1 class="text-center fs-2">Data Siswa</h1>
         </div>
         <div class="container-lg">
-            <div class="mb-2 ms-2">
-                <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm" <?= $hide_siswa; ?>>Ubah data</a>
-                <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm ms-2" <?= $hide_siswa ?>>Hapus Data</a>
-                
-                <?php if($siswa["role"] === "siswa") : ?>
-                    <a href="./ubah/ubah_role.php?role=siswa&sk=<?= $id; ?>" onclick="return confirm('Jadikan osis?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan OSIS</a>
-                <?php else : ?>
-                        <a href="./ubah/ubah_role.php?role=osis&sk=<?= $id; ?>" onclick="return confirm('Jadikan siswa?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan Siswa</a>
-                <?php endif; ?>
-                
-            </div>
             <div class="row">
                 <div class="col-md-8">
 
@@ -182,12 +171,50 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
                     <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
                 </div>
             </div>
+            <div class="mb-2 ms-2">
+                <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm" <?= $hide_siswa; ?>>Ubah data</a>
+                <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm ms-2" <?= $hide_siswa ?>>Hapus Data</a>
+                
+                <?php if($siswa["role"] === "siswa") : ?>
+                    <a href="./ubah/ubah_role.php?role=siswa&sk=<?= $id; ?>" onclick="return confirm('Jadikan osis?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan OSIS</a>
+                <?php else : ?>
+                        <a href="./ubah/ubah_role.php?role=osis&sk=<?= $id; ?>" onclick="return confirm('Jadikan siswa?')" class="btn btn-success btn-sm ms-2" <?= $hide_siswa; ?>>Jadikan Siswa</a>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
     <section class="mt-4">
         <div class="container-fluid  mb-4 bg-warning p-1">
             <h1 class="text-center fs-2">Pelanggaran</h1>
+        </div>
+        <div class="container-lg">
+            <?php if($pelanggaran_siswa) :
+                for($i = 0; $i < count($pelanggaran_siswa); $i++){
+                    $pelanggaran = explode(",", $pelanggaran_siswa[$i]["id_pelanggaran"]);
+                    if(strlen($pelanggaran_siswa[$i]["id_pelapor"]) === 5) {
+                        $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_siswa"];
+                    } else {
+                        $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_guru"];
+                    }
+            ?>
+                <div class="row mb-3">
+                    <div class="col" style="line-height: 8px;">
+                        <p  class=""><?= $i + 1 ?>. Tanggal : <span class="fw-bold"><?= $pelanggaran_siswa[$i]["waktu_pelanggaran"]; ?></span></p>
+                        <p class="ms-3">Pelanggaran :</p>
+                        <ol class="ms-5" style="line-height: 20px;margin: -10px 0 8px 0">
+                        <?php for($j = 0; $j < count($pelanggaran); $j++): ?>
+                                <li><?= mysqli_query($conn, "SELECT `det_pelanggaran` FROM ket_pelanggaran WHERE id_pelanggaran = ".$pelanggaran[$j])->fetch_assoc()["det_pelanggaran"]; ?></li>
+                        <?php endfor; ?>
+                        </ol>
+                        <p class="ms-3">Poin berkurang : <?= $pelanggaran_siswa[$i]["poin_berkurang"]; ?></p>
+                        <p class="ms-3" <?= $hide_siswa; ?>>Petugas : <?= $pelapor; ?></p>
+                    </div>
+                </div>
+            <?php } ?>
+            <?php else : ?>
+                <h5 class="text-muted"><?= $siswa["nama_siswa"]; ?> anak baik-baik!</h5>
+            <?php endif; ?>
         </div>
 
         

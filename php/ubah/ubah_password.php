@@ -12,7 +12,7 @@ if(isset($_POST["ganti"])) {
         echo "<script>
                 alert('Password berhasil diubah!')
                 // redirect versi javascript
-                document.location.href = '../data_siswa.php?id=$id';
+                document.location.href = '../../index.php';
             </script>
             ";
             } else {

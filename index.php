@@ -17,7 +17,7 @@ if(isset($_SESSION["guru"])) {
 if(isset($_SESSION["osis"])) {
     $osis = "hidden";
     $username = $_SESSION["nis"];
-    $id = $_SESSION["id"];
+    $id = $_SESSION["id_siswa"];
 } else {
     $osis = "";
 }
