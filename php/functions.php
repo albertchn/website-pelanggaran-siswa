@@ -69,11 +69,12 @@ function tambah_siswa($data) {
         return false;
     }
     
-    $foto = upload();
+    $foto = null;
 
-    if ( !$foto ) {
-        return false;
+    if(!empty($_FILES["foto"]["tmp_name"])) {
+        $foto = upload();
     }
+
 
     mysqli_query($conn, "INSERT INTO siswa (`id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`) VALUES ('$kelas', '$jurusan', '$nis', '$nama', '$email', '100', 'siswa', '$foto', '$nis')");
 
@@ -240,6 +241,30 @@ function ubah_password($data, $id) {
     return mysqli_affected_rows($conn);
 }
 
+function ubah_foto($data, $id) {
+    global $conn;
+    
+    $fotoLama = $data["fotoLama"];
+
+    if($_FILES["foto"]["error"] === 4) {
+        echo "<script>
+              alert('Foto siswa wajib ada!');
+              </script>";
+        return false; // agar fungsi tambah tidak dijalankan
+    } else {
+        $foto = upload();
+    }
+
+    if ( !$foto ) {
+        return false;
+    }
+
+    mysqli_query($conn, "UPDATE siswa SET `foto` = '$foto' WHERE id_siswa = $id");
+
+    return mysqli_affected_rows($conn);
+
+}
+
 function upload() {
     
     $namaFile = $_FILES["foto"]["name"];
@@ -247,13 +272,13 @@ function upload() {
     $error = $_FILES["foto"]["error"];
     $tmpName = $_FILES["foto"]["tmp_name"];
 
-    if ( $error === 4 ) {
-        echo "<script>
-              alert('Foto siswa wajib ada!');
-              </script>";
-        return false; // agar fungsi tambah tidak dijalankan
-    }
-
+    // if ( $error === 4 ) {
+    //     echo "<script>
+    //           alert('Foto siswa wajib ada!');
+    //           </script>";
+    //     return false; // agar fungsi tambah tidak dijalankan
+    // }
+    
     $ekstensiFotoValid = ['jpg', 'jpeg', 'png'];
     $ekstensiFoto = explode(".", $namaFile);
     $ekstensiFoto = strtolower(end($ekstensiFoto));
@@ -274,16 +299,14 @@ function upload() {
         return false; // agar fungsi tambah tidak dijalankan
     }
 
-    // file lolos pengecekan, gambar siap diupload
-    // generate nama gambar baru agar tidak ada yg sama
-    // menggunakan function uniqid() yang mengembalikan string random
-    // $namaFileBaru = uniqid();
-    // $namaFileBaru .= '.';
-    // $namaFileBaru .= $ekstensiFoto;
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFoto;
 
     // destinasinya relatif terhadap file functions ini
-    move_uploaded_file($tmpName, './../foto_siswa/' . $namaFile);
+    // move_uploaded_file($tmpName, 'C:/xampp/htdocs/website_pelanggaran_siswa/foto_siswa/' . $namaFile);
+    move_uploaded_file($tmpName, '../../foto_siswa/' . $namaFileBaru);
 
     // mengembalikan nama filenya untuk ditamngkap $gambar di function tambah() agar namanya disimpan di database
-    return $namaFile;
+    return $namaFileBaru;
 }

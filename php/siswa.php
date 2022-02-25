@@ -28,18 +28,10 @@ $siswa_sekolah = query("SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan,
 $kelas_sekolah = query("SELECT * FROM kelas");
 
 if(isset($_POST["tambah"])) {
-
-    if(($_FILES["foto"]["error"] === 4)){
-        echo "<script>
-              alert('File foto wajib ada!');
-              document.location.href = './siswa.php';
-              </script>";
-    }
-
     if(tambah_siswa($_POST) > 0) {
         echo "<script>
               alert('Data berhasil ditambahkan!');
-              document.location.href = './siswa.php';
+            //   document.location.href = './siswa.php';
               </script>";
     } else {
         echo "<script>
@@ -165,7 +157,7 @@ if(isset($_POST["tambah"])) {
                             </div>
                             <div class="mt-2">
                                 <label for="foto" class="form-label">Foto</label>
-                                <input type="file" class="form-control" id="foto" name="foto" required>
+                                <input type="file" class="form-control" id="foto" name="foto">
                             </div>
                             <div class="modal-footer mt-1">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
@@ -191,12 +183,20 @@ if(isset($_POST["tambah"])) {
                     </thead>
                     <?php $i = 1; ?>
                     <?php foreach( $siswa_sekolah as $siswa) : ?>
-                    <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ?>
+                    <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0];
+                        $jmlh_poin = intval($siswa["jmlh_poin"]);
+                    ?>
                     <tbody>
                         <th><?= $i; ?></th>
                         <td <?= $osis; ?>><?= $siswa["nis"]; ?><?= $osis; ?></td>
                         <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
-                        <td><?= $siswa["jmlh_poin"]; ?></td>
+                        <td>
+                            <?php if($jmlh_poin > 0 ) : ?>
+                                <?= $siswa["jmlh_poin"]; ?>
+                            <?php else : ?>
+                                    Drop Out
+                            <?php endif; ?>
+                        </td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

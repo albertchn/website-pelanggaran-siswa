@@ -61,12 +61,20 @@ if(isset($_GET["keyword"])){
                     </thead>
                     <?php $i = 1; ?>
                     <?php foreach( $siswa_sekolah as $siswa) : ?>
-                    <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ?>
+                    <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ;
+                    $jmlh_poin = intval($siswa["jmlh_poin"]);
+                    ?>
                     <tbody>
                         <th><?= $i; ?></th>
                         <td <?= $osis; ?>><?= $siswa["nis"]; ?></td>
                         <td class="text-start ps-3"><a href="./data_siswa.php?id=<?= $siswa["id_siswa"]; ?>"><?= $siswa["nama_siswa"]; ?></a></td>
-                        <td><?= $siswa["jmlh_poin"]; ?></td>
+                        <td>
+                            <?php if($jmlh_poin > 0 ) : ?>
+                                <?= $siswa["jmlh_poin"]; ?>
+                            <?php else : ?>
+                                    Drop Out
+                            <?php endif; ?>
+                        </td>
                         <td><?= $siswa["nama_kelas"]; ?> <?= $jurusan["kode_jurusan"]; ?></td>
                     </tbody>
                     <?php $i++ ?>

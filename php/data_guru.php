@@ -7,26 +7,33 @@ if ( !isset($_SESSION["login"]) ) {
 }
 
 if(isset($_SESSION["guru"])) {
-    $guru = "hidden";
-} else {
-    $guru = "";
-}  
+    header("Location: ./../index.php");
+}
 
 if(isset($_SESSION["osis"])) {
-    $osis = "hidden";
-} else {
-    $osis = "";
+    header("Location: './../index.php");
 }
 
 if(isset($_SESSION["siswa"])) {
-    header("Location: ./php/data_siswa.php?id=" . $_SESSION["id_siswa"]);
+    header("Location: ./data_siswa.php?id=" . $_SESSION["id_siswa"]);
 }
 
-include('./functions.php');
-$plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = CURRENT_DATE");
-if(!$plgr) {
-    $empty = true;
-} 
+if(isset($_SESSION["admin"])) {
+    $admin = "hidden";
+}
+else {
+    $admin = "";
+}
+
+$id = $_GET["id"];
+
+if(!isset($_GET["id"])) {
+    header("Location: ./guru.php");
+}
+
+require "./functions.php";
+
+$guru = query("SELECT * FROM guru_pembina WHERE id_guru = $id")[0];
 
 
 ?>
@@ -35,9 +42,8 @@ if(!$plgr) {
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Pelanggaran</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=3.0">
+    <title>Data Guru | <?= $guru["nama_guru"]; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/siswa.css">
@@ -58,13 +64,13 @@ if(!$plgr) {
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
                 <ul class="navbar-nav">
                     <li class="navbar-item">
-                        <a href="../index.php" class="nav-link">Beranda</a>
+                        <a href="./../index.php" class="nav-link">Beranda</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./siswa.php" class="nav-link">Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./guru.php" class="nav-link" <?= $guru; ?><?= $osis; ?>>Guru</a>
+                        <a href="./guru.php" class="nav-link active">Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
@@ -77,35 +83,79 @@ if(!$plgr) {
                             <li>
                                 <?php if ( isset($_SESSION["login"]) ) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
+                                    <a href="#" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#ganti_pw"<?= $admin; ?>>Ganti Password</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
                     </li>
+                    <!-- Modal -->
+                    <div class="modal fade" id="ganti_pw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantiPw" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="gantiPw">Ganti Password</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="./ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                                    <input type="hidden" name="username" value="<?= $username; ?>">
+                                    <div class="mb-2">
+                                        <label for="pw_lama" class="form-label">Password Lama</label>
+                                        <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="pw_baru" class="form-label">Password Baru</label>
+                                        <input type="password" class="form-control" id="pw_baru" name="pw_baru" required placeholder="rahasia banget!" autocomplete="off">
+                                    </div>
+                                    <div class="mb-2">
+                                        <label for="con_pw_baru" class="form-label">Konfirmasi Password Baru</label>
+                                        <input type="password" class="form-control" id="con_pw_baru" name="con_pw_baru" required placeholder="jangan kasih tau orang!" autocomplete="off">
+                                    </div>
+                                    <div class="modal-footer mt-2">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                        <button type="submit" class="btn btn-primary" name="ganti">Ganti</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </ul>
             </div>
         </div>
     </nav>
 
     <section>
+        <div class="container-fluid  mb-4 bg-warning p-1">
+            <h1 class="text-center fs-2">Data Guru</h1>
+        </div>
         <div class="container-lg">
-            <div class="my-4">
-                <h1 class="text-center">Laporan Pelanggaran Siswa</h1>
-            </div>
+            <div class="row">
+                <div class="col-md-8">
 
-            <div>
-                <form action="" method="post">
-                    <label for="tanggal" class="form-label">Tanggal :</label>
-                    <input type="date" id="tanggal" name="tanggal" autofocus autocomplete="off" value="<?= date('Y-m-d'); ?>">
-                    
-                </form>
+                    <table border="0" class="table table-borderless fs-6">
+                        <tbody>
+                            <tr>
+                                <td style="width: 165px;">Nama</td>
+                                <td style="width: 10px;">:</td>
+                                <td style="width: 400px;"><?= $guru["nama_guru"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIP / NUPTK</td>
+                                <td>:</td>
+                                <td><?= $guru["nip"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>:</td>
+                                <td><?= $guru["email"]; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-
-            <div id="laporan">
-                                                    
-            </div>
-            
         </div>
     </section>
+
 
     <footer class="pt-4 border-top bg-light" style="margin:100px 0 0 0;">
         <div class="container-xl">
@@ -144,16 +194,3 @@ if(!$plgr) {
 </body>
 </html>
 
-<script>
-    const tanggal = $("#tanggal").val();
-
-    $.ajax({
-        type: "POST",
-        dataType: "html",
-        url: "./data_laporan.php",
-        data: "tanggal=" + tanggal,
-        success: function(data) {
-            $("#laporan").html(data);
-        }
-    });
-</script>

@@ -35,6 +35,10 @@ else {
 include('./functions.php');
 $id = $_GET["id"];
 
+if(!$id) {
+    header("Location: ./guru.php");
+}
+
 $siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`,`foto` FROM siswa WHERE id_siswa = $id")[0];
 $kelas = query("SELECT nama_kelas FROM kelas WHERE id_kelas =" .$siswa["id_kelas"])[0];
 $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa["id_jurusan"])[0];
@@ -89,41 +93,11 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
                                 <?php if ( isset($_SESSION["login"]) ) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
                                     <a href="#" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#ganti_pw"<?= $guru; ?><?= $admin; ?>>Ganti Password</a>
+                                    <a href="#" class="dropdown-item"  data-bs-toggle="modal" data-bs-target="#ganti_foto"<?= $guru; ?><?= $admin; ?>>Ganti Foto</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
                     </li>
-                    <!-- Modal -->
-                    <div class="modal fade" id="ganti_pw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantoPw" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-scrollable">
-                            <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="gantoPw">Ganti Password</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="./ubah/ubah_password.php?id=<?= $id; ?>" method="post">
-                                    <input type="hidden" name="username" value="<?= $username; ?>">
-                                    <div class="mb-2">
-                                        <label for="pw_lama" class="form-label">Password Lama</label>
-                                        <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="pw_baru" class="form-label">Password Baru</label>
-                                        <input type="password" class="form-control" id="pw_baru" name="pw_baru" required placeholder="rahasia banget!" autocomplete="off">
-                                    </div>
-                                    <div class="mb-2">
-                                        <label for="con_pw_baru" class="form-label">Konfirmasi Password Baru</label>
-                                        <input type="password" class="form-control" id="con_pw_baru" name="con_pw_baru" required placeholder="jangan kasih tau orang!" autocomplete="off">
-                                    </div>
-                                    <div class="modal-footer mt-2">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                        <button type="submit" class="btn btn-primary" name="ganti">Ganti</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </ul>
             </div>
         </div>
@@ -143,6 +117,11 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
                                 <td style="width: 165px;">Nama</td>
                                 <td style="width: 10px;">:</td>
                                 <td style="width: 400px;"><?= $siswa["nama_siswa"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td>NIS</td>
+                                <td>:</td>
+                                <td><?= $siswa["nis"]; ?></td>
                             </tr>
                             <tr>
                                 <td>Kelas</td>
@@ -168,7 +147,11 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
                     </table>
                 </div>
                 <div class="col-md-4">
-                    <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
+                    <?php if(!$siswa["foto"]) :?>
+                    <img src="./../foto_siswa/Logo SMKN 12 JAKARTA.png" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
+                    <?php else : ?>
+                    <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">    
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="mb-2 ms-2">
@@ -189,32 +172,38 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
             <h1 class="text-center fs-2">Pelanggaran</h1>
         </div>
         <div class="container-lg">
-            <?php if($pelanggaran_siswa) :
-                for($i = 0; $i < count($pelanggaran_siswa); $i++){
-                    $pelanggaran = explode(",", $pelanggaran_siswa[$i]["id_pelanggaran"]);
-                    if(strlen($pelanggaran_siswa[$i]["id_pelapor"]) === 5) {
-                        $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_siswa"];
-                    } else {
-                        $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_guru"];
-                    }
-            ?>
-                <div class="row mb-3">
-                    <div class="col" style="line-height: 8px;">
-                        <p  class=""><?= $i + 1 ?>. Tanggal : <span class="fw-bold"><?= $pelanggaran_siswa[$i]["waktu_pelanggaran"]; ?></span></p>
-                        <p class="ms-3">Pelanggaran :</p>
-                        <ol class="ms-5" style="line-height: 20px;margin: -10px 0 8px 0">
-                        <?php for($j = 0; $j < count($pelanggaran); $j++): ?>
-                                <li><?= mysqli_query($conn, "SELECT `det_pelanggaran` FROM ket_pelanggaran WHERE id_pelanggaran = ".$pelanggaran[$j])->fetch_assoc()["det_pelanggaran"]; ?></li>
-                        <?php endfor; ?>
-                        </ol>
-                        <p class="ms-3">Poin berkurang : <?= $pelanggaran_siswa[$i]["poin_berkurang"]; ?></p>
-                        <p class="ms-3" <?= $hide_siswa; ?>>Petugas : <?= $pelapor; ?></p>
+            <div class="row">
+                <?php if($pelanggaran_siswa) :
+                        for($i = 0; $i < count($pelanggaran_siswa); $i++){
+                            $pelanggaran = explode(",", $pelanggaran_siswa[$i]["id_pelanggaran"]);
+                            if(strlen($pelanggaran_siswa[$i]["id_pelapor"]) === 5) {
+                                $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_siswa"];
+                            } else {
+                                $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_guru"];
+                            }
+                            ?>
+                    <div class="col-md-6 mb-3" style="line-height: 8px;">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h6 class="card-subtitle mb-2">Tanggal : <span class="fw-bold"><?= $pelanggaran_siswa[$i]["waktu_pelanggaran"]; ?></span></h6>
+                                <p class="card-text">
+                                    <p class="">Pelanggaran :</p>
+                                        <ol class="ms-2" style="line-height: 20px;margin: -10px 0 8px 0">
+                                        <?php for($j = 0; $j < count($pelanggaran); $j++): ?>
+                                                <li><?= mysqli_query($conn, "SELECT `det_pelanggaran` FROM ket_pelanggaran WHERE id_pelanggaran = ".$pelanggaran[$j])->fetch_assoc()["det_pelanggaran"]; ?></li>
+                                        <?php endfor; ?>
+                                        </ol>
+                                        <p class="">Poin berkurang : <?= $pelanggaran_siswa[$i]["poin_berkurang"]; ?></p>
+                                        <p class="" <?= $hide_siswa; ?>>Petugas : <?= $pelapor; ?></p>
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            <?php } ?>
-            <?php else : ?>
-                <h5 class="text-muted"><?= $siswa["nama_siswa"]; ?> anak baik-baik!</h5>
-            <?php endif; ?>
+                    <?php } ?>
+                    <?php else : ?>
+                        <h5 class="text-muted">Siswa teladan</h5>
+                    <?php endif; ?>
+            </div>
         </div>
 
         
@@ -252,6 +241,63 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
             <p style="text-align:center; font-size:15px">&copy; Copyright 2022, OSIS SMK NEGERI 12 JAKARTA</p>
         </div>
     </footer>
+
+    <!-- Modal ganti password -->
+    <div class="modal fade" id="ganti_pw" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantoPw" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gantoPw">Ganti Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./ubah/ubah_password.php?id=<?= $id; ?>" method="post">
+                        <input type="hidden" name="username" value="<?= $username; ?>">
+                        <div class="mb-2">
+                            <label for="pw_lama" class="form-label">Password Lama</label>
+                            <input type="password" class="form-control" id="pw_lama" placeholder="yang mau diganti..." name="pw_lama" required autocomplete="off" autofocus>
+                        </div>
+                        <div class="mb-2">
+                            <label for="pw_baru" class="form-label">Password Baru</label>
+                            <input type="password" class="form-control" id="pw_baru" name="pw_baru" required placeholder="rahasia banget!" autocomplete="off">
+                        </div>
+                        <div class="mb-2">
+                            <label for="con_pw_baru" class="form-label">Konfirmasi Password Baru</label>
+                            <input type="password" class="form-control" id="con_pw_baru" name="con_pw_baru" required placeholder="jangan kasih tau orang!" autocomplete="off">
+                        </div>
+                        <div class="modal-footer mt-2">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary" name="ganti">Ganti</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ganti foto -->
+    <div class="modal fade" id="ganti_foto" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="gantiFoto" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="gantiFoto">Ganti Foto</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="./ubah/ubah_foto.php?id=<?= $id; ?>" method="post" enctype="multipart/form-data">
+                        <div class="">
+                            <label for="foto" class="form-label">Foto</label>
+                            <input type="file" class="form-control" id="foto" name="foto">
+                        </div>
+                        <div class="modal-footer mt-1">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                            <button type="submit" class="btn btn-primary" name="ganti" >Ganti</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
