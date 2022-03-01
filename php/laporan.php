@@ -23,11 +23,7 @@ if(isset($_SESSION["siswa"])) {
 }
 
 include('./functions.php');
-$plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = CURRENT_DATE");
-if(!$plgr) {
-    $empty = true;
-} 
-
+$plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = '2022-02-24'");
 
 ?>
 
@@ -101,6 +97,13 @@ if(!$plgr) {
             </div>
 
             <div id="laporan">
+                <?php if(!$plgr) : ?>
+                    <h3 class="text-center text-muted my-5">Data tidak ditemukan</h3>
+                <?php else : ?>
+                    <?php $id_pelanggaran = explode(",", $plgr[0]["id_pelanggaran"]);  var_dump($id_pelanggaran);?>
+                <?php endif; ?>
+
+
                                                     
             </div>
             

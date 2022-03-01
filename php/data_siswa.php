@@ -45,13 +45,14 @@ $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa[
 $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar = $id");
 
 
+
 ?>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=3.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Siswa | <?= $siswa["nama_siswa"]; ?></title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
@@ -131,7 +132,7 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
                             <tr>
                                 <td>Jurusan</td>
                                 <td>:</td>
-                                <td><?= $jurusan["nama_jurusan"]; ?></td>
+                                   <td><?= $jurusan["nama_jurusan"]; ?></td>
                             </tr>
                             <tr>
                                 <td>email</td>
@@ -175,6 +176,7 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
             <div class="row">
                 <?php if($pelanggaran_siswa) :
                         for($i = 0; $i < count($pelanggaran_siswa); $i++){
+
                             $pelanggaran = explode(",", $pelanggaran_siswa[$i]["id_pelanggaran"]);
                             if(strlen($pelanggaran_siswa[$i]["id_pelapor"]) === 5) {
                                 $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_siswa"];

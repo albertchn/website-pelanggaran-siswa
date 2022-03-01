@@ -47,6 +47,7 @@ if(isset($_POST["submit"])) {
     if(!empty($_POST["kelas"]) && !empty($_POST["jurusan"]) && !empty($_POST["pelanggaran"][0])) {
         if($_POST["nama"] !== "Pilih nama siswa") {
             if(lapor($_POST, $pelapor) > 0 ) {
+                
                 echo "<script>
                         alert('Berhasil membuat laporan!');
                         document.location.href = '../index.php';
