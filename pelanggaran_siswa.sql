@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 17 Feb 2022 pada 08.03
+-- Waktu pembuatan: 19 Mar 2022 pada 05.16
 -- Versi server: 10.4.21-MariaDB
 -- Versi PHP: 8.0.11
 
@@ -45,7 +45,8 @@ INSERT INTO `guru_pembina` (`id_guru`, `nip`, `nama_guru`, `email`, `role`, `pas
 (1, '123456789012345678', 'Ahmad Subarjo', 'ahmad@gmail.com', 'guru', '123456789012345678', '2022-02-14 17:11:45'),
 (2, '234567890123456789', 'Rani Sunarti', 'rani@gmail.com', 'guru', '234567890123456789', '2022-02-14 17:11:45'),
 (3, '345678901234567890', 'Ahmad Basir', 'ahmad@gmail.com', 'guru', '345678901234567890', '2022-02-15 13:52:43'),
-(4, '456789012345678901', 'Nicholas Thomas', 'nicholas@gmail.com', 'guru', '456789012345678901', '2022-02-15 13:57:48');
+(4, '456789012345678901', 'Nicholas Thomas', 'nicholas@gmail.com', 'guru', '456789012345678901', '2022-02-15 13:57:48'),
+(5, '5678901234567890', 'Evan Kurniawan', 'evan@gmail.com', 'guru', '22222', '2022-02-24 11:15:36');
 
 -- --------------------------------------------------------
 
@@ -129,12 +130,48 @@ CREATE TABLE `ket_pelanggaran` (
 --
 
 INSERT INTO `ket_pelanggaran` (`id_pelanggaran`, `jenis_pelanggaran`, `det_pelanggaran`, `poin_pelanggaran`, `created_at`) VALUES
-(1, 'kedisiplinan', 'Datang terlambat', 3, '2022-02-16 16:13:08'),
-(2, 'kedisiplinan', 'Tidak mengerjakan tugas', 2, '2022-02-16 16:13:08'),
-(3, 'kerapian', 'Rambut panjang', 1, '2022-02-16 16:13:08'),
-(4, 'kerapian', 'Kuku panjang', 1, '2022-02-16 16:13:08'),
-(5, 'kelengkapan', 'Atribut seragam tidak lengkap', 1, '2022-02-16 16:13:08'),
-(6, 'kedisiplinan', 'Tidak mengikuti upacara', 2, '2022-02-16 16:20:33');
+(1, 'keterlambatan', 'Siswa terlambat 10-25 menit', 1, '2022-02-23 00:46:20'),
+(2, 'keterlambatan', 'Siswa terlambat di atas 25 menit', 2, '2022-02-23 00:46:46'),
+(3, 'pakaian', 'Siswa mengenakan pakaian diluar ketentuan seragam sekolah', 1, '2022-02-23 00:47:39'),
+(4, 'pakaian', 'Saat olahraga siswa mengenakan baju olahraga bukan seragam olahraga SMKN 12', 1, '2022-02-23 00:49:05'),
+(5, 'pakaian', 'Siswa mengenakan sepatu bukan warna hitam polos sebagaimana telah ditentukan sekolah', 1, '2022-02-23 00:50:49'),
+(6, 'pakaian', 'Siswa mengenakan pakaian yang seronok yang sangat bertentangan dengan norma, agama, etika dan sopan santun', 1, '2022-02-23 00:51:36'),
+(7, 'upacara', 'Siswa tidak mengikuti upacara bendera tanpa keterangan, baik pada hari senin maupun hari besar/Nasional', 5, '2022-02-23 00:54:34'),
+(8, 'upacara', 'Siswa terlambat mengikuti upacara', 1, '2022-02-23 00:55:10'),
+(9, 'upacara', 'Siswa tidak mengenakan seragam lengkap sesuai ketentuan sekolah', 1, '2022-02-23 00:56:04'),
+(10, 'upacara', 'Siswa tidak tertib mengikuti upacara (ngobrol, duduk-duduk, dll)', 1, '2022-02-23 00:56:42'),
+(11, 'media elektronik', 'Mengaktifkan dan berkomunikasi baik SMS-an maupun telepon saat KBM berlangsung tanpa seijin guru dikelas / mata pelajaran', 5, '2022-02-23 00:59:22'),
+(12, 'media elektronik', 'Mendengarkan lagu, pidato, ceramah, dll melalui media saat KBM berlangsung', 5, '2022-02-23 01:00:20'),
+(13, 'aksesoris', 'Siswa memakai aksesoris yang berlebihan, seperti: anting di hidung dan di lidah', 10, '2022-02-23 01:02:12'),
+(14, 'aksesoris', 'Menghiasi tubuh dengan tato', 10, '2022-02-23 01:02:44'),
+(15, 'aksesoris', 'Mengecat kuku kaki dan tangan serta rambut', 3, '2022-02-23 01:03:03'),
+(16, 'kehadiran', 'Siswa tidak hadir di sekolah tanpa keterangan 1x', 3, '2022-02-23 01:04:27'),
+(17, 'kehadiran', 'Siswa tidak hadir di sekolah tanpa keterangan 2x', 5, '2022-02-23 01:04:57'),
+(18, 'kehadiran', 'Siswa tidak hadir di sekolah tanpa keterangan 3x', 8, '2022-02-23 01:05:15'),
+(19, 'kehadiran', 'Siswa meninggalkan KBM sebelum waktunya tanpa ijin guru mata pelajaran dari guru piket', 3, '2022-02-23 01:05:55'),
+(20, 'kehadiran', 'Siswa berada di luar kelas tanpa ijin saat KBM', 3, '2022-02-23 01:06:23'),
+(21, 'kehadiran', 'Siswa ijin keluar dari lingkungan sekolah tapi dengan mengendarai kendaraan bermotor', 3, '2022-02-23 01:07:02'),
+(22, 'lingkungan sekolah', 'Siswa mengotori, mencoret-coret dan merusak sarana belajar di sekolah', 5, '2022-02-23 01:07:53'),
+(23, 'lingkungan sekolah', 'Siswa membuang sampah bukan pada tempatnya di lingkungan sekolah', 3, '2022-02-23 01:08:20'),
+(24, 'mencuri', 'Mengambil barang, benda atau uang bukan miliknya', 10, '2022-02-23 01:09:31'),
+(25, 'mencuri', 'Mengambil barang, uang milik sekolah', 10, '2022-02-23 01:09:55'),
+(26, 'mencuri', 'Mengambil barang atau uang milik bapak/ibu guru', 10, '2022-02-23 01:10:17'),
+(27, 'mencuri', 'Mengambil uang dan barang milik teman di sekolah', 10, '2022-02-23 01:10:43'),
+(28, 'merokok', 'Membawa rokok di lingkungan sekolah', 20, '2022-02-23 01:11:28'),
+(29, 'merokok', 'Merokok di lingkungan sekolah', 30, '2022-02-23 01:11:48'),
+(30, 'pornografi', 'Membawa gambar, film, video uang bernuansa pornografi dan pornoaksi', 25, '2022-02-23 01:12:47'),
+(31, 'pornografi', 'Membuka, menonton situs porno di sekolah', 30, '2022-02-23 01:13:08'),
+(32, 'pornografi', 'Melakukan tindakan yang mengarah pornografi dan pornoaksi', 30, '2022-02-23 01:13:36'),
+(33, 'pornografi', 'Berbuat asusila (pornografi) dan direkam serta disebarluaskan', 100, '2022-02-23 01:14:08'),
+(34, 'senjata tajam', 'Membawa senjata tajam yang dapat mengancam keselamatan dirinya dan orang lain', 60, '2022-02-23 01:15:08'),
+(35, 'perkelahian / tawuran', 'Tawuran dengan siswa sekolah lain di lingkungan sekolah', 100, '2022-02-23 01:15:49'),
+(36, 'narkoba / miras', 'Membawa dan mengedarkan narkoba', 100, '2022-02-23 01:16:35'),
+(37, 'nerkoba / miras', 'Mengkonsumsi narkoba', 100, '2022-02-23 01:16:57'),
+(38, 'kepribadian', 'Melawan guru secara fisik', 100, '2022-02-23 01:17:15'),
+(39, 'kepribadian', 'Melawan guru dengan kata-kata', 50, '2022-02-23 01:17:37'),
+(40, 'kepribadian', 'Mencermakan nama baik guru', 50, '2022-02-23 01:17:58'),
+(41, 'kepribadian', 'Mencemarkan nama baik sekolah', 50, '2022-02-23 01:18:25'),
+(42, 'kepribadian', 'Siswa memalsukan tanda tangan kepala sekolah, guru, dan orang tua', 60, '2022-02-23 01:19:06');
 
 -- --------------------------------------------------------
 
@@ -145,19 +182,11 @@ INSERT INTO `ket_pelanggaran` (`id_pelanggaran`, `jenis_pelanggaran`, `det_pelan
 CREATE TABLE `pelanggaran_siswa` (
   `id_pelanggaran_siswa` int(11) NOT NULL,
   `id_pelanggar` int(11) NOT NULL,
-  `id_pelapor` int(11) NOT NULL,
-  `id_pelanggaran1` int(11) NOT NULL,
-  `id_pelanggaran2` int(11) DEFAULT NULL,
-  `id_pelanggaran3` int(11) DEFAULT NULL,
+  `id_pelapor` varchar(18) NOT NULL,
+  `id_pelanggaran` varchar(50) NOT NULL,
+  `poin_berkurang` int(11) NOT NULL,
   `waktu_pelanggaran` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `pelanggaran_siswa`
---
-
-INSERT INTO `pelanggaran_siswa` (`id_pelanggaran_siswa`, `id_pelanggar`, `id_pelapor`, `id_pelanggaran1`, `id_pelanggaran2`, `id_pelanggaran3`, `waktu_pelanggaran`) VALUES
-(8, 1, 1, 1, 0, 0, '2022-02-16');
 
 -- --------------------------------------------------------
 
@@ -174,7 +203,7 @@ CREATE TABLE `siswa` (
   `email` varchar(255) NOT NULL,
   `jmlh_poin` int(3) NOT NULL,
   `role` varchar(5) NOT NULL,
-  `foto` varchar(255) NOT NULL,
+  `foto` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -184,18 +213,17 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id_siswa`, `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`, `created_at`) VALUES
-(10, 1, 1, 10901, 'Ahmad Fajar', 'ahmad@gmail.com', 50, 'siswa', '620cea7c3cd78.jpg', '10901', '2022-02-16 12:13:48'),
-(11, 1, 4, 10902, 'Putra Slamet', 'putra@gmail.com', 50, 'siswa', '620ceaa8b7fac.jpg', '10902', '2022-02-16 12:14:32'),
-(12, 1, 7, 10903, 'Adhi Saputra', 'adhi@gmail.com', 50, 'siswa', '620ceb6fed529.jpg', '10903', '2022-02-16 12:17:51'),
-(13, 1, 10, 10904, 'Triandini Maharani', 'triandini@gmail.com', 50, 'siswa', '620cec3f5fb6c.png', '10904', '2022-02-16 12:21:19'),
-(14, 2, 13, 10905, 'Yudi Sugino', 'yudi@gmail.com', 50, 'siswa', '620cecd2163db.png', '10905', '2022-02-16 12:23:46'),
-(15, 2, 16, 10906, 'Bambang Setiawan', 'bambang@gmail.com', 50, 'siswa', '620cecfc0cca3.png', '10906', '2022-02-16 12:24:28'),
-(16, 2, 19, 10907, 'Safira Adinda', 'safira@gmail.com', 50, 'siswa', '620ced1ea98f6.png', '10907', '2022-02-16 12:25:02'),
-(17, 2, 22, 10908, 'Albert Darwin', 'albert@gmail.com', 50, 'osis', '620ced393a9f7.png', '10908', '2022-02-17 04:24:42'),
-(18, 3, 25, 10909, 'Puspita Anggraini', 'puput@gmail.com', 50, 'siswa', '620ced6e14189.png', '10909', '2022-02-16 12:26:22'),
-(19, 3, 28, 10910, 'Abdul Kohir', 'abdul@gmail.com', 50, 'siswa', '620ced96bec6c.png', '10910', '2022-02-16 12:27:02'),
-(20, 3, 31, 10911, 'Taufik Hidayat', 'taufik@gmail.com', 50, 'siswa', '620cedb7d7dbb.png', '10911', '2022-02-16 12:27:35'),
-(21, 3, 34, 10912, 'Imelda Tanuji', 'imelda@gmail.com', 50, 'siswa', '620cedf03172b.png', '10912', '2022-02-16 12:28:32');
+(1, 1, 1, 10901, 'Putra Slamet', 'putra@gmail.com', 100, 'osis', '', '121212', '2022-03-15 11:59:02'),
+(3, 1, 4, 10902, 'Putin Makarim', 'putin@gmail.com', 100, 'siswa', '', '11111', '2022-03-19 04:15:50'),
+(4, 1, 7, 10903, 'Ucup', 'ucup@gmail.com', 100, 'siswa', '', '10903', '2022-03-19 04:15:50'),
+(5, 1, 10, 10904, 'Bambang', 'bambang@gmail.com', 100, 'siswa', '', '10904', '2022-03-15 11:59:02'),
+(6, 2, 13, 10905, 'Tatang', 'tatang@gmail.com', 100, 'siswa', '', '10905', '2022-03-15 11:59:02'),
+(7, 2, 16, 10906, 'Dadang', 'dadang@gmail.com', 100, 'siswa', '', '10906', '2022-03-15 11:59:02'),
+(8, 2, 19, 10907, 'Adudu', 'adudu@gmail.com', 100, 'siswa', '', '10907', '2022-03-15 11:59:02'),
+(9, 2, 22, 10908, 'Agus', 'agus@gmail.com', 100, 'siswa', '', '10908', '2022-02-25 10:22:19'),
+(10, 3, 25, 10909, 'Lorem', 'lorem@gmail.com', 100, 'siswa', '', '10909', '2022-03-15 11:59:02'),
+(11, 3, 31, 13212, 'Lorem1', 'lorem1@sda.asdf', 100, 'siswa', '', '13212', '2022-02-25 10:25:34'),
+(12, 2, 14, 10922, 'Acuih', 'acuih@gmail.com', 100, 'siswa', '', '10922', '2022-03-01 10:38:04');
 
 -- --------------------------------------------------------
 
@@ -211,17 +239,6 @@ CREATE TABLE `user_log` (
   `role` varchar(5) NOT NULL,
   `log_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `user_log`
---
-
-INSERT INTO `user_log` (`id_log`, `ip_user`, `username`, `nama_user`, `role`, `log_time`) VALUES
-(19, '::1', '345678901234567890', 'Ahmad Basir', 'guru', '2022-02-15 13:58:19'),
-(20, '::1', '456789012345678901', 'Nicholas Thomas', 'guru', '2022-02-15 13:58:39'),
-(21, '::1', '10901', 'Ahmad Fajar', 'siswa', '2022-02-17 04:23:50'),
-(22, '::1', '10908', 'Albert Darwin', 'osis', '2022-02-17 04:24:55'),
-(23, '::1', '123456789012345678', 'Ahmad Subarjo', 'guru', '2022-02-17 04:35:41');
 
 --
 -- Indexes for dumped tables
@@ -259,9 +276,7 @@ ALTER TABLE `pelanggaran_siswa`
   ADD PRIMARY KEY (`id_pelanggaran_siswa`),
   ADD KEY `id_pelanggar` (`id_pelanggar`),
   ADD KEY `id_pelapor` (`id_pelapor`),
-  ADD KEY `id_pelanggaran1` (`id_pelanggaran1`),
-  ADD KEY `id_pelanggaran2` (`id_pelanggaran2`),
-  ADD KEY `id_pelanggaran3` (`id_pelanggaran3`);
+  ADD KEY `id_pelanggaran1` (`id_pelanggaran`);
 
 --
 -- Indeks untuk tabel `siswa`
@@ -285,7 +300,7 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT untuk tabel `guru_pembina`
 --
 ALTER TABLE `guru_pembina`
-  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
@@ -303,25 +318,25 @@ ALTER TABLE `kelas`
 -- AUTO_INCREMENT untuk tabel `ket_pelanggaran`
 --
 ALTER TABLE `ket_pelanggaran`
-  MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT untuk tabel `pelanggaran_siswa`
 --
 ALTER TABLE `pelanggaran_siswa`
-  MODIFY `id_pelanggaran_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_pelanggaran_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
