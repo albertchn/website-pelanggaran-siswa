@@ -16,16 +16,16 @@ function query($query) {
 function lapor($data, $pelapor) {
     global $conn;
     
-    for($i = 0; $i < count($data["pelanggaran"]); $i++) {
-        $plgr[] = $data["pelanggaran"][$i];
-        $poin[] = intval(mysqli_query($conn, "SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran =" . $data["pelanggaran"][$i])->fetch_assoc()["poin_pelanggaran"]);
-    }
-
-    $jmlh_poin_plgr = array_sum($poin);
+    $plgr = $data["pelanggaran"];
     $id_pelanggar = $data["nama"];
     $waktu_pelanggaran = date("Y-m-d");
     $pelanggaran = implode(",", $plgr);
-    $jmlh_poin_siswa = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];;
+    $poin = query("SELECT poin_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran in ($pelanggaran)");
+    for($i=0; $i < count($poin); $i++){
+        $poin_plgr[] = intval($poin[$i]["poin_pelanggaran"]);
+    }
+    $jmlh_poin_plgr = array_sum($poin_plgr);
+    $jmlh_poin_siswa = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];
     $poin_akhir = $jmlh_poin_siswa-$jmlh_poin_plgr;
     
     $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$pelanggaran', '$jmlh_poin_plgr','$waktu_pelanggaran')";

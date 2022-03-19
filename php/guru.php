@@ -11,7 +11,7 @@ if(isset($_SESSION["guru"])) {
 }
 
 if(isset($_SESSION["osis"])) {
-    header("Location: './../index.php");
+    header("Location: ./../index.php");
 }
 
 if(isset($_SESSION["siswa"])) {

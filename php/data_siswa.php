@@ -44,8 +44,6 @@ $kelas = query("SELECT nama_kelas FROM kelas WHERE id_kelas =" .$siswa["id_kelas
 $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " .$siswa["id_jurusan"])[0];
 $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar = $id");
 
-
-
 ?>
 
 <html lang="en">
@@ -175,32 +173,36 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
         <div class="container-lg">
             <div class="row">
                 <?php if($pelanggaran_siswa) :
-                        for($i = 0; $i < count($pelanggaran_siswa); $i++){
-
-                            $pelanggaran = explode(",", $pelanggaran_siswa[$i]["id_pelanggaran"]);
-                            if(strlen($pelanggaran_siswa[$i]["id_pelapor"]) === 5) {
-                                $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_siswa"];
-                            } else {
-                                $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip =".$pelanggaran_siswa[$i]["id_pelapor"])->fetch_assoc()["nama_guru"];
-                            }
+                        foreach($pelanggaran_siswa as $plgr){
                             ?>
-                    <div class="col-md-6 mb-3" style="line-height: 8px;">
-                        <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h6 class="card-subtitle mb-2">Tanggal : <span class="fw-bold"><?= $pelanggaran_siswa[$i]["waktu_pelanggaran"]; ?></span></h6>
-                                <p class="card-text">
-                                    <p class="">Pelanggaran :</p>
+                        <div class="col-md-6 mb-3" style="line-height: 8px;">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <h6 class="card-subtitle mb-2">Tanggal : <span class="fw-bold"><?= $plgr["waktu_pelanggaran"]; ?></span></h6>
+                                    <p class="card-text">
+                                        <p class="">Pelanggaran :</p>
                                         <ol class="ms-2" style="line-height: 20px;margin: -10px 0 8px 0">
-                                        <?php for($j = 0; $j < count($pelanggaran); $j++): ?>
-                                                <li><?= mysqli_query($conn, "SELECT `det_pelanggaran` FROM ket_pelanggaran WHERE id_pelanggaran = ".$pelanggaran[$j])->fetch_assoc()["det_pelanggaran"]; ?></li>
-                                        <?php endfor; ?>
+                                            <?php 
+                                                $id_plgr = $plgr["id_pelanggaran"]; 
+                                                $pelanggaran = query("SELECT det_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran in ($id_plgr)");
+                                                foreach($pelanggaran as $det_plgr) :
+                                            ?>
+                                            <li><?= $det_plgr["det_pelanggaran"]; ?></li>
+                                            <?php endforeach; ?>
                                         </ol>
-                                        <p class="">Poin berkurang : <?= $pelanggaran_siswa[$i]["poin_berkurang"]; ?></p>
+                                        <p class="">Poin berkurang : <?= $plgr["poin_berkurang"]; ?></p>
+                                        <?php 
+                                            if(strlen($plgr["id_pelapor"]) === 5) {
+                                                $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis =".$plgr["id_pelapor"])->fetch_assoc()["nama_siswa"];
+                                            } else {
+                                                $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip =".$plgr["id_pelapor"])->fetch_assoc()["nama_guru"];
+                                            }
+                                            ?>
                                         <p class="" <?= $hide_siswa; ?>>Petugas : <?= $pelapor; ?></p>
-                                </p>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     <?php } ?>
                     <?php else : ?>
                         <h5 class="text-muted">Siswa teladan</h5>

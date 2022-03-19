@@ -23,7 +23,24 @@ if(isset($_SESSION["siswa"])) {
 }
 
 include('./functions.php');
-$plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = '2022-02-24'");
+// $plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = CURDATE()");
+// var_dump($plgr);
+
+// for($i=0; $i< count($plgr); $i++) {
+//     $jenis_pelanggaran[] = $plgr[$i]["id_pelanggaran"];
+// }
+// $jns_plgr = implode(",", $jenis_pelanggaran);
+// var_dump($jns_plgr);
+
+// echo array_count_values($jns_plgr);
+
+// $jns = query("SELECT `jenis_pelanggaran` FROM `ket_pelanggaran` WHERE id_pelanggaran in (1,1,7,14,4);");
+// var_dump($jns);
+
+// // for($i=0; $i<count($jns); $i++) {
+// //     foreach)
+// // }
+// exit;
 
 ?>
 
@@ -98,9 +115,9 @@ $plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE 
 
             <div id="laporan">
                 <?php if(!$plgr) : ?>
-                    <h3 class="text-center text-muted my-5">Data tidak ditemukan</h3>
-                <?php else : ?>
-                    <?php $id_pelanggaran = explode(",", $plgr[0]["id_pelanggaran"]);  var_dump($id_pelanggaran);?>
+                    <!-- <h3 class="text-center text-muted my-5">Data tidak ditemukan</h3> -->
+                <?php else : ?> 
+                    <!-- <?php $id_pelanggaran = explode(",", $plgr[0]["id_pelanggaran"]);  var_dump($id_pelanggaran);?> -->
                 <?php endif; ?>
 
 

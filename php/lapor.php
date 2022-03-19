@@ -43,28 +43,21 @@ $ket_pelanggaran_perkelahian = query("SELECT * FROM ket_pelanggaran WHERE jenis_
 $ket_pelanggaran_narkoba = query("SELECT * FROM ket_pelanggaran WHERE jenis_pelanggaran='narkoba / miras'");
 $ket_pelanggaran_kepribadian = query("SELECT * FROM ket_pelanggaran WHERE jenis_pelanggaran='kepribadian'");
 
-if(isset($_POST["submit"])) {
-    if(!empty($_POST["kelas"]) && !empty($_POST["jurusan"]) && !empty($_POST["pelanggaran"][0])) {
-        if($_POST["nama"] !== "Pilih nama siswa") {
+if(isset($_POST["submit"])) { 
+    if(!empty($_POST["kelas"]) && !empty($_POST["jurusan"]) && !in_array("0", $_POST["pelanggaran"]) && $_POST["nama"] !== "0") {
             if(lapor($_POST, $pelapor) > 0 ) {
-                
                 echo "<script>
                         alert('Berhasil membuat laporan!');
                         document.location.href = '../index.php';
-                      </script>";
-            }
+                        </script>";
+                }
             else {
                 echo "<script>
                         alert('Gagal membuat laporan!');
                         document.location.href = '../index.php';
-                      </script>";
+                        </script>";
+                // echo mysqli_error($conn);
             }
-        } else {
-            echo "<script>
-            alert('Semua input wajib diisi!');
-            document.location.href = './lapor.php';
-            </script>";
-        }
     } else {
         echo "<script>
               alert('Semua input wajib diisi!');
@@ -158,7 +151,7 @@ if(isset($_POST["submit"])) {
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Siswa</label>
                             <select name="nama" id="nama" class="form-select form-select-sm slt_width" required disabled>
-                                <option value="">Pilih nama siswa</option>
+                                <option value="0">Pilih nama siswa</option>
                             </select>
                         </div>
                     </div>
@@ -168,7 +161,7 @@ if(isset($_POST["submit"])) {
                             <div id="plgr1" class="mb-3">
                                 <label for="pelanggaran" class="form-label">Pelanggaran</label>
                                 <select name="pelanggaran[]" id="pelanggaran" class="form-select form-select-sm slt_width" required>
-                                    <option value="">Pilih pelanggaran</option>
+                                    <option value="0">Pilih pelanggaran</option>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_keterlambatan[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach($ket_pelanggaran_keterlambatan as $keterlambatan) : ?>
                                         <option value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
@@ -244,7 +237,7 @@ if(isset($_POST["submit"])) {
                         </div>
 
                         <div class="my-2 text-center">
-                            <button type="button" class="btn btn-outline-primary rounded" onclick="tambahPelanggaran()" id="">+</button>
+                            <button type="button" class="btn btn-outline-primary rounded" onclick="tambahPelanggaran()" name="tmbPlgr">+</button>
                         </div>
 
                     </div>
@@ -342,7 +335,7 @@ if(isset($_POST["submit"])) {
         const element = `<div id="plgr${indexPelanggaran + 1}"  class="mb-3">
                                 <label for="pelanggaran" class="form-label">Pelanggaran</label>
                                 <select name="pelanggaran[]" id="pelanggaran" class="form-select form-select-sm slt_width" required>
-                                    <option value="">Pilih pelanggaran</option>
+                                    <option value="0">Pilih pelanggaran</option>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_keterlambatan[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach($ket_pelanggaran_keterlambatan as $keterlambatan) : ?>
                                         <option value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
