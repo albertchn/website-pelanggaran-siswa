@@ -53,11 +53,20 @@ if ( isset($_POST["login"]) ) {
         if(mysqli_num_rows($query) === 1) {
             $result = mysqli_fetch_assoc($query);
 
-            $_SESSION["login"] = true;
-            $_SESSION["guru"] = true;
-            $_SESSION["id"] = $result["id_guru"];
-            $_SESSION["nip"] = $result["nip"];
-
+            if($result["role"] === "admin"){
+                $_SESSION["admin"] = true;
+                $_SESSION["admgr"] = true;
+                $_SESSION["login"] = true;
+                $_SESSION["id"] = $result["id_guru"];
+                $_SESSION["nip"] = $result["nip"];
+            }
+            else {
+                $_SESSION["login"] = true;
+                $_SESSION["guru"] = true;
+                $_SESSION["id"] = $result["id_guru"];
+                $_SESSION["nip"] = $result["nip"];
+    
+            }
             
             $ip = $_SERVER['REMOTE_ADDR'];
             $role = $result["role"];
@@ -90,6 +99,12 @@ if ( isset($_POST["login"]) ) {
             $nama_user = $result["nama_siswa"];
             $role = $result["role"];
 
+            if($role === "admin") {
+                $_SESSION["admin"] = true;
+                $_SESSION["admsis"] = true;
+                $_SESSION["id_siswa"] = $id_siswa;  
+            }
+
             if($role === "osis") {
                 $_SESSION["osis"] = true;
                 $_SESSION["id_siswa"] = $id_siswa;
@@ -117,11 +132,8 @@ if ( isset($_POST["login"]) ) {
             $error = true;
         }
     }
-    
-    elseif($username === "smkn12" && $password === "Smkn12jkt") {
-        $_SESSION["login"] = true;
-        $_SESSION["admin"] = true;
-        header("Location: ./../index.php");
+    else {
+        $unknown = true;
     }
 }
 
@@ -156,8 +168,8 @@ if ( isset($_POST["login"]) ) {
                         <p style="color:red; font-style:italic; font-size:15px;">username / password salah!</p>
                     <?php endif; ?>
 
-                    <?php if ( isset($invalid) ) : ?>
-                        <p style="color:red; font-style:italic; font-size:15px;">Invalid username!</p>
+                    <?php if ( isset($unknown) ) : ?>
+                        <p style="color:red; font-style:italic; font-size:15px;">Format data tidak sesuai!</p>
                     <?php endif; ?>
 
                     <form action="" method="post">
@@ -167,7 +179,7 @@ if ( isset($_POST["login"]) ) {
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password</label>
-                            <input type="password" name="password" id="password" required class="form-control" autocomplete="off> 
+                            <input type="password" name="password" id="password" required class="form-control" autocomplete="off"> 
                         </div>
                         <div class="mb-3" class="form-check">
                             <input type="checkbox" name="remember" id="remember" class="form-check-input">
