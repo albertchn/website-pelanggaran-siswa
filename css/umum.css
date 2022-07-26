@@ -33,3 +33,15 @@ a {
 .yt {
     color: black;
 }
+
+.data-plgr{
+    min-height: 150px;
+}
+
+.data-siswa {
+    min-height: 450px;
+}
+
+#laporan {
+    min-height: 200px;
+}

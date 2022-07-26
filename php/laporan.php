@@ -23,24 +23,9 @@ if(isset($_SESSION["siswa"])) {
 }
 
 include('./functions.php');
-// $plgr = query("SELECT id_pelanggar, id_pelanggaran FROM pelanggaran_siswa WHERE waktu_pelanggaran = CURDATE()");
-// var_dump($plgr);
 
-// for($i=0; $i< count($plgr); $i++) {
-//     $jenis_pelanggaran[] = $plgr[$i]["id_pelanggaran"];
-// }
-// $jns_plgr = implode(",", $jenis_pelanggaran);
-// var_dump($jns_plgr);
-
-// echo array_count_values($jns_plgr);
-
-// $jns = query("SELECT `jenis_pelanggaran` FROM `ket_pelanggaran` WHERE id_pelanggaran in (1,1,7,14,4);");
-// var_dump($jns);
-
-// // for($i=0; $i<count($jns); $i++) {
-// //     foreach)
-// // }
-// exit;
+$pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa");
+if(empty($pelanggaran_siswa)){$kosong = true;}
 
 ?>
 
@@ -106,20 +91,74 @@ include('./functions.php');
             </div>
 
             <div>
-                <form action="" method="post">
-                    <label for="tanggal" class="form-label">Tanggal :</label>
-                    <input type="date" id="tanggal" name="tanggal" autofocus autocomplete="off" value="<?= date('Y-m-d'); ?>">
-                    
+                <form action="cari_plgr.php" method="post">
+                    <div class="d-flex align-items-center">
+                        <label class="me-1" for="tanggal" class="form-label">Tanggal :</label>
+                        <input class="me-1" type="date" id="tanggal" name="tanggal" autofocus autocomplete="off" class="form-control">
+                        <button class="btn btn-sm btn-success" type="submit">Cari</button>
+                    </div>
                 </form>
             </div>
 
             <div id="laporan">
-                <?php if(!$plgr) : ?>
-                    <!-- <h3 class="text-center text-muted my-5">Data tidak ditemukan</h3> -->
-                <?php else : ?> 
-                    <!-- <?php $id_pelanggaran = explode(",", $plgr[0]["id_pelanggaran"]);  var_dump($id_pelanggaran);?> -->
-                <?php endif; ?>
-
+                <?php
+                    if(isset($_POST["tanggal"])) {$tanggal = $_POST["tanggal"];} else {$tanggal = date("Y-m-d");}
+                    $plgr_siswa = query("SELECT * FROM pelanggaran_siswa WHERE waktu_pelanggaran = '$tanggal'");
+                ?>
+            <?php if(isset($kosong)) : ?>
+                <h4 class="text-center text-muted">Tidak Ada Data!</h4>
+            <?php else : ?>
+                <div class="table-responsive-sm">
+                    <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
+                        <thead class="table-light">
+                            <th>No.</th>
+                            <th>Tanggal</th>
+                            <th>Nama Pelanggar</th>
+                            <th>Pelanggaran</th>
+                            <th>Poin Berkurang</th>
+                            <th>Petugas</th>
+                            <!-- <th><i class="bi bi-caret-down-fill"></i></th> -->
+                        </thead>
+                        <tbody>
+                            <?php $nomor = 1; ?>
+                            <?php foreach($plgr_siswa as $plgr) :?>
+                                <tr>
+                                    <td><?= $nomor++; ?></td>
+                                    <td><?= date("d-m-Y", strtotime($plgr["waktu_pelanggaran"])); ?></td>
+                                    <td>
+                                        <?php $nama = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE id_siswa = ". $plgr["id_pelanggar"])->fetch_assoc(); ?>
+                                        <?= $nama["nama_siswa"]; ?>
+                                    </td>
+                                    <td>
+                                        <?php $id_pelanggaran = $plgr["id_pelanggaran"]; ?>
+                                        <?php $pelanggaran = query("SELECT det_pelanggaran FROM ket_pelanggaran WHERE id_pelanggaran in ($id_pelanggaran)"); ?>
+                                        <ol>
+                                            <?php foreach($pelanggaran as $data): ?>
+                                            <li>
+                                                <?= $data["det_pelanggaran"]; ?>
+                                            </li>    
+                                            <?php endforeach; ?>
+                                        </ol>
+                                    </td>
+                                    <td>
+                                        <?= $plgr["poin_berkurang"]; ?>
+                                    </td>
+                                    <td>
+                                        <?php $id_pelapor = $plgr["id_pelapor"]; ?>
+                                        <?php if(strlen($id_pelapor) === 5 ) :?>
+                                            <?php $pelapor = mysqli_query($conn, "SELECT nama_siswa FROM siswa WHERE nis = $id_pelapor")->fetch_assoc(); ?>
+                                            <?= $pelapor["nama_siswa"]; ?>
+                                        <?php else : ?>
+                                            <?php $pelapor = mysqli_query($conn, "SELECT nama_guru FROM guru_pembina WHERE nip = $id_pelapor")->fetch_assoc(); ?>
+                                            <?= $pelapor["nama_guru"]; ?>
+                                        <?php endif; ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            <?php endif; ?>
 
                                                     
             </div>

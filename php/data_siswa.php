@@ -102,7 +102,7 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
         </div>
     </nav>
 
-    <section>
+    <section >
         <div class="container-fluid  mb-4 bg-warning p-1">
             <h1 class="text-center fs-2">Data Siswa</h1>
         </div>
@@ -166,7 +166,7 @@ $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar =
         </div>
     </section>
 
-    <section class="mt-4">
+    <section class="mt-4 data-plgr">
         <div class="container-fluid  mb-4 bg-warning p-1">
             <h1 class="text-center fs-2">Pelanggaran</h1>
         </div>

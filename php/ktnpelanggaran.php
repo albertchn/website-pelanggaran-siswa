@@ -116,7 +116,7 @@ if(isset($_POST["tambah"])) {
             <div>
                 <button class="btn btn-primary fw-bold mb-3" data-bs-toggle="modal" data-bs-target="#tambah_ket" <?= $osis; ?><?= $siswa; ?>>Tambah Ketentuan Baru</button>
             </div>
-            <div class="table-responsive-sm">
+            <div class="table-responsive-sm mt-3">
                 <table class="table table-sm table-bordered text-center table-align-center">
                     <thead class="table-light">
                         <th>No.</th>
@@ -125,10 +125,22 @@ if(isset($_POST["tambah"])) {
                         <th>Poin</th>
                         <th <?= $osis; ?><?= $siswa; ?>><i class="bi bi-caret-down-fill"></i></th>
                     </thead>
-                    <?php $no=1; ?>
-                    <?php foreach ( $ktnpelanggaran as $plgr ) : ?>
+                    <?php
+                        $batas = 20;
+                        $halaman = isset($_GET["halaman"])?(int)$_GET["halaman"] : 1;
+                        $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
+                        $previous = $halaman - 1;
+                        $next = $halaman + 1;
+
+                        $jumlah_data = count($ktnpelanggaran);
+                        $total_halaman = ceil($jumlah_data/$batas);
+
+                        $data_kntplgr = query("SELECT * FROM ket_pelanggaran LIMIT $halaman_awal, $batas");
+                        $nomor = $halaman_awal+1;
+                    ?>
+                    <?php foreach ( $data_kntplgr as $plgr ) : ?>
                     <tbody>
-                        <th><?= $no++; ?></th>
+                        <th><?= $nomor++; ?></th>
                         <td><?= ucwords($plgr["jenis_pelanggaran"]); ?></td>
                         <td class="text-start ps-2"><?= ucfirst($plgr["det_pelanggaran"]); ?></td>
                         <td><?= $plgr["poin_pelanggaran"]; ?></td>
@@ -146,6 +158,21 @@ if(isset($_POST["tambah"])) {
                     </tbody>    
                     <?php endforeach; ?>                                                            
                 </table>
+                <nav class="mt-4">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item">
+                            <a  class="page-link text-dark" <?php if($halaman > 1){echo "href='?halaman=$previous'";} ?>><span aria-hidden="true">&laquo;</span></a>
+                        </li>
+                        <?php for($i=1;$i<=$total_halaman;$i++) : ?>
+                            <li class="page-item">
+                                <a href="?halaman=<?= $i; ?>" class="page-link text-dark"><?= $i; ?></a>
+                            </li>
+                        <?php endfor; ?>
+                        <li class="page-item">
+                            <a class="page-link text-dark" <?php if($halaman < $total_halaman){echo "href='?halaman=$next'";} ?>><span aria-hidden="true">&raquo;</span></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
 
             <!-- tambah Modal -->
