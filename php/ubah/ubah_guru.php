@@ -1,20 +1,20 @@
 <?php
 session_start();
 
-if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ../login.php');
+if (!isset($_SESSION["login"])) {
+    header('Location: ../login.php');
     exit;
 }
 
-if(isset($_SESSION["guru"])) {
+if (isset($_SESSION["guru"])) {
     header("Location: ../../index.php");
 }
 
-if(isset($_SESSION["osis"])) {
+if (isset($_SESSION["osis"])) {
     header("Location: '../../index.php");
 }
 
-if(isset($_SESSION["siswa"])) {
+if (isset($_SESSION["siswa"])) {
     header("Location: ../data_siswa.php?id=" . $_SESSION["id_siswa"]);
 }
 
@@ -22,14 +22,14 @@ require '../functions.php';
 
 $id = $_GET["id"];
 
-if(!$id) {
+if (!$id) {
     return header("Location: ../guru.php");
 }
 
 $guru = query("SELECT * FROM guru_pembina WHERE id_guru = $id")[0];
 
-if(isset($_POST["ubah"])) {
-    if ( ubah_guru($_POST) > 0 ) {
+if (isset($_POST["ubah"])) {
+    if (ubah_guru($_POST) > 0) {
         echo "
             <script>
                 alert('Data berhasil diubah!')
@@ -37,8 +37,8 @@ if(isset($_POST["ubah"])) {
                 document.location.href = '../guru.php';
                 </script>
                 ";
-            } else {
-                echo "
+    } else {
+        echo "
                 <script>
                 alert('Data gagal diubah!')
                 // redirect versi javascript
@@ -51,6 +51,7 @@ if(isset($_POST["ubah"])) {
 ?>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,18 +60,19 @@ if(isset($_POST["ubah"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../css/umum.css">
+    <link rel="icon" href="../../img/logosmk12.png">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom">
         <div class="container-lg">
             <a href="../../index.php" class="navbar-brand align-items-center ">
                 <img src="../../img/logosmk12.png" style="width:50px;height:50px">
                 <h5 class=" ms-1 d-inline">OSIS SMKN 12 JAKARTA</h5>
-            </a>    
+            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
-            aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
-            <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
@@ -85,7 +87,7 @@ if(isset($_POST["ubah"])) {
                         <a href="../guru.php" class="nav-link active">Guru</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="../ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
+                        <a href="../ktnpelanggaran.php" class="nav-link">Ketentuan</a>
                     </li>
                     <li class="nav-item dropdown mt-1">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -93,7 +95,7 @@ if(isset($_POST["ubah"])) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <?php if ( isset($_SESSION["login"]) ) : ?>
+                                <?php if (isset($_SESSION["login"])) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
@@ -119,7 +121,7 @@ if(isset($_POST["ubah"])) {
                         </div>
                         <div class="mt-2">
                             <label for="nama" class="form-label">Nama Lengkap</label>
-                             <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off" value="<?= $guru["nama_guru"]; ?>">
+                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off" value="<?= $guru["nama_guru"]; ?>">
                         </div>
                         <div class="mt-2">
                             <label for="email" class="form-label">Email</label>
@@ -127,7 +129,7 @@ if(isset($_POST["ubah"])) {
                         </div>
                         <div class="mt-4">
                             <a href="../guru.php" class="btn btn-secondary">Batal</a>
-                            <button type="submit" class="btn btn-primary ms-2" name="ubah" >Ubah</button>
+                            <button type="submit" class="btn btn-primary ms-2" name="ubah">Ubah</button>
                         </div>
 
                     </div>
@@ -165,9 +167,10 @@ if(isset($_POST["ubah"])) {
                 </div>
             </div>
             <hr>
-            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, OSIS SMK NEGERI 12 JAKARTA</p>
+            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, RPL A0204</p>
         </div>
-    </footer>                                    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>    
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+
 </html>

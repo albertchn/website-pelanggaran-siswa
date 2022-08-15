@@ -42,9 +42,9 @@ $nomor = $halaman_awal+1;
             <div class="table-responsive-sm">
                 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
                     <thead class="table-light">
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>NIP / NUPTK</th>
+                        <th class="align-middle">No.</th>
+                        <th class="align-middle">Nama</th>
+                        <th class="align-middle">NIP / NUPTK</th>
                     </thead>
                     <?php foreach( $guru_sekolah as $guru) : ?>
                     <tbody>

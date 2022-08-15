@@ -1,34 +1,33 @@
 <?php
 session_start();
 
-if ( !isset($_SESSION["login"]) ) {
-    header ('Location: ./login.php');
+if (!isset($_SESSION["login"])) {
+    header('Location: ./login.php');
     exit;
 }
 
-if(isset($_SESSION["guru"])) {
+if (isset($_SESSION["guru"])) {
     header("Location: ./../index.php");
 }
 
-if(isset($_SESSION["osis"])) {
+if (isset($_SESSION["osis"])) {
     header("Location: ./../index.php");
 }
 
-if(isset($_SESSION["siswa"])) {
+if (isset($_SESSION["siswa"])) {
     header("Location: ./data_siswa.php?id=" . $_SESSION["id_siswa"]);
 }
 
 require 'functions.php';
 $guru_sekolah = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina");
 
-if(isset($_POST["tambah"])) {
-    if(tambah_guru($_POST) > 0) {
+if (isset($_POST["tambah"])) {
+    if (tambah_guru($_POST) > 0) {
         echo "<script>
               alert('Data berhasil ditambahkan!');
               document.location.href = './guru.php';
               </script>";
-    }
-    else {
+    } else {
         echo "<script>
              alert('Data gagal ditambahkan!');
              document.location.href = './guru.php';
@@ -38,6 +37,7 @@ if(isset($_POST["tambah"])) {
 ?>
 
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -48,18 +48,19 @@ if(isset($_POST["tambah"])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/umum.css">
+    <link rel="icon" href="../img/logosmk12.png">
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light border-bottom">
         <div class="container-lg">
             <a href="./../index.php" class="navbar-brand align-items-center ">
                 <img src="./../img/logosmk12.png" style="width:50px;height:50px">
                 <h5 class=" ms-1 d-inline">OSIS SMKN 12 JAKARTA</h5>
-            </a>    
+            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav"
-            aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
-            <span class="navbar-toggler-icon"></span>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#main-nav" aria-controls="main-nav" aria-expanded="false" aria-label="Toggle Navigation">
+                <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
@@ -74,7 +75,7 @@ if(isset($_POST["tambah"])) {
                         <a href="./guru.php" class="nav-link active">Guru</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan Pelanggaran</a>
+                        <a href="./ktnpelanggaran.php" class="nav-link">Ketentuan</a>
                     </li>
                     <li class="nav-item dropdown mt-1" id="navdd">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -82,7 +83,7 @@ if(isset($_POST["tambah"])) {
                         </a>
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
-                                <?php if ( isset($_SESSION["login"]) ) : ?>
+                                <?php if (isset($_SESSION["login"])) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
@@ -92,7 +93,7 @@ if(isset($_POST["tambah"])) {
             </div>
         </div>
     </nav>
-    
+
     <section class="mt-4">
         <div class="container-lg">
             <div class="row mb-4">
@@ -113,33 +114,33 @@ if(isset($_POST["tambah"])) {
             <div class="modal fade" id="tambah_guru" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="tambahGuru" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="tambahGuru">Tambah Guru</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form action="" method="post">
-                            <div>
-                                <label for="nip" class="form-label">NIP / NUPTK</label>
-                                <input type="number" class="form-control" id="nip" placeholder="18 digit / 16 digit" name="nip" required autocomplete="off" autofocus>
-                            </div>
-                            <div class="mt-2">
-                                <label for="nama" class="form-label">Nama Lengkap</label>
-                                <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
-                            </div>
-                            <div class="mt-2">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
-                            </div>
-                            <div class="modal-footer mt-1">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                                <button type="submit" class="btn btn-primary" name="tambah" >Tambah</button>
-                            </div>
-                        </form>
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="tambahGuru">Tambah Guru</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="" method="post">
+                                <div>
+                                    <label for="nip" class="form-label">NIP / NUPTK</label>
+                                    <input type="number" class="form-control" id="nip" placeholder="18 digit / 16 digit" name="nip" required autocomplete="off" autofocus>
+                                </div>
+                                <div class="mt-2">
+                                    <label for="nama" class="form-label">Nama Lengkap</label>
+                                    <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
+                                </div>
+                                <div class="mt-2">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
+                                </div>
+                                <div class="modal-footer mt-1">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                                    <button type="submit" class="btn btn-primary" name="tambah">Tambah</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
     </section>
 
 
@@ -148,62 +149,66 @@ if(isset($_POST["tambah"])) {
             <div class="table-responsive-sm">
                 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
                     <thead class="table-light">
-                        <th>No.</th>
-                        <th>Nama</th>
-                        <th>NIP / NUPTK</th>
-                        <th></th>
+                        <th class="align-middle">No.</th>
+                        <th class="align-middle">Nama</th>
+                        <th class="align-middle">NIP / NUPTK</th>
+                        <th class="align-middle"></th>
                     </thead>
                     <?php
                     $batas = 10;
-                    $halaman = isset($_GET["halaman"])?(int)$_GET["halaman"] : 1;
-                    $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
+                    $halaman = isset($_GET["halaman"]) ? (int)$_GET["halaman"] : 1;
+                    $halaman_awal = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
                     $previous = $halaman - 1;
                     $next = $halaman + 1;
 
                     $jumlah_data = count($guru_sekolah);
-                    $total_halaman = ceil($jumlah_data/$batas);
+                    $total_halaman = ceil($jumlah_data / $batas);
 
                     $data_guru = query("SELECT id_guru, nip, nama_guru, email FROM guru_pembina LIMIT $halaman_awal, $batas");
-                    $nomor = $halaman_awal+1;
+                    $nomor = $halaman_awal + 1;
                     ?>
-                    <?php foreach( $data_guru as $guru) : ?>
-                    <tbody>
-                        <th><?= $nomor++; ?></th>
-                        <td class="text-start"><a href="data_guru.php?id=<?= $guru["id_guru"]; ?>"><?= $guru["nama_guru"]; ?></a></td>
-                        <td class=""><?= $guru["nip"]; ?></td>
-                        <td style="width:3rem;">
-                            <div class="dropdown">
-                                <button class="btn" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="bi bi-three-dots-vertical"></i>
-                                </button>
-                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionMenu">
-                                    <li><a class="dropdown-item" href="./hapus/hapus_guru.php?id=<?= $guru["id_guru"]; ?>" onclick="return confirm('Hapus data?')">Hapus</a></li>
-                                    <li><a class="dropdown-item" href="./ubah/ubah_guru.php?id=<?= $guru["id_guru"]; ?>">Ubah</a></li>
-                                </ul>
-                            </div>
-                        </td>
-                    </tbody>
+                    <?php foreach ($data_guru as $guru) : ?>
+                        <tbody>
+                            <th><?= $nomor++; ?></th>
+                            <td class="text-start"><a href="data_guru.php?id=<?= $guru["id_guru"]; ?>"><?= $guru["nama_guru"]; ?></a></td>
+                            <td class=""><?= $guru["nip"]; ?></td>
+                            <td style="width:3rem;">
+                                <div class="dropdown">
+                                    <button class="btn" type="button" id="actionMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="bi bi-three-dots-vertical"></i>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="actionMenu">
+                                        <li><a class="dropdown-item" href="./hapus/hapus_guru.php?id=<?= $guru["id_guru"]; ?>" onclick="return confirm('Hapus data?')">Hapus</a></li>
+                                        <li><a class="dropdown-item" href="./ubah/ubah_guru.php?id=<?= $guru["id_guru"]; ?>">Ubah</a></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tbody>
                     <?php endforeach; ?>
                 </table>
                 <nav class="mt-4">
                     <ul class="pagination justify-content-center">
                         <li class="page-item">
-                            <a  class="page-link text-dark" <?php if($halaman > 1){echo "href='?halaman=$previous'";} ?>><span aria-hidden="true">&laquo;</span></a>
+                            <a class="page-link text-dark" <?php if ($halaman > 1) {
+                                                                echo "href='?halaman=$previous'";
+                                                            } ?>><span aria-hidden="true">&laquo;</span></a>
                         </li>
-                        <?php for($i=1;$i<=$total_halaman;$i++) : ?>
+                        <?php for ($i = 1; $i <= $total_halaman; $i++) : ?>
                             <li class="page-item">
                                 <a href="?halaman=<?= $i; ?>" class="page-link text-dark"><?= $i; ?></a>
                             </li>
                         <?php endfor; ?>
                         <li class="page-item">
-                            <a class="page-link text-dark" <?php if($halaman < $total_halaman){echo "href='?halaman=$next'";} ?>><span aria-hidden="true">&raquo;</span></a>
+                            <a class="page-link text-dark" <?php if ($halaman < $total_halaman) {
+                                                                echo "href='?halaman=$next'";
+                                                            } ?>><span aria-hidden="true">&raquo;</span></a>
                         </li>
                     </ul>
                 </nav>
             </div>
         </div>
     </section>
-    
+
     <footer class="pt-4 border-top bg-light" style="margin:100px 0 0 0;">
         <div class="container-xl">
             <div class="row justify-content-center">
@@ -233,10 +238,11 @@ if(isset($_POST["tambah"])) {
                 </div>
             </div>
             <hr>
-            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, OSIS SMK NEGERI 12 JAKARTA</p>
+            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, RPL A0204</p>
         </div>
     </footer>
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 </body>
+
 </html>

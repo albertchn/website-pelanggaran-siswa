@@ -7,7 +7,7 @@ if (!$id) {
     return header("Location: ../ktnpelanggaran.php");
 }
 
-if (hapus_plgr($id) > 0) {
+if (hapus_ketprestasi($id) > 0) {
     echo "
         <script>
             alert('Data berhasil dihapus!')

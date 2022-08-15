@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.1.1
+-- version 5.2.0
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 19 Mar 2022 pada 05.16
--- Versi server: 10.4.21-MariaDB
--- Versi PHP: 8.0.11
+-- Waktu pembuatan: 15 Agu 2022 pada 06.17
+-- Versi server: 10.4.24-MariaDB
+-- Versi PHP: 8.1.6
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -36,17 +36,6 @@ CREATE TABLE `guru_pembina` (
   `password` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Dumping data untuk tabel `guru_pembina`
---
-
-INSERT INTO `guru_pembina` (`id_guru`, `nip`, `nama_guru`, `email`, `role`, `password`, `created_at`) VALUES
-(1, '123456789012345678', 'Ahmad Subarjo', 'ahmad@gmail.com', 'guru', '123456789012345678', '2022-02-14 17:11:45'),
-(2, '234567890123456789', 'Rani Sunarti', 'rani@gmail.com', 'guru', '234567890123456789', '2022-02-14 17:11:45'),
-(3, '345678901234567890', 'Ahmad Basir', 'ahmad@gmail.com', 'guru', '345678901234567890', '2022-02-15 13:52:43'),
-(4, '456789012345678901', 'Nicholas Thomas', 'nicholas@gmail.com', 'guru', '456789012345678901', '2022-02-15 13:57:48'),
-(5, '5678901234567890', 'Evan Kurniawan', 'evan@gmail.com', 'guru', '22222', '2022-02-24 11:15:36');
 
 -- --------------------------------------------------------
 
@@ -130,8 +119,8 @@ CREATE TABLE `ket_pelanggaran` (
 --
 
 INSERT INTO `ket_pelanggaran` (`id_pelanggaran`, `jenis_pelanggaran`, `det_pelanggaran`, `poin_pelanggaran`, `created_at`) VALUES
-(1, 'keterlambatan', 'Siswa terlambat 10-25 menit', 1, '2022-02-23 00:46:20'),
-(2, 'keterlambatan', 'Siswa terlambat di atas 25 menit', 2, '2022-02-23 00:46:46'),
+(1, 'Keterlambatan', 'Siswa terlambat 1 - 10 menit', 1, '2022-08-03 03:18:59'),
+(2, 'Keterlambatan', 'Siswa terlambat di atas 10 menit', 2, '2022-08-03 03:19:10'),
 (3, 'pakaian', 'Siswa mengenakan pakaian diluar ketentuan seragam sekolah', 1, '2022-02-23 00:47:39'),
 (4, 'pakaian', 'Saat olahraga siswa mengenakan baju olahraga bukan seragam olahraga SMKN 12', 1, '2022-02-23 00:49:05'),
 (5, 'pakaian', 'Siswa mengenakan sepatu bukan warna hitam polos sebagaimana telah ditentukan sekolah', 1, '2022-02-23 00:50:49'),
@@ -159,7 +148,7 @@ INSERT INTO `ket_pelanggaran` (`id_pelanggaran`, `jenis_pelanggaran`, `det_pelan
 (27, 'mencuri', 'Mengambil uang dan barang milik teman di sekolah', 10, '2022-02-23 01:10:43'),
 (28, 'merokok', 'Membawa rokok di lingkungan sekolah', 20, '2022-02-23 01:11:28'),
 (29, 'merokok', 'Merokok di lingkungan sekolah', 30, '2022-02-23 01:11:48'),
-(30, 'pornografi', 'Membawa gambar, film, video uang bernuansa pornografi dan pornoaksi', 25, '2022-02-23 01:12:47'),
+(30, 'Pornografi', 'Membawa gambar, film, video yang bernuansa pornografi dan pornoaksi', 25, '2022-08-09 03:50:21'),
 (31, 'pornografi', 'Membuka, menonton situs porno di sekolah', 30, '2022-02-23 01:13:08'),
 (32, 'pornografi', 'Melakukan tindakan yang mengarah pornografi dan pornoaksi', 30, '2022-02-23 01:13:36'),
 (33, 'pornografi', 'Berbuat asusila (pornografi) dan direkam serta disebarluaskan', 100, '2022-02-23 01:14:08'),
@@ -176,6 +165,50 @@ INSERT INTO `ket_pelanggaran` (`id_pelanggaran`, `jenis_pelanggaran`, `det_pelan
 -- --------------------------------------------------------
 
 --
+-- Struktur dari tabel `ket_prestasi`
+--
+
+CREATE TABLE `ket_prestasi` (
+  `id_prestasi` int(11) NOT NULL,
+  `det_prestasi` varchar(255) NOT NULL,
+  `poin_prestasi` int(3) NOT NULL,
+  `waktu_dibuat` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `ket_prestasi`
+--
+
+INSERT INTO `ket_prestasi` (`id_prestasi`, `det_prestasi`, `poin_prestasi`, `waktu_dibuat`) VALUES
+(2, 'Juara Kelas 1-2-3', 10, '2022-08-08 04:28:42'),
+(3, 'Juara Tingkat Wilayah JAKUT 1-2-3', 25, '2022-08-08 04:19:07'),
+(4, 'Juara Tingkat Wilayah Provinsi DKI Jakarta 1-2-3', 50, '2022-08-08 04:19:33'),
+(5, 'Juara Tingkat Nasional 1-2-3', 80, '2022-08-08 04:19:47'),
+(6, 'Juara Tingkat Internasional', 100, '2022-08-08 04:20:00');
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `komponen`
+--
+
+CREATE TABLE `komponen` (
+  `id_komponen` int(11) NOT NULL,
+  `nama_komponen` varchar(100) NOT NULL,
+  `isi_komponen` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `komponen`
+--
+
+INSERT INTO `komponen` (`id_komponen`, `nama_komponen`, `isi_komponen`) VALUES
+(1, 'login_carousel', 'jett.jpg,logo.jpg,sage.png,valorant-omen-4k-v9-1920x1080.jpg,viper-valorant-game-4k-cp-1920x1080.jpg'),
+(2, 'foto_index', 'LOGO SMKN 12.png');
+
+-- --------------------------------------------------------
+
+--
 -- Struktur dari tabel `pelanggaran_siswa`
 --
 
@@ -186,6 +219,36 @@ CREATE TABLE `pelanggaran_siswa` (
   `id_pelanggaran` varchar(50) NOT NULL,
   `poin_berkurang` int(11) NOT NULL,
   `waktu_pelanggaran` date NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `prestasi`
+--
+
+CREATE TABLE `prestasi` (
+  `id_prestasi` int(11) NOT NULL,
+  `id_siswa` int(11) NOT NULL,
+  `ket` varchar(255) NOT NULL,
+  `tgl_prestasi` date NOT NULL,
+  `bukti` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktur dari tabel `prestasi_siswa`
+--
+
+CREATE TABLE `prestasi_siswa` (
+  `id_prestasi_siswa` int(11) NOT NULL,
+  `id_siswa` int(11) NOT NULL,
+  `id_prestasi` int(11) NOT NULL,
+  `poin_bertambah` int(3) NOT NULL,
+  `tgl_prestasi` date NOT NULL,
+  `bukti` varchar(255) NOT NULL,
+  `waktu_pelaporan` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -213,17 +276,7 @@ CREATE TABLE `siswa` (
 --
 
 INSERT INTO `siswa` (`id_siswa`, `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`, `created_at`) VALUES
-(1, 1, 1, 10901, 'Putra Slamet', 'putra@gmail.com', 100, 'osis', '', '121212', '2022-03-15 11:59:02'),
-(3, 1, 4, 10902, 'Putin Makarim', 'putin@gmail.com', 100, 'siswa', '', '11111', '2022-03-19 04:15:50'),
-(4, 1, 7, 10903, 'Ucup', 'ucup@gmail.com', 100, 'siswa', '', '10903', '2022-03-19 04:15:50'),
-(5, 1, 10, 10904, 'Bambang', 'bambang@gmail.com', 100, 'siswa', '', '10904', '2022-03-15 11:59:02'),
-(6, 2, 13, 10905, 'Tatang', 'tatang@gmail.com', 100, 'siswa', '', '10905', '2022-03-15 11:59:02'),
-(7, 2, 16, 10906, 'Dadang', 'dadang@gmail.com', 100, 'siswa', '', '10906', '2022-03-15 11:59:02'),
-(8, 2, 19, 10907, 'Adudu', 'adudu@gmail.com', 100, 'siswa', '', '10907', '2022-03-15 11:59:02'),
-(9, 2, 22, 10908, 'Agus', 'agus@gmail.com', 100, 'siswa', '', '10908', '2022-02-25 10:22:19'),
-(10, 3, 25, 10909, 'Lorem', 'lorem@gmail.com', 100, 'siswa', '', '10909', '2022-03-15 11:59:02'),
-(11, 3, 31, 13212, 'Lorem1', 'lorem1@sda.asdf', 100, 'siswa', '', '13212', '2022-02-25 10:25:34'),
-(12, 2, 14, 10922, 'Acuih', 'acuih@gmail.com', 100, 'siswa', '', '10922', '2022-03-01 10:38:04');
+(1, 3, 34, 10965, 'Albert Christian Darwin', 'albertdarwin@gmail.com', 100, 'admin', NULL, '10965', '2022-08-15 04:15:57');
 
 -- --------------------------------------------------------
 
@@ -239,6 +292,13 @@ CREATE TABLE `user_log` (
   `role` varchar(5) NOT NULL,
   `log_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data untuk tabel `user_log`
+--
+
+INSERT INTO `user_log` (`id_log`, `ip_user`, `username`, `nama_user`, `role`, `log_time`) VALUES
+(1, '::1', '10965', 'Albert Christian Darwin', 'admin', '2022-08-15 04:16:21');
 
 --
 -- Indexes for dumped tables
@@ -270,6 +330,18 @@ ALTER TABLE `ket_pelanggaran`
   ADD PRIMARY KEY (`id_pelanggaran`);
 
 --
+-- Indeks untuk tabel `ket_prestasi`
+--
+ALTER TABLE `ket_prestasi`
+  ADD PRIMARY KEY (`id_prestasi`);
+
+--
+-- Indeks untuk tabel `komponen`
+--
+ALTER TABLE `komponen`
+  ADD PRIMARY KEY (`id_komponen`);
+
+--
 -- Indeks untuk tabel `pelanggaran_siswa`
 --
 ALTER TABLE `pelanggaran_siswa`
@@ -277,6 +349,21 @@ ALTER TABLE `pelanggaran_siswa`
   ADD KEY `id_pelanggar` (`id_pelanggar`),
   ADD KEY `id_pelapor` (`id_pelapor`),
   ADD KEY `id_pelanggaran1` (`id_pelanggaran`);
+
+--
+-- Indeks untuk tabel `prestasi`
+--
+ALTER TABLE `prestasi`
+  ADD PRIMARY KEY (`id_prestasi`),
+  ADD KEY `id_siswa` (`id_siswa`);
+
+--
+-- Indeks untuk tabel `prestasi_siswa`
+--
+ALTER TABLE `prestasi_siswa`
+  ADD PRIMARY KEY (`id_prestasi_siswa`),
+  ADD KEY `id_siswa` (`id_siswa`),
+  ADD KEY `id_prestasi` (`id_prestasi`);
 
 --
 -- Indeks untuk tabel `siswa`
@@ -300,7 +387,7 @@ ALTER TABLE `user_log`
 -- AUTO_INCREMENT untuk tabel `guru_pembina`
 --
 ALTER TABLE `guru_pembina`
-  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id_guru` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `jurusan`
@@ -321,22 +408,46 @@ ALTER TABLE `ket_pelanggaran`
   MODIFY `id_pelanggaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
+-- AUTO_INCREMENT untuk tabel `ket_prestasi`
+--
+ALTER TABLE `ket_prestasi`
+  MODIFY `id_prestasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
+-- AUTO_INCREMENT untuk tabel `komponen`
+--
+ALTER TABLE `komponen`
+  MODIFY `id_komponen` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT untuk tabel `pelanggaran_siswa`
 --
 ALTER TABLE `pelanggaran_siswa`
-  MODIFY `id_pelanggaran_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pelanggaran_siswa` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT untuk tabel `prestasi`
+--
+ALTER TABLE `prestasi`
+  MODIFY `id_prestasi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT untuk tabel `prestasi_siswa`
+--
+ALTER TABLE `prestasi_siswa`
+  MODIFY `id_prestasi_siswa` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT untuk tabel `siswa`
 --
 ALTER TABLE `siswa`
-  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_siswa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT untuk tabel `user_log`
 --
 ALTER TABLE `user_log`
-  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_log` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Ketidakleluasaan untuk tabel pelimpahan (Dumped Tables)
@@ -347,6 +458,19 @@ ALTER TABLE `user_log`
 --
 ALTER TABLE `jurusan`
   ADD CONSTRAINT `jurusan_ibfk_1` FOREIGN KEY (`id_kelas`) REFERENCES `kelas` (`id_kelas`);
+
+--
+-- Ketidakleluasaan untuk tabel `prestasi`
+--
+ALTER TABLE `prestasi`
+  ADD CONSTRAINT `prestasi_ibfk_1` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`);
+
+--
+-- Ketidakleluasaan untuk tabel `prestasi_siswa`
+--
+ALTER TABLE `prestasi_siswa`
+  ADD CONSTRAINT `prestasi_siswa_ibfk_1` FOREIGN KEY (`id_siswa`) REFERENCES `siswa` (`id_siswa`),
+  ADD CONSTRAINT `prestasi_siswa_ibfk_2` FOREIGN KEY (`id_prestasi`) REFERENCES `ket_prestasi` (`id_prestasi`);
 
 --
 -- Ketidakleluasaan untuk tabel `siswa`

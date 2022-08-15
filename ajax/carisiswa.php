@@ -11,7 +11,7 @@ require '../php/functions.php';
 
 $jmlh_siswa = query("SELECT * FROM siswa");
 
-$batas = 10;
+$batas = 20;
 $halaman = isset($_GET["halaman"])?(int)$_GET["halaman"] : 1;
 $halaman_awal = ($halaman>1) ? ($halaman * $batas) - $batas : 0;
 $previous = $halaman - 1;
@@ -25,7 +25,7 @@ if(isset($_GET["keyword"])){
               siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' ORDER BY jmlh_poin, nama_kelas LIMIT 72
+              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' ORDER BY jmlh_poin, nama_kelas LIMIT $halaman_awal, $batas
               ";
         
     } else {
@@ -67,15 +67,15 @@ $nomor = $halaman_awal+1;
 </head>
 <body>
     <section style="margin: 0 -12px 0 -12px">
-        <div class="container-lg" id="container_siswa">
+        <div class="container-lg " id="container_siswa">
             <div class="table-responsive-sm">
                 <table border="1" cellpadding="10" cellspacing="0" class="table table-bordered table-hover text-center">
                     <thead class="table-light">
-                        <th>No.</th>
-                        <th <?= $osis; ?>>NIS</th>
-                        <th>Nama</th>
-                        <th>Poin</th>
-                        <th>Kelas</th>
+                        <th class="align-middle">No.</th>
+                        <th class="align-middle" <?= $osis; ?>>NIS</th>
+                        <th class="align-middle">Nama</th>
+                        <th class="align-middle">Poin</th>
+                        <th class="align-middle">Kelas</th>
                     </thead>
                     <?php foreach( $siswa_sekolah as $siswa) : ?>
                     <?php $jurusan = query("SELECT kode_jurusan FROM jurusan WHERE id_jurusan=". $siswa['id_jurusan'])[0] ;

@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION["login"])) {
-    header('Location: ./login.php');
+    header('Location: ../login.php');
     exit;
 }
 
@@ -13,7 +13,7 @@ if (isset($_SESSION["guru"])) {
 }
 
 if (isset($_SESSION["osis"])) {
-    header("Location: ./siswa.php");
+    header("Location: '../ktnpelanggaran.php");
 }
 
 if (isset($_SESSION["siswa"])) {
@@ -25,20 +25,18 @@ require '../functions.php';
 $id = $_GET["id"];
 
 if (!$id) {
-    return header("Location: ../siswa.php");
+    return header("Location: ../ktnpelanggaran.php");
 }
 
-$siswa = query("SELECT * FROM siswa WHERE id_siswa = $id")[0];
-$kelas_sekolah = query("SELECT * FROM kelas");
-
+$ktnprestasi = query("SELECT * FROM ket_prestasi WHERE id_prestasi = $id")[0];
 
 if (isset($_POST["ubah"])) {
-    if (ubah_siswa($_POST) > 0) {
+    if (ubah_ketprestasi($_POST) > 0) {
         echo "
             <script>
                 alert('Data berhasil diubah!')
                 // redirect versi javascript
-                document.location.href = '../data_siswa.php?id=" . $id . "';
+                document.location.href = '../ktnpelanggaran.php';
                 </script>
                 ";
     } else {
@@ -46,11 +44,12 @@ if (isset($_POST["ubah"])) {
                 <script>
                 alert('Data gagal diubah!')
                 // redirect versi javascript
-                document.location.href = '../data_siswa.php?id=" . $id . "';
-                </script>
-                ";
+                document.location.href = '../ktnpelanggaran.php';
+            </script>
+            ";
     }
 }
+
 ?>
 
 <html lang="en">
@@ -59,8 +58,7 @@ if (isset($_POST["ubah"])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubah Data Siswa</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>Ubah Ketentuan Prestasi</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../../css/umum.css">
@@ -85,13 +83,13 @@ if (isset($_POST["ubah"])) {
                         <a href="../../index.php" class="nav-link">Beranda</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="../siswa.php" class="nav-link active">Siswa</a>
+                        <a href="../siswa.php" class="nav-link">Siswa</a>
                     </li>
                     <li class="navbar-item">
                         <a href="../guru.php" class="nav-link" <?= $guru; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="../ktnpelanggaran.php" class="nav-link">Ketentuan</a>
+                        <a href="../ktnpelanggaran.php" class="nav-link active">Ketentuan</a>
                     </li>
                     <li class="nav-item dropdown mt-1">
                         <a class="nav-link" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -112,62 +110,26 @@ if (isset($_POST["ubah"])) {
 
     <section>
         <div class="container-fluid  mb-4 bg-warning p-1">
-            <h1 class="text-center fs-2">Ketentuan Pelanggaran</h1>
+            <h1 class="text-center fs-2">Ketentuan Prestasi</h1>
         </div>
         <div class="container-lg">
-            <form action="" method="post" enctype="multipart/form-data">
-                <input type="hidden" name="id" value="<?= $siswa["id_siswa"]; ?>">
-                <input type="hidden" name="fotoLama" value="<?= $siswa["foto"]; ?>">
+            <form action="" method="post">
+                <input type="hidden" name="id" value="<?= $ktnprestasi["id_prestasi"]; ?>">
                 <div class="row">
                     <div class="col-md-7">
-                        <div class="">
-                            <label for="kelas" class="form-label">Kelas <span style="font-size: 12px" class="">(wajib isi ulang)</span></label>
-                            <select name="kelas" id="kelas" class="form-select form-select-sm slt_width" required value="<?= $siswa["id_kelas"]; ?>">
-                                <option value="1">Pilih kelas</option>
-                                <option value="1">X</option>
-                                <option value="2">XI</option>
-                                <option value="3">XII</option>
-                            </select>
+                        <div class="mt-2">
+                            <label for="det_prestasi" class="form-label">Detail Prestasi</label>
+                            <input type="text" class="form-control" id="det_prestasi" name="det_prestasi" required placeholder="Juara Lomba..." autocomplete="off" value="<?= $ktnprestasi["det_prestasi"]; ?>">
                         </div>
                         <div class="mt-2">
-                            <label for="jurusan" class="form-label">Jurusan <span style="font-size: 12px" class="">(wajib isi ulang)</span></label>
-                            <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" required value="<?= $siswa["id_jurusan"]; ?>">
-                                <option value="1">Pilih jurusan</option>
-                            </select>
+                            <label for="poin" class="form-label">Poin Prestasi</label>
+                            <input type="number" class="form-control" id="poin" name="poin" required placeholder="1 / 2 / ..." autocomplete="off" value="<?= $ktnprestasi["poin_prestasi"]; ?>">
                         </div>
-                        <div class="mt-2">
-                            <label for="nis" class="form-label">NIS</label>
-                            <input type="number" class="form-control" id="nis" placeholder="5 digit" name="nis" required autocomplete="off" value="<?= $siswa["nis"]; ?>">
+                        <div class="mt-4">
+                            <a href="../ktnpelanggaran.php" class="btn btn-secondary">Batal</a>
+                            <button type="submit" class="btn btn-primary ms-2" name="ubah">Ubah</button>
                         </div>
-                        <div class="mt-2">
-                            <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off" value="<?= $siswa["nama_siswa"]; ?>">
-                        </div>
-                        <div class="mt-2">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off" value="<?= $siswa["email"]; ?>">
-                        </div>
-                        <div class="mt-2">
-                            <label for="foto" class="form-label">Foto</label>
-                            <div class="row align-items-center">
-                                <div class="col">
-                                    <input type="file" class="form-control" id="foto" name="foto">
-                                </div>
-                                <?php if (empty($siswa["foto"])) : ?>
-                                    <div class="col">
-                                        <img src="../../img/logosmk12.png" width="50px" height="50px" alt="none">
-                                    </div>
-                                <?php else : ?>
-                                    <div class="col">
-                                        <img src="../../foto_siswa/<?= $siswa["foto"]; ?>" width="50px" height="50px" alt="none">
-                                    </div>
-                                <?php endif; ?>
-                            </div>
-                        </div>
-                        <div class="mt-3">
-                            <a href="../data_siswa.php?id=<?= $id; ?>" class="btn btn-secondary">Batal</a>
-                            <button type="submit" class="btn btn-primary" name="ubah">Ubah</button>
-                        </div>
+
                     </div>
                 </div>
             </form>
@@ -206,29 +168,7 @@ if (isset($_POST["ubah"])) {
             <p style="text-align:center; font-size:15px">&copy; Copyright 2022, RPL A0204</p>
         </div>
     </footer>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-
-    <script>
-        $("#kelas").change(function() {
-            // value kelas
-            const id_kelas = $("#kelas").val();
-
-            // hapus attribute disable
-            // $("#jurusan").removeAttr("disabled")
-
-            // mengirim value dan menerima data
-            $.ajax({
-                type: "POST",
-                dataType: "html",
-                url: "../data_lapor.php",
-                data: "kelas=" + id_kelas,
-                success: function(data) {
-                    $("#jurusan").html(data);
-                }
-            });
-        });
-    </script>
 </body>
 
 </html>
