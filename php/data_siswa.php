@@ -124,7 +124,7 @@ if (isset($_POST["tambah_prestasi"])) {
             <h1 class="text-center fs-2">Data Siswa</h1>
         </div>
         <div class="container-lg">
-            <div class="row">
+            <div class="row align-items-center">
                 <div class="col-md-8">
 
                     <table border="0" class="table table-borderless fs-6">
@@ -164,9 +164,9 @@ if (isset($_POST["tambah_prestasi"])) {
                 </div>
                 <div class="col-md-4">
                     <?php if (!$siswa["foto"]) : ?>
-                        <img src="./../foto_siswa/Logo SMKN 12 JAKARTA.png" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
+                        <img src="./../img/LOGO SMKN 12.png" width="250" height="250" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
                     <?php else : ?>
-                        <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="150" height="150" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
+                        <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="250" height="250" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
                     <?php endif; ?>
                 </div>
             </div>

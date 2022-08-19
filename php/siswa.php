@@ -112,7 +112,7 @@ if (isset($_POST["tambah"])) {
                     <botton class="btn btn-primary fw-bold mb-2" data-bs-toggle="modal" data-bs-target="#tambah_siswa" <?= $osis; ?>>Tambah Siswa Baru</botton>
 
                     <form action="" method="post" class="form-cari mt-3">
-                        <input type="text" name="keyword" placeholder="Cari ...." autofocus autocomplete="off" class="keyword form-control mt-2">
+                        <input type="text" name="keyword" placeholder="Cari ...." autocomplete="off" class="keyword form-control mt-2">
                     </form>
                 </div>
                 <div class="col-6 col-md-6 text-end">
@@ -140,25 +140,32 @@ if (isset($_POST["tambah"])) {
                                         <?php endforeach; ?>
                                     </select>
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-1">
                                     <label for="jurusan" class="form-label">Jurusan</label>
                                     <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" disabled required>
                                         <option>Pilih jurusan</option>
                                     </select>
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-1">
                                     <label for="nis" class="form-label">NIS</label>
                                     <input type="number" class="form-control" id="nis" placeholder="5 digit" name="nis" required autocomplete="off" autofocus>
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-1">
                                     <label for="nama" class="form-label">Nama Lengkap</label>
                                     <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off">
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-1">
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-1">
+                                    <label for="role" class="form-label" class="form-label">Role</label>
+                                    <select name="role" id="role" class="form-select">
+                                        <option value="siswa">Siswa</option>
+                                        <option value="osis">OSIS</option>
+                                    </select>
+                                </div>
+                                <div class="mt-1">
                                     <label for="foto" class="form-label">Foto</label>
                                     <input type="file" class="form-control" id="foto" name="foto">
                                 </div>
@@ -185,7 +192,7 @@ if (isset($_POST["tambah"])) {
                         <th class="align-middle">Kelas</th>
                     </thead>
                     <?php
-                    $batas = 20;
+                    $batas = 50;
                     $halaman = isset($_GET["halaman"]) ? (int)$_GET["halaman"] : 1;
                     $halaman_awal = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
                     $previous = $halaman - 1;

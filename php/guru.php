@@ -132,6 +132,13 @@ if (isset($_POST["tambah"])) {
                                     <label for="email" class="form-label">Email</label>
                                     <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off">
                                 </div>
+                                <div class="mt-2">
+                                    <label for="role" class="form-label" class="form-label">Role</label>
+                                    <select name="role" id="role" class="form-select">
+                                        <option value="Guru">Guru</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
                                 <div class="modal-footer mt-1">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
                                     <button type="submit" class="btn btn-primary" name="tambah">Tambah</button>
