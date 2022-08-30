@@ -93,6 +93,12 @@ if (isset($_POST["submit"])) {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="./../css/umum.css">
     <link rel="icon" href="../img/logosmk12.png">
+    <style>
+        /* .short,
+        .slt-width {
+            width: 500px;
+        } */
+    </style>
 </head>
 
 <body>
@@ -158,14 +164,14 @@ if (isset($_POST["submit"])) {
 
                         <div class="mb-3">
                             <label for="jurusan" class="form-label">Jurusan</label>
-                            <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" disabled required>
+                            <select name="jurusan" id="jurusan" class="form-select form-select-sm" disabled required>
                                 <option value="">Pilih jurusan</option>
                             </select>
                         </div>
 
                         <div class="mb-3">
                             <label for="nama" class="form-label">Nama Siswa</label>
-                            <select name="nama" id="nama" class="form-select form-select-sm slt_width" required disabled>
+                            <select name="nama" id="nama" class="form-select form-select-sm" required disabled>
                                 <option value="0">Pilih nama siswa</option>
                             </select>
                         </div>
@@ -179,72 +185,72 @@ if (isset($_POST["submit"])) {
                                     <option value="0">Pilih pelanggaran</option>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_keterlambatan[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_keterlambatan as $keterlambatan) : ?>
-                                            <option value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_pakaian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_pakaian as $pakaian) : ?>
-                                            <option value="<?= $pakaian["id_pelanggaran"]; ?>"><?= $pakaian["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $pakaian["id_pelanggaran"]; ?>"><?= $pakaian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_upacara[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_upacara as $upacara) : ?>
-                                            <option value="<?= $upacara["id_pelanggaran"]; ?>"><?= $upacara["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $upacara["id_pelanggaran"]; ?>"><?= $upacara["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_media_elektronik[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_media_elektronik as $media_elektronik) : ?>
-                                            <option value="<?= $media_elektronik["id_pelanggaran"]; ?>"><?= $media_elektronik["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $media_elektronik["id_pelanggaran"]; ?>"><?= $media_elektronik["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_aksesoris[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_aksesoris as $aksesoris) : ?>
-                                            <option value="<?= $aksesoris["id_pelanggaran"]; ?>"><?= $aksesoris["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $aksesoris["id_pelanggaran"]; ?>"><?= $aksesoris["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_kehadiran[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_kehadiran as $kehadiran) : ?>
-                                            <option value="<?= $kehadiran["id_pelanggaran"]; ?>"><?= $kehadiran["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $kehadiran["id_pelanggaran"]; ?>"><?= $kehadiran["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_lingkungan_sekolah[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_lingkungan_sekolah as $lingkungan_sekolah) : ?>
-                                            <option value="<?= $lingkungan_sekolah["id_pelanggaran"]; ?>"><?= $lingkungan_sekolah["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $lingkungan_sekolah["id_pelanggaran"]; ?>"><?= $lingkungan_sekolah["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_mencuri[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_mencuri as $mencuri) : ?>
-                                            <option value="<?= $mencuri["id_pelanggaran"]; ?>"><?= $mencuri["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $mencuri["id_pelanggaran"]; ?>"><?= $mencuri["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_merokok[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_merokok as $merokok) : ?>
-                                            <option value="<?= $merokok["id_pelanggaran"]; ?>"><?= $merokok["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $merokok["id_pelanggaran"]; ?>"><?= $merokok["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_pornografi[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_pornografi as $pornografi) : ?>
-                                            <option value="<?= $pornografi["id_pelanggaran"]; ?>"><?= $pornografi["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $pornografi["id_pelanggaran"]; ?>"><?= $pornografi["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_senjata_tajam[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_senjata_tajam as $senjata_tajam) : ?>
-                                            <option value="<?= $senjata_tajam["id_pelanggaran"]; ?>"><?= $senjata_tajam["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $senjata_tajam["id_pelanggaran"]; ?>"><?= $senjata_tajam["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_perkelahian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_perkelahian as $perkelahian) : ?>
-                                            <option value="<?= $perkelahian["id_pelanggaran"]; ?>"><?= $perkelahian["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $perkelahian["id_pelanggaran"]; ?>"><?= $perkelahian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_narkoba[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_narkoba as $narkoba) : ?>
-                                            <option value="<?= $narkoba["id_pelanggaran"]; ?>"><?= $narkoba["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $narkoba["id_pelanggaran"]; ?>"><?= $narkoba["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_kepribadian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_kepribadian as $kepribadian) : ?>
-                                            <option value="<?= $kepribadian["id_pelanggaran"]; ?>"><?= $kepribadian["det_pelanggaran"]; ?></option>
+                                            <option class="short" data-limit="" value="<?= $kepribadian["id_pelanggaran"]; ?>"><?= $kepribadian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                 </select>
@@ -252,7 +258,7 @@ if (isset($_POST["submit"])) {
                         </div>
 
                         <div class="my-2 text-center">
-                            <button type="button" class="btn btn-outline-primary rounded" onclick="tambahPelanggaran()" name="tmbPlgr">+</button>
+                            <button type="button" class="btn btn-outline-primary rounded addPlgr" name="tmbPlgr">+</button>
                         </div>
 
                     </div>
@@ -300,7 +306,18 @@ if (isset($_POST["submit"])) {
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            screenWidth();
+        });
 
+        let btn = document.querySelector('.addPlgr');
+        btn.onclick = function() {
+            tambahPelanggaran();
+            screenWidth();
+            shortString(".short");
+        }
+    </script>
     <script>
         $("#kelas").change(function() {
             // value kelas
@@ -354,72 +371,72 @@ if (isset($_POST["submit"])) {
                                     <option value="0">Pilih pelanggaran</option>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_keterlambatan[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_keterlambatan as $keterlambatan) : ?>
-                                        <option value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $keterlambatan["id_pelanggaran"]; ?>"><?= $keterlambatan["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_pakaian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_pakaian as $pakaian) : ?>
-                                        <option value="<?= $pakaian["id_pelanggaran"]; ?>"><?= $pakaian["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $pakaian["id_pelanggaran"]; ?>"><?= $pakaian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_upacara[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_upacara as $upacara) : ?>
-                                        <option value="<?= $upacara["id_pelanggaran"]; ?>"><?= $upacara["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $upacara["id_pelanggaran"]; ?>"><?= $upacara["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_media_elektronik[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_media_elektronik as $media_elektronik) : ?>
-                                        <option value="<?= $media_elektronik["id_pelanggaran"]; ?>"><?= $media_elektronik["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $media_elektronik["id_pelanggaran"]; ?>"><?= $media_elektronik["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_aksesoris[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_aksesoris as $aksesoris) : ?>
-                                        <option value="<?= $aksesoris["id_pelanggaran"]; ?>"><?= $aksesoris["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $aksesoris["id_pelanggaran"]; ?>"><?= $aksesoris["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_kehadiran[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_kehadiran as $kehadiran) : ?>
-                                        <option value="<?= $kehadiran["id_pelanggaran"]; ?>"><?= $kehadiran["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $kehadiran["id_pelanggaran"]; ?>"><?= $kehadiran["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_lingkungan_sekolah[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_lingkungan_sekolah as $lingkungan_sekolah) : ?>
-                                        <option value="<?= $lingkungan_sekolah["id_pelanggaran"]; ?>"><?= $lingkungan_sekolah["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $lingkungan_sekolah["id_pelanggaran"]; ?>"><?= $lingkungan_sekolah["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_mencuri[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_mencuri as $mencuri) : ?>
-                                        <option value="<?= $mencuri["id_pelanggaran"]; ?>"><?= $mencuri["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $mencuri["id_pelanggaran"]; ?>"><?= $mencuri["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_merokok[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_merokok as $merokok) : ?>
-                                        <option value="<?= $merokok["id_pelanggaran"]; ?>"><?= $merokok["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $merokok["id_pelanggaran"]; ?>"><?= $merokok["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_pornografi[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_pornografi as $pornografi) : ?>
-                                        <option value="<?= $pornografi["id_pelanggaran"]; ?>"><?= $pornografi["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $pornografi["id_pelanggaran"]; ?>"><?= $pornografi["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_senjata_tajam[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_senjata_tajam as $senjata_tajam) : ?>
-                                        <option value="<?= $senjata_tajam["id_pelanggaran"]; ?>"><?= $senjata_tajam["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $senjata_tajam["id_pelanggaran"]; ?>"><?= $senjata_tajam["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_perkelahian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_perkelahian as $perkelahian) : ?>
-                                        <option value="<?= $perkelahian["id_pelanggaran"]; ?>"><?= $perkelahian["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $perkelahian["id_pelanggaran"]; ?>"><?= $perkelahian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_narkoba[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_narkoba as $narkoba) : ?>
-                                        <option value="<?= $narkoba["id_pelanggaran"]; ?>"><?= $narkoba["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $narkoba["id_pelanggaran"]; ?>"><?= $narkoba["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                     <optgroup label="<?= ucwords($ket_pelanggaran_kepribadian[0]["jenis_pelanggaran"]); ?>">
                                         <?php foreach ($ket_pelanggaran_kepribadian as $kepribadian) : ?>
-                                        <option value="<?= $kepribadian["id_pelanggaran"]; ?>"><?= $kepribadian["det_pelanggaran"]; ?></option>
+                                        <option class="short" data-limit="" value="<?= $kepribadian["id_pelanggaran"]; ?>"><?= $kepribadian["det_pelanggaran"]; ?></option>
                                         <?php endforeach; ?>
                                     </optgroup>
                                 </select>
@@ -427,7 +444,59 @@ if (isset($_POST["submit"])) {
 
             plgr.insertAdjacentHTML('afterend', element);
             indexPelanggaran++
+            screenWidth();
+            shortString();
         }
+    </script>
+    <script>
+        function screenWidth() {
+            let w = $(window).width();
+            if (w > 900) {
+                $(".short").attr("data-limit", "70");
+            } else if (w > 800 && w <= 900) {
+                $(".short").attr("data-limit", "50");
+            } else if (w >= 768 && w <= 800) {
+                $(".short").attr("data-limit", "48");
+            } else if (w > 700 && w <= 767) {
+                $(".short").attr("data-limit", "95");
+            } else if (w > 650 && w <= 700) {
+                $(".short").attr("data-limit", "93");
+            } else if (w > 600 && w <= 650) {
+                $(".short").attr("data-limit", "90");
+            } else if (w <= 600 && w >= 550) {
+                $(".short").attr("data-limit", "75");
+            } else if (w < 550 && w >= 500) {
+                $(".short").attr("data-limit", "65");
+            } else if (w < 500 && w >= 450) {
+                $(".short").attr("data-limit", "60");
+            } else if (w < 450 && w >= 400) {
+                $(".short").attr("data-limit", "52");
+            } else if (w < 400) {
+                $(".short").attr("data-limit", "47");
+            }
+        }
+    </script>
+    <script>
+        function shortString(selector) {
+            const elements = document.querySelectorAll(selector);
+            const tail = '...';
+            if (elements && elements.length) {
+                for (const element of elements) {
+                    let text = element.innerText;
+                    if (element.hasAttribute('data-limit')) {
+                        if (text.length > element.dataset.limit) {
+                            element.innerText = `${text.substring(0, element.dataset.limit - tail.length).trim()}${tail}`;
+                        }
+                    } else {
+                        throw Error('Cannot find attribute \'data-limit\'');
+                    }
+                }
+            }
+        }
+
+        window.onload = function() {
+            shortString('.short');
+        };
     </script>
 </body>
 

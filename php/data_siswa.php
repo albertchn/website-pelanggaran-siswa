@@ -161,6 +161,17 @@ if (isset($_POST["tambah_prestasi"])) {
                             </tr>
                         </tbody>
                     </table>
+                    <div class="mb-2 ms-2">
+                        <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Ubah data</a>
+                        <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm me-2 mt-2" <?= $hide_siswa ?>>Hapus Data</a>
+
+                        <?php if ($siswa["role"] === "siswa") : ?>
+                            <a href="./ubah/ubah_role.php?role=siswa&sk=<?= $id; ?>" onclick="return confirm('Jadikan osis?')" class="btn btn-success btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Jadikan OSIS</a>
+                        <?php else : ?>
+                            <a href="./ubah/ubah_role.php?role=osis&sk=<?= $id; ?>" onclick="return confirm('Jadikan siswa?')" class="btn btn-success btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Jadikan Siswa</a>
+                        <?php endif; ?>
+                        <a href="" class="btn btn-warning btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#tambah_prestasi" <?= $hide_siswa; ?>>Tambah Prestasi</a>
+                    </div>
                 </div>
                 <div class="col-md-4">
                     <?php if (!$siswa["foto"]) : ?>
@@ -169,17 +180,6 @@ if (isset($_POST["tambah_prestasi"])) {
                         <img src="./../foto_siswa/<?= $siswa["foto"]; ?>" width="250" height="250" class="img-fluid d-none d-md-block" title="<?= $siswa["nama_siswa"]; ?>">
                     <?php endif; ?>
                 </div>
-            </div>
-            <div class="mb-2 ms-2">
-                <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Ubah data</a>
-                <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm me-2 mt-2" <?= $hide_siswa ?>>Hapus Data</a>
-
-                <?php if ($siswa["role"] === "siswa") : ?>
-                    <a href="./ubah/ubah_role.php?role=siswa&sk=<?= $id; ?>" onclick="return confirm('Jadikan osis?')" class="btn btn-success btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Jadikan OSIS</a>
-                <?php else : ?>
-                    <a href="./ubah/ubah_role.php?role=osis&sk=<?= $id; ?>" onclick="return confirm('Jadikan siswa?')" class="btn btn-success btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Jadikan Siswa</a>
-                <?php endif; ?>
-                <a href="" class="btn btn-warning btn-sm mt-2" data-bs-toggle="modal" data-bs-target="#tambah_prestasi" <?= $hide_siswa; ?>>Tambah Prestasi</a>
             </div>
         </div>
     </section>

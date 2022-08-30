@@ -303,7 +303,7 @@ function ubah_siswa($data)
     if ($_FILES["foto"]["error"] === 4) {
         $foto = $fotoLama;
     } else {
-        $foto = upload();
+        $foto = upload_ubah();
     }
 
     if (!$foto) {
@@ -471,6 +471,52 @@ function upload()
     // destinasinya relatif terhadap file functions ini
     // move_uploaded_file($tmpName, 'C:/xampp/htdocs/website_pelanggaran_siswa/foto_siswa/' . $namaFile);
     move_uploaded_file($tmpName, '../foto_siswa/' . $namaFileBaru);
+
+    // mengembalikan nama filenya untuk ditamngkap $gambar di function tambah() agar namanya disimpan di database
+    return $namaFileBaru;
+}
+
+function upload_ubah()
+{
+    $namaFile = $_FILES["foto"]["name"];
+    $ukuranFile = $_FILES["foto"]["size"];
+    $error = $_FILES["foto"]["error"];
+    $tmpName = $_FILES["foto"]["tmp_name"];
+
+    // if ( $error === 4 ) {
+    //     echo "<script>
+    //           alert('Foto siswa wajib ada!');
+    //           </script>";
+    //     return false; // agar fungsi tambah tidak dijalankan
+    // }
+
+    $ekstensiFotoValid = ['jpg', 'jpeg', 'png'];
+    $ekstensiFoto = explode(".", $namaFile);
+    $ekstensiFoto = strtolower(end($ekstensiFoto));
+
+    // fungsi in_array untuk mencari suatu kata di dalam array yang akan menghasilkan false jika tidak ada dan true jika ada
+    if (!in_array($ekstensiFoto, $ekstensiFotoValid)) {
+        echo "<script>
+              alert('Jenis file dilarang!');
+              </script>";
+        return false; // agar fungsi tambah tidak dijalankan
+    }
+
+    // cek ukuran gambar
+    if ($ukuranFile > 20480000) {
+        echo "<script>
+              alert('Ukuran file foto terlalu besar!');
+              </script>";
+        return false; // agar fungsi tambah tidak dijalankan
+    }
+
+    $namaFileBaru = uniqid();
+    $namaFileBaru .= '.';
+    $namaFileBaru .= $ekstensiFoto;
+
+    // destinasinya relatif terhadap file functions ini
+    // move_uploaded_file($tmpName, 'C:/xampp/htdocs/website_pelanggaran_siswa/foto_siswa/' . $namaFile);
+    move_uploaded_file($tmpName, '../../foto_siswa/' . $namaFileBaru);
 
     // mengembalikan nama filenya untuk ditamngkap $gambar di function tambah() agar namanya disimpan di database
     return $namaFileBaru;

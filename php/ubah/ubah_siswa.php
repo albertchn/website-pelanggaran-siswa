@@ -145,7 +145,7 @@ if (isset($_POST["ubah"])) {
                         </div>
                         <div class="mt-2">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" required placeholder="email@gmail.com" autocomplete="off" value="<?= $siswa["email"]; ?>">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="email@gmail.com" autocomplete="off" value="<?= $siswa["email"]; ?>">
                         </div>
                         <div class="mt-2">
                             <label for="foto" class="form-label">Foto</label>
