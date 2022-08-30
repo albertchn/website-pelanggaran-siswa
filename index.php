@@ -177,7 +177,7 @@ $foto_index = mysqli_query($conn, "SELECT * FROM komponen WHERE nama_komponen = 
                     <a href="./php/lapor.php" class="btn btn-warning">Lapor</a>
                     <a href="./php/laporan.php" class="btn btn-outline-success ms-2">Laporan</a>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 d-none d-lg-block">
                     <div id="mycarousel" class="carousel slide" data-bs-ride="carousel" data-bs-pause="false" data-bs-touch="false">
                         <div class="carousel-inner rounded">
                             <?php $foto = explode(',', $foto_index["isi_komponen"]); ?>

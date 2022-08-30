@@ -38,7 +38,7 @@ if (!$id) {
     header("Location: ./guru.php");
 }
 
-$siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`,`foto` FROM siswa WHERE id_siswa = $id")[0];
+$siswa = query("SELECT `id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `jmlh_poin`, `role`,`foto` FROM siswa WHERE id_siswa = $id")[0];
 $kelas = query("SELECT nama_kelas FROM kelas WHERE id_kelas =" . $siswa["id_kelas"])[0];
 $jurusan = query("SELECT nama_jurusan FROM jurusan WHERE id_jurusan = " . $siswa["id_jurusan"])[0];
 $pelanggaran_siswa = query("SELECT * FROM pelanggaran_siswa WHERE id_pelanggar = $id");
@@ -109,7 +109,7 @@ if (isset($_POST["tambah_prestasi"])) {
                                 <?php if (isset($_SESSION["login"])) : ?>
                                     <a href="./logout.php" class="dropdown-item">Keluar</a>
                                     <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ganti_pw" <?= $guru; ?><?= $admin; ?>>Ganti Password</a>
-                                    <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ganti_foto" <?= $guru; ?><?= $admin; ?>>Ganti Foto</a>
+                                    <a href="#" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#ganti_foto" <?= $guru; ?>>Ganti Foto</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
@@ -150,11 +150,6 @@ if (isset($_POST["tambah_prestasi"])) {
                                 <td><?= $jurusan["nama_jurusan"]; ?></td>
                             </tr>
                             <tr>
-                                <td>email</td>
-                                <td>:</td>
-                                <td><?= $siswa["email"]; ?></td>
-                            </tr>
-                            <tr>
                                 <td>Poin dimiliki</td>
                                 <td>:</td>
                                 <td><?= $siswa["jmlh_poin"]; ?></td>
@@ -162,7 +157,7 @@ if (isset($_POST["tambah_prestasi"])) {
                         </tbody>
                     </table>
                     <div class="mb-2 ms-2">
-                        <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm me-2 mt-2" <?= $hide_siswa; ?>>Ubah data</a>
+                        <a href="./ubah/ubah_siswa.php?id=<?= $id; ?>" class="btn btn-primary btn-sm me-2 mt-2" <?= $hide_siswa ?>>Ubah data</a>
                         <a href="./hapus/hapus_siswa.php?id=<?= $id; ?>" onclick="return confirm('Hapus data?')" class="btn btn-danger btn-sm me-2 mt-2" <?= $hide_siswa ?>>Hapus Data</a>
 
                         <?php if ($siswa["role"] === "siswa") : ?>
@@ -354,6 +349,7 @@ if (isset($_POST["tambah_prestasi"])) {
                 </div>
                 <div class="modal-body">
                     <form action="./ubah/ubah_foto.php?id=<?= $id; ?>" method="post" enctype="multipart/form-data">
+                        <input type="hiddden" name="fotoLama" value="<?= $siswa["foto"]; ?>">
                         <div class="">
                             <label for="foto" class="form-label">Foto</label>
                             <input type="file" class="form-control" id="foto" name="foto">

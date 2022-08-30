@@ -63,7 +63,6 @@ function tambah_siswa($data)
     $nis = htmlspecialchars($data["nis"]);
     $nama = htmlspecialchars(ucwords($data["nama"]));
     $role = htmlspecialchars(($data["role"]));
-    $email = htmlspecialchars($data["email"]);
 
     $cek_nis = mysqli_query($conn, "SELECT * FROM siswa WHERE nis = $nis");
 
@@ -81,7 +80,7 @@ function tambah_siswa($data)
     }
 
 
-    mysqli_query($conn, "INSERT INTO siswa (`id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `email`, `jmlh_poin`, `role`, `foto`, `password`) VALUES ('$kelas', '$jurusan', '$nis', '$nama', '$email', '100', '$role', '$foto', '$nis')");
+    mysqli_query($conn, "INSERT INTO siswa (`id_kelas`, `id_jurusan`, `nis`, `nama_siswa`, `jmlh_poin`, `role`, `foto`, `password`) VALUES ('$kelas', '$jurusan', '$nis', '$nama', '100', '$role', '$foto', '$nis')");
 
     return mysqli_affected_rows($conn);
 }
@@ -297,7 +296,6 @@ function ubah_siswa($data)
     $jurusan = $data["jurusan"];
     $nis = htmlspecialchars($data["nis"]);
     $nama = htmlspecialchars(ucwords($data["nama"]));
-    $email = htmlspecialchars($data["email"]);
     $fotoLama = $data["fotoLama"];
 
     if ($_FILES["foto"]["error"] === 4) {
@@ -315,7 +313,6 @@ function ubah_siswa($data)
                  id_jurusan = '$jurusan',
                  nis = '$nis',
                  nama_siswa = '$nama',
-                 email = '$email',
                  foto = '$foto'
                  WHERE id_siswa = $id
                  ");
@@ -375,15 +372,10 @@ function ubah_foto($data, $id)
 {
     global $conn;
 
-    $fotoLama = $data["fotoLama"];
-
     if ($_FILES["foto"]["error"] === 4) {
-        echo "<script>
-              alert('Foto siswa wajib ada!');
-              </script>";
-        return false; // agar fungsi tambah tidak dijalankan
+        $foto = $data["fotoLama"];
     } else {
-        $foto = upload();
+        $foto = upload_ubah();
     }
 
     if (!$foto) {

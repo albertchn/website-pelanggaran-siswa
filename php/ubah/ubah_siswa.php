@@ -17,7 +17,12 @@ if (isset($_SESSION["osis"])) {
 }
 
 if (isset($_SESSION["siswa"])) {
-    header("Location: ../data_siswa.php?id=" . $_SESSION["id_siswa"]);
+    $logSiswa = true;
+    $hide_siswa = "hidden";
+    $disable = "disabled";
+} else {
+    $hide_siswa = "";
+    $disable = "";
 }
 
 require '../functions.php';
@@ -29,26 +34,35 @@ if (!$id) {
 }
 
 $siswa = query("SELECT * FROM siswa WHERE id_siswa = $id")[0];
+$kelas = mysqli_query($conn, "SELECT nama_kelas FROM kelas WHERE id_kelas =" . $siswa["id_kelas"])->fetch_assoc();
+$jurusan = mysqli_query($conn, "SELECT kode_jurusan FROM jurusan WHERE id_jurusan =" . $siswa["id_jurusan"])->fetch_assoc();
 $kelas_sekolah = query("SELECT * FROM kelas");
 
 
 if (isset($_POST["ubah"])) {
-    if (ubah_siswa($_POST) > 0) {
-        echo "
-            <script>
-                alert('Data berhasil diubah!')
-                // redirect versi javascript
-                document.location.href = '../data_siswa.php?id=" . $id . "';
-                </script>
-                ";
+    if (($_POST["jurusan"] !== '1')) {
+        if (ubah_siswa($_POST) > 0) {
+            echo "
+                <script>
+                    alert('Data berhasil diubah!')
+                    // redirect versi javascript
+                    document.location.href = '../data_siswa.php?id=" . $id . "';
+                    </script>";
+        } else {
+            echo "
+                <script>
+                    alert('Data gagal diubah!')
+                    // redirect versi javascript
+                    document.location.href = '../data_siswa.php?id=" . $id . "';
+                    </script>";
+        }
     } else {
         echo "
-                <script>
-                alert('Data gagal diubah!')
+            <script>
+                alert('Jurusan Wajib Di isi')
                 // redirect versi javascript
-                document.location.href = '../data_siswa.php?id=" . $id . "';
-                </script>
-                ";
+                // document.location.href = '../data_siswa.php?id=" . $id . "';
+                </script>";
     }
 }
 ?>
@@ -82,13 +96,13 @@ if (isset($_POST["ubah"])) {
             <div class="collapse navbar-collapse justify-content-end align-items-center" id="main-nav">
                 <ul class="navbar-nav">
                     <li class="navbar-item">
-                        <a href="../../index.php" class="nav-link">Beranda</a>
+                        <a href="../../index.php" class="nav-link" <?= $hide_siswa; ?>>Beranda</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="../siswa.php" class="nav-link active">Siswa</a>
+                        <a href="../siswa.php" class="nav-link active" <?= $hide_siswa; ?>>Siswa</a>
                     </li>
                     <li class="navbar-item">
-                        <a href="../guru.php" class="nav-link" <?= $guru; ?>>Guru</a>
+                        <a href="../guru.php" class="nav-link" <?= $guru; ?> <?= $hide_siswa; ?>>Guru</a>
                     </li>
                     <li class="navbar-item">
                         <a href="../ktnpelanggaran.php" class="nav-link">Ketentuan</a>
@@ -100,7 +114,7 @@ if (isset($_POST["ubah"])) {
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <?php if (isset($_SESSION["login"])) : ?>
-                                    <a href="./logout.php" class="dropdown-item">Keluar</a>
+                                    <a href="../logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
                         </ul>
@@ -112,7 +126,7 @@ if (isset($_POST["ubah"])) {
 
     <section>
         <div class="container-fluid  mb-4 bg-warning p-1">
-            <h1 class="text-center fs-2">Ketentuan Pelanggaran</h1>
+            <h1 class="text-center fs-2">Ubah Data Siswa</h1>
         </div>
         <div class="container-lg">
             <form action="" method="post" enctype="multipart/form-data">
@@ -121,31 +135,35 @@ if (isset($_POST["ubah"])) {
                 <div class="row">
                     <div class="col-md-7">
                         <div class="">
-                            <label for="kelas" class="form-label">Kelas <span style="font-size: 12px" class="">(wajib isi ulang)</span></label>
-                            <select name="kelas" id="kelas" class="form-select form-select-sm slt_width" required value="<?= $siswa["id_kelas"]; ?>">
-                                <option value="1">Pilih kelas</option>
-                                <option value="1">X</option>
-                                <option value="2">XI</option>
-                                <option value="3">XII</option>
-                            </select>
+                            <label for="kelas" class="form-label">Kelas</label>
+                            <?php if (isset($logSiswa)) : ?>
+                                <input type="text" class="form-control" name="kelas" value="<?= $kelas["nama_kelas"]; ?>" autocomplete="off" required <?= $disable; ?>>
+                            <?php else : ?>
+                                <select name="kelas" id="kelas" class="form-select form-select-sm slt_width" required>
+                                    <option value="<?= $siswa["id_kelas"]; ?>" selected><?= $kelas["nama_kelas"]; ?></option>
+                                    <option value="1">X</option>
+                                    <option value="2">XI</option>
+                                    <option value="3">XII</option>
+                                </select>
+                            <?php endif; ?>
                         </div>
                         <div class="mt-2">
-                            <label for="jurusan" class="form-label">Jurusan <span style="font-size: 12px" class="">(wajib isi ulang)</span></label>
-                            <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" required value="<?= $siswa["id_jurusan"]; ?>">
-                                <option value="1">Pilih jurusan</option>
-                            </select>
+                            <label for="jurusan" class="form-label">Jurusan <span style="font-size: 12px" class="" <?= $hide_siswa; ?>>(<?= $jurusan["kode_jurusan"]; ?>)</span></label>
+                            <?php if (isset($logSiswa)) : ?>
+                                <input type="text" class="form-control" name="kelas" value="<?= $jurusan["kode_jurusan"]; ?>" autocomplete="off" required <?= $disable; ?>>
+                            <?php else : ?>
+                                <select name="jurusan" id="jurusan" class="form-select form-select-sm slt_width" required value="<?= $siswa["id_jurusan"]; ?>">
+                                    <option value="<?= $siswa["id_jurusan"]; ?>" selected><?= $jurusan["kode_jurusan"]; ?></option>
+                                </select>
+                            <?php endif; ?>
                         </div>
                         <div class="mt-2">
                             <label for="nis" class="form-label">NIS</label>
-                            <input type="number" class="form-control" id="nis" placeholder="5 digit" name="nis" required autocomplete="off" value="<?= $siswa["nis"]; ?>">
+                            <input type="number" class="form-control" id="nis" placeholder="5 digit" name="nis" required autocomplete="off" value="<?= $siswa["nis"]; ?>" <?= $disable; ?>>
                         </div>
                         <div class="mt-2">
                             <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off" value="<?= $siswa["nama_siswa"]; ?>">
-                        </div>
-                        <div class="mt-2">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="email@gmail.com" autocomplete="off" value="<?= $siswa["email"]; ?>">
+                            <input type="text" class="form-control" id="nama" name="nama" required placeholder="nama lengkap" autocomplete="off" value="<?= $siswa["nama_siswa"]; ?>" <?= $disable; ?>>
                         </div>
                         <div class="mt-2">
                             <label for="foto" class="form-label">Foto</label>
@@ -210,7 +228,7 @@ if (isset($_POST["ubah"])) {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <script>
-        $("#kelas").change(function() {
+        $("#kelas").click(function() {
             // value kelas
             const id_kelas = $("#kelas").val();
 
