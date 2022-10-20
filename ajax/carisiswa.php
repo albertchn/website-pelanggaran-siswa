@@ -11,7 +11,7 @@ require '../php/functions.php';
 
 $jmlh_siswa = query("SELECT * FROM siswa");
 
-$batas = 50;
+$batas = 1000;
 $halaman = isset($_GET["halaman"]) ? (int)$_GET["halaman"] : 1;
 $halaman_awal = ($halaman > 1) ? ($halaman * $batas) - $batas : 0;
 $previous = $halaman - 1;
@@ -19,24 +19,26 @@ $next = $halaman + 1;
 
 if (isset($_GET["keyword"])) {
     $keyword = $_GET["keyword"];
-    $keyword = explode(" ", $keyword);
-    if (count($keyword) == 2) {
+    $jumlahkw = explode(" ", $keyword);
+    if (count($jumlahkw) > 1) {
         $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
               siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-              nama_kelas LIKE '%$keyword[0]' AND kode_jurusan LIKE '%$keyword[1]%' ORDER BY jmlh_poin, nama_kelas LIMIT $halaman_awal, $batas
+              kelas.nama_kelas LIKE '%$jumlahkw[0]' AND jurusan.kode_jurusan LIKE '%$jumlahkw[1]%' OR
+              siswa.nama_siswa LIKE '%$keyword%'      
+              ORDER BY siswa.jmlh_poin ASC, siswa.nama_siswa ASC LIMIT $halaman_awal, $batas
               ";
     } else {
         $query = "SELECT siswa.id_siswa, siswa.id_kelas, siswa.id_jurusan, siswa.nis, 
               siswa.nama_siswa, siswa.jmlh_poin, kelas.nama_kelas, jurusan.kode_jurusan FROM siswa 
               INNER JOIN kelas ON siswa.id_kelas=kelas.id_kelas 
               INNER JOIN jurusan ON siswa.id_jurusan=jurusan.id_jurusan WHERE
-              id_siswa LIKE '%$keyword[0]%' OR
-              nis LIKE '%$keyword[0]%' OR
-              nama_siswa LIKE '%$keyword[0]%' OR
-              nama_kelas LIKE '$keyword[0]%' OR
-              kode_jurusan LIKE '$keyword[0]%' ORDER BY jmlh_poin, nama_kelas LIMIT $halaman_awal, $batas
+              id_siswa LIKE '%$keyword%' OR
+              nis LIKE '%$keyword%' OR
+              nama_siswa LIKE '%$keyword%' OR
+              nama_kelas LIKE '%$keyword%' OR
+              kode_jurusan LIKE '%$keyword%' ORDER BY siswa.jmlh_poin ASC, siswa.nama_siswa ASC LIMIT $halaman_awal, $batas
               ";
     }
 

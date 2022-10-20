@@ -15,15 +15,15 @@ a {
     color: black;
 }
 
-img {
+img .d-block {
     height: 350px;
 }
 
-.bi-youtube {
+.youtube {
     color: #dc3545;
 }
 
-.bi-instagram {
+.instagram {
     color: hotpink;
 }
 

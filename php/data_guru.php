@@ -42,9 +42,9 @@ $guru = query("SELECT * FROM guru_pembina WHERE id_guru = $id")[0];
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=3.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Guru | <?= $guru["nama_guru"]; ?></title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
     <link rel="stylesheet" href="../css/umum.css">
     <link rel="icon" href="../img/logosmk12.png">
@@ -157,41 +157,34 @@ $guru = query("SELECT * FROM guru_pembina WHERE id_guru = $id")[0];
         </div>
     </section>
 
-
-    <footer class="pt-4 border-top bg-light" style="margin:100px 0 0 0;">
+    <footer class="pt-4 border-top bg-light" style="margin-top: 160px;">
         <div class="container-xl">
-            <div class="row justify-content-center">
-                <div class="col-auto pb-2">
+            <div class="row">
+                <div class="col-12 pb-2 text-center">
                     <img src="../img/logosmk12.png" style="width:50px;height:50px">
-                    <h5 class="d-inline">OSIS SMK NEGERI 12 JAKARTA</h5>
+                    <h5 class="d-inline text-center">OSIS SMK NEGERI 12 JAKARTA</h5>
                 </div>
             </div>
-            <div class="row" style="margin: 30px 30px 50px 30px">
-                <div class="col-5 col-md-3">
-                    <a href="#" class="text-decoration-none d-block">
-                        <i class="bi bi-meta text-primary"></i>
-                        <span class="meta">Meta</span>
-                    </a>
-                    <a href="#" class="text-decoration-none text-bla d-block">
-                        <i class="bi bi-instagram"></i>
+            <div class="row justify-content-center align-items-center mx-auto">
+                <div class="col-12 col-md-2 text-center">
+                    <a href="https://instagram.com/osis12jakarta?igshid=YmMyMTA2M2Y=" target="_blank" class="text-decoration-none d-block">
+                        <i class="bi bi-instagram" class=""></i>
                         <span class="insta">Instagram</span>
                     </a>
-                    <a href="#" class="text-decoration-none text-danger">
+                </div>
+                <div class="col-12 col-md-2 text-center">
+                    <a href="https://youtube.com/channel/UC1ne1ftRWTNQk4dvarllnbg" target="_blank" class="text-decoration-none text-danger">
                         <i class="bi bi-youtube"></i>
                         <span class="yt">Youtube</span>
                     </a>
                 </div>
-                <div class="col-5 col-md-3">
-                    <a href="#" class="d-block">Tentang Kami</a>
-                    <a href="#" class="">FAQs</a>
-                </div>
             </div>
-            <hr>
-            <p style="text-align:center; font-size:15px">&copy; Copyright 2022, RPL A0204</p>
         </div>
+        <hr>
+        <p style="text-align:center; font-size:15px" class="mb-0">&copy; Copyright 2022, RPL A0204</p>>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="../js/bootstrap.js"></script>
 </body>
 
 </html>

@@ -30,7 +30,7 @@ function lapor($data, $pelapor)
     $jmlh_poin_siswa = query("SELECT jmlh_poin FROM siswa WHERE id_siswa=$id_pelanggar")[0]["jmlh_poin"];
     $poin_akhir = $jmlh_poin_siswa - $jmlh_poin_plgr;
 
-    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$pelanggaran', '$jmlh_poin_plgr','$waktu_pelanggaran')";
+    $query = "INSERT INTO pelanggaran_siswa VALUES ('','$id_pelanggar', '$pelapor', '$pelanggaran', '$jmlh_poin_plgr','$waktu_pelanggaran', current_timestamp())";
     mysqli_query($conn, $query);
 
     mysqli_query($conn, "UPDATE siswa SET jmlh_poin=$poin_akhir WHERE id_siswa=$id_pelanggar");
