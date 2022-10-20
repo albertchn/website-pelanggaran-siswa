@@ -69,7 +69,6 @@ if (isset($_POST["submit"])) {
                         alert('Gagal membuat laporan!');
                         document.location.href = 'lapor.php';
                         </script>";
-            // echo mysqli_error($conn);
         }
     } else {
         echo "<script>

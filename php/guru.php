@@ -218,7 +218,7 @@ if (isset($_POST["tambah"])) {
 
     <footer class="pt-4 border-top bg-light" style="margin-top: 130px;">
         <div class="container-xl">
-            <div class="row border">
+            <div class="row">
                 <div class="col-12 pb-2 text-center">
                     <img src="../img/logosmk12.png" style="width:50px;height:50px">
                     <h5 class="d-inline text-center">OSIS SMK NEGERI 12 JAKARTA</h5>
