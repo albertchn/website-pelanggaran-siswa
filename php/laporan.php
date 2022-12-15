@@ -19,7 +19,7 @@ if (isset($_SESSION["osis"])) {
 }
 
 if (isset($_SESSION["siswa"])) {
-    header("Location: ./php/data_siswa.php?id=" . $_SESSION["id_siswa"]);
+    header("Location: data_siswa.php?id=" . $_SESSION["id_siswa"]);
 }
 
 include('./functions.php');
@@ -102,14 +102,20 @@ if (isset($_POST["tgl_plgr"])) {
                 <h1 class="text-center">Laporan Pelanggaran Siswa</h1>
             </div>
 
-            <div>
-                <form action="" method="post">
-                    <div class="d-flex align-items-center">
-                        <label class="me-1" for="tanggal" class="form-label">Tanggal :</label>
-                        <input class="me-1" type="date" id="tanggal" name="tanggal" autocomplete="off" class="form-control" value="<?= $tgl_plgr; ?>">
-                        <button class="btn btn-sm btn-success" type="submit" name="tgl_plgr">Cari</button>
-                    </div>
-                </form>
+            <div class="row">
+                <div class="col-6">
+                    <form action="" method="post">
+                        <div class="d-flex align-items-center">
+                            <label class="me-1" for="tanggal" class="form-label">Tanggal :</label>
+                            <input class="me-1" type="date" id="tanggal" name="tanggal" autocomplete="off" class="form-control" value="<?= $tgl_plgr; ?>">
+                            <button class="btn btn-sm btn-success" type="submit" name="tgl_plgr">Cari</button>
+                            <!-- <a href="export.php?tanggal=<?= $tgl_plgr; ?>" class="btn btn-sm btn-info fw-bold">Ekspor PDF</a> -->
+                        </div>
+                    </form>
+                </div>
+                <div class="col-6 text-end">
+                    <button class="btn btn-sm btn-info fw-bold" data-bs-toggle="modal" data-bs-target="#ekspor">Ekspor PDF</button>
+                </div>
             </div>
 
             <div id="laporan" class="mt-4">
@@ -200,6 +206,34 @@ if (isset($_POST["tgl_plgr"])) {
         <hr>
         <p style="text-align:center; font-size:15px" class="mb-0">&copy; Copyright 2022, RPL A0204</p>>
     </footer>
+
+    <!-- Modal ekspor -->
+    <div class="modal fade" id="ekspor" tabindex="-1" aria-labelledby="EksporPDF" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="EksporPDF">Ekspor PDF</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="exportmpdf.php" method="post">
+                        <div class="mb-3">
+                            <label for="tanggalAwal" class="form-label">Tanggal Awal</label>
+                            <input type="date" id="tanggalAwal" class="form-control" name="tanggalAwal" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="tanggalAkhir" class="form-label">Tanggal Akhir</label>
+                            <input type="date" id="tanggalAkhir" class="form-control" name="tanggalAkhir" required>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="ekspor">Ekspor</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="../js/bootstrap.js"></script>
 </body>

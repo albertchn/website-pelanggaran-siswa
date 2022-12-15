@@ -1,4 +1,15 @@
 <?php
+session_start();
+
+if (!isset($_SESSION["login"])) {
+    header('Location: ./login.php');
+    exit;
+}
+
+if (isset($_SESSION["siswa"])) {
+    header("Location: data_siswa.php?id=" . $_SESSION["id_siswa"]);
+}
+
 require './functions.php';
 
 

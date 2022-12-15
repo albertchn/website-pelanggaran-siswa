@@ -1,6 +1,6 @@
 <?php
 // koneksi ke database
-$conn = mysqli_connect("localhost", "root", "", "pelanggaran_siswa");
+$conn = mysqli_connect("localhost:3307", "root", "", "pelanggaran_siswa");
 
 function query($query)
 {
