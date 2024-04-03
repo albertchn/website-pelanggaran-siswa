@@ -96,7 +96,7 @@ if (isset($_POST["ubah"])) {
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li>
                                 <?php if (isset($_SESSION["login"])) : ?>
-                                    <a href="./logout.php" class="dropdown-item">Keluar</a>
+                                    <a href="../logout.php" class="dropdown-item">Keluar</a>
                                 <?php endif; ?>
                             </li>
                         </ul>

@@ -42,7 +42,7 @@ $html = '
         <table border="1" cellpadding="10" cellspacing="0" style="text-align:center;">
             <thead>
                 <tr>
-                    <th style="min-width: 40px">No.</th>
+                    <th">No.</th>
                     <th style="min-width: 100px">Tanggal</th>
                     <th style="min-width: 150px">Nama Pelanggar</th>
                     <th style="min-width: 500px">Pelanggaran</th>
@@ -91,6 +91,7 @@ $html .= '</table>
 ';
 
 $mpdf->WriteHTML($html);
+$$this->response->setHeader('Content-Type', 'application/pdf');
 $mpdf->Output('Laporan Pelanggaran ' . date('d-M-Y', strtotime($tglAwal)) . ' sd ' . date('d-M-Y', strtotime($tglAwal)) . '.pdf', "D");
 
 header("Location: laporan.php");
